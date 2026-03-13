@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AI Studio — Shooter Prod</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080a0f;--surface:#0e1118;--surface2:#151b26;--border:#1e2a3a;--accent:#00e5ff;--accent2:#7c3aed;--accent3:#f59e0b;--text:#e8edf5;--muted:#5a6a7e;--success:#10b981;--error:#ef4444;--radius:16px;--radius-sm:10px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(0,229,255,0.06) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 80% 90%,rgba(124,58,237,0.07) 0%,transparent 60%);pointer-events:none;z-index:0;}
+header{position:sticky;top:0;z-index:100;background:rgba(8,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-size:15px;font-weight:800;letter-spacing:-0.3px;}
+.logo-sub{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:1px;}
+.api-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:var(--radius-sm);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.api-btn.connected{border-color:var(--success);color:var(--success);}
+.tab-nav{display:flex;gap:4px;padding:12px 12px 0;position:relative;z-index:1;overflow-x:auto;scrollbar-width:none;}
+.tab-nav::-webkit-scrollbar{display:none;}
+.tab-btn{flex:0 0 auto;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.tab-btn.active{background:linear-gradient(135deg,rgba(0,229,255,0.12),rgba(124,58,237,0.12));border-color:var(--accent);color:var(--accent);}
+.tab-btn.admin-tab{border-color:var(--accent3);color:var(--accent3);}
+.tab-btn.admin-tab.active{background:rgba(245,158,11,0.1);border-color:var(--accent3);color:var(--accent3);}
+main{padding:16px;position:relative;z-index:1;max-width:600px;margin:0 auto;padding-bottom:40px;}
+.section{display:none;}.section.active{display:block;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+.card-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;font-family:'Space Mono',monospace;}
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.model-card{padding:12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);cursor:pointer;background:var(--surface2);}
+.model-card.selected{border-color:var(--accent);background:rgba(0,229,255,0.06);}
+.model-name{font-size:13px;font-weight:700;margin-bottom:3px;}
+.model-tag{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;}
+.model-cost{font-size:10px;color:var(--accent3);font-family:'Space Mono',monospace;margin-top:3px;}
+.model-badge{display:inline-block;font-size:9px;padding:2px 6px;border-radius:20px;margin-top:5px;font-weight:700;font-family:'Space Mono',monospace;}
+.badge-fast{background:rgba(16,185,129,0.15);color:var(--success);}
+.badge-quality{background:rgba(0,229,255,0.15);color:var(--accent);}
+.badge-video{background:rgba(124,58,237,0.15);color:#a78bfa;}
+.badge-new{background:rgba(245,158,11,0.15);color:var(--accent3);}
+.badge-art{background:rgba(255,100,150,0.15);color:#ff6496;}
+.prompt-area{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;padding:14px;resize:none;min-height:100px;outline:none;line-height:1.5;}
+.prompt-area:focus{border-color:var(--accent);}
+.prompt-area::placeholder{color:var(--muted);}
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.preset-chip{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;}
+.preset-chip:active{background:var(--accent);color:var(--bg);}
+.preset-chip.charme{border-color:rgba(255,100,150,0.4);color:#ff6496;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.option-group label{display:block;font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:6px;}
+.option-group select{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:8px 10px;outline:none;-webkit-appearance:none;}
+.neg-prompt{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--muted);font-family:'Space Mono',monospace;font-size:12px;padding:10px 12px;resize:none;min-height:60px;outline:none;}
+.gen-btn{width:100%;padding:16px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;}
+.gen-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.loading-bar{display:none;margin-top:16px;}.loading-bar.visible{display:block;}
+.loading-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.loading-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width 0.5s;}
+.loading-text{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:8px;text-align:center;}
+.loading-timer{font-size:13px;color:var(--accent);font-family:'Space Mono',monospace;margin-top:4px;text-align:center;font-weight:700;}
+.result-area{display:none;margin-top:16px;}.result-area.visible{display:block;}
+.result-img{width:100%;border-radius:var(--radius);border:1px solid var(--border);display:block;}
+.result-video{width:100%;border-radius:var(--radius);border:1px solid var(--border);display:block;}
+.cost-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius-sm);border:1px solid rgba(245,158,11,0.2);}
+.cost-bar-label{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;}
+.cost-bar-value{font-size:13px;font-weight:700;color:var(--accent3);font-family:'Space Mono',monospace;}
+.cost-bar-time{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;}
+.result-actions{display:flex;gap:10px;margin-top:10px;}
+.action-btn{flex:1;padding:12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;}
+.action-btn.primary{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,0.05);}
+.action-btn.save{border-color:var(--accent3);color:var(--accent3);background:rgba(245,158,11,0.05);}
+.audio-player{width:100%;margin-top:14px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);padding:14px;}
+.audio-wave{height:36px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px;margin-bottom:10px;opacity:0.25;}
+.voice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:260px;overflow-y:auto;}
+.voice-card{padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);cursor:pointer;background:var(--surface2);}
+.voice-card.selected{border-color:var(--accent);background:rgba(0,229,255,0.06);}
+.voice-name{font-size:12px;font-weight:700;}
+.voice-desc{font-size:10px;color:var(--muted);margin-top:2px;font-family:'Space Mono',monospace;}
+.upload-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.upload-box{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;cursor:pointer;}
+.upload-box.has-img{border-color:var(--accent);}
+.upload-box .icon{font-size:22px;margin-bottom:4px;}
+.upload-box p{font-size:11px;color:var(--muted);line-height:1.4;}
+.upload-box img{width:100%;border-radius:6px;margin-top:8px;display:none;}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gallery-item{position:relative;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);aspect-ratio:1;}
+.gallery-item img,.gallery-item video{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-delete{position:absolute;top:6px;right:6px;width:26px;height:26px;background:rgba(239,68,68,0.8);border-radius:50%;border:none;color:white;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.empty-gallery{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-gallery .emoji{font-size:40px;margin-bottom:12px;display:block;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;text-align:center;}
+.stat-num{font-size:18px;font-weight:800;color:var(--accent);font-family:'Space Mono',monospace;}
+.stat-label{font-size:9px;color:var(--muted);margin-top:2px;font-family:'Space Mono',monospace;}
+.safety-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:10px;}
+.safety-label{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.safety-sub{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:2px;}
+.toggle{width:48px;height:26px;background:var(--border);border-radius:13px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;}
+.toggle.on{background:var(--success);}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:3px;left:3px;transition:transform 0.2s;}
+.toggle.on::after{transform:translateX(22px);}
+.admin-lock{text-align:center;padding:40px 20px;}
+.admin-lock .lock-icon{font-size:50px;margin-bottom:16px;}
+.admin-lock h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+.admin-lock p{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.admin-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Space Mono',monospace;font-size:16px;padding:14px;outline:none;text-align:center;letter-spacing:4px;margin-bottom:12px;}
+.admin-input:focus{border-color:var(--accent3);}
+.admin-btn{width:100%;padding:14px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,var(--accent3),#ef4444);color:white;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.admin-section{display:none;}.admin-section.visible{display:block;}
+.admin-label{font-size:14px;font-weight:600;}
+.admin-sub{font-size:11px;color:var(--muted);margin-top:2px;font-family:'Space Mono',monospace;}
+.admin-field{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:8px 12px;outline:none;width:100%;margin-top:8px;}
+.admin-field:focus{border-color:var(--accent3);}
+.admin-field-ta{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:10px 12px;outline:none;resize:none;min-height:80px;margin-top:6px;line-height:1.5;}
+.admin-field-ta:focus{border-color:var(--accent3);}
+.admin-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.admin-row:last-child{border-bottom:none;}
+.preset-item{display:flex;align-items:center;gap:8px;padding:8px;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:6px;cursor:pointer;}
+.preset-item-emoji{font-size:16px;flex-shrink:0;}
+.preset-item-name{font-size:13px;font-weight:600;flex:1;}
+.preset-item-del{width:26px;height:26px;background:rgba(239,68,68,0.2);border:none;border-radius:50%;color:var(--error);font-size:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.add-preset-row{display:flex;gap:8px;margin-top:8px;}
+.add-preset-row input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:8px 12px;outline:none;}
+.add-preset-row input:focus{border-color:var(--accent3);}
+.add-btn{padding:8px 14px;border-radius:var(--radius-sm);border:none;background:var(--accent3);color:var(--bg);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.save-admin-btn{width:100%;padding:14px;margin-top:16px;border-radius:var(--radius);border:1.5px solid var(--accent3);background:rgba(245,158,11,0.1);color:var(--accent3);font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.save-admin-btn:active{background:var(--accent3);color:var(--bg);}
+.admin-logout{width:100%;padding:12px;margin-top:8px;border-radius:var(--radius);border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-size:14px;cursor:pointer;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:200;align-items:flex-end;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;width:100%;}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:8px;}
+.modal p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;}
+.modal-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Space Mono',monospace;font-size:13px;padding:12px 14px;outline:none;margin-bottom:12px;}
+.modal-actions{display:flex;gap:10px;}
+.modal-save{flex:1;padding:13px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.modal-cancel{padding:13px 20px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-size:14px;cursor:pointer;}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 20px;font-size:13px;font-weight:600;z-index:999;transition:transform 0.3s;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.success{border-color:var(--success);color:var(--success);}
+.toast.error{border-color:var(--error);color:var(--error);}
+.toast.info{border-color:var(--accent);color:var(--accent);}
+input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border);width:100%;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;}
+.upload-area{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:20px;text-align:center;cursor:pointer;margin-top:10px;}
+.upload-area p{font-size:13px;color:var(--muted);margin-top:6px;}
+.upload-area .icon{font-size:28px;}
+.img2img-preview{width:100%;border-radius:var(--radius-sm);margin-top:10px;display:none;}
+.info-box{padding:10px 14px;background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.15);border-radius:var(--radius-sm);font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-icon" id="headerIcon">⚡</div>
+    <div>
+      <div class="logo-text" id="headerTitle">AI STUDIO</div>
+      <div class="logo-sub" id="headerSub">SHOOTER PROD</div>
+    </div>
+  </div>
+  <button class="api-btn" id="apiBtn" onclick="openApiModal()">
+    <span id="apiStatus">🔑</span><span id="apiLabel">API Key</span>
+  </button>
+</header>
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('image')">🖼 Image</button>
+  <button class="tab-btn" onclick="switchTab('video')">🎬 Vidéo</button>
+  <button class="tab-btn" onclick="switchTab('voice')">🎙 Voix</button>
+  <button class="tab-btn" onclick="switchTab('faceswap')">👤 Face Swap</button>
+  <button class="tab-btn" onclick="switchTab('gallery')">🗂 Galerie</button>
+  <button class="tab-btn admin-tab" onclick="switchTab('admin')">⚙️ Admin</button>
+</div>
+<main>
+  <!-- IMAGE -->
+  <div class="section active" id="section-image">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num" id="imgCount">0</div><div class="stat-label">IMAGES</div></div>
+      <div class="stat-card"><div class="stat-num" id="vidCount">0</div><div class="stat-label">VIDÉOS</div></div>
+      <div class="stat-card"><div class="stat-num" id="voiceCount">0</div><div class="stat-label">VOIX</div></div>
+      <div class="stat-card"><div class="stat-num" id="totalCount">0</div><div class="stat-label">TOTAL</div></div>
+    </div>
+
+    <!-- Safety toggle -->
+    <div class="safety-row">
+      <div>
+        <div class="safety-label">🔞 Filtre de contenu</div>
+        <div class="safety-sub">Désactiver pour la photo artistique/charme</div>
+      </div>
+      <div class="toggle on" id="safetyToggle" onclick="toggleSafety(this)"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🤖 Modèle Image</div>
+      <div class="model-grid" id="imgModelGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">✍️ Prompt</div>
+      <textarea class="prompt-area" id="imagePrompt" placeholder="Décris ton image..."></textarea>
+      <div class="preset-row" id="imgPresetRow"></div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+        <div class="card-title" style="margin-bottom:6px;">📸 Charme & Artistique</div>
+        <div class="preset-row" id="charmePresetRow"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚙️ Options</div>
+      <div class="options-grid">
+        <div class="option-group"><label>FORMAT</label><select id="imgRatio"><option value="square_hd">Carré HD</option><option value="portrait_4_3">Portrait 4:3</option><option value="portrait_16_9" selected>Portrait 9:16</option><option value="landscape_16_9">Paysage 16:9</option></select></div>
+        <div class="option-group"><label>QUALITÉ</label><select id="imgSteps"><option value="4">Rapide</option><option value="20" selected>Standard</option><option value="50">Haute</option></select></div>
+      </div>
+      <div style="margin-top:12px;"><label style="font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;">GUIDANCE: <span id="guidanceVal" style="color:var(--accent)">3.5</span></label><input type="range" id="guidance" min="1" max="10" step="0.5" value="3.5" oninput="document.getElementById('guidanceVal').textContent=this.value"></div>
+      <div style="margin-top:14px;">
+        <div class="card-title" style="margin-bottom:8px;">🔄 Image de référence</div>
+        <div class="upload-area" onclick="document.getElementById('imgUpload').click()"><div class="icon">📁</div><p id="imgUploadLabel">Ajoute une image de référence</p><input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="handleUpload(this,'imgPreview','imgUploadLabel',s=>{state.uploadedImgBase64=s})"></div>
+        <img id="imgPreview" class="img2img-preview">
+      </div>
+      <div style="margin-top:14px;"><div class="card-title" style="margin-bottom:8px;">🚫 Prompt négatif</div><textarea class="neg-prompt" id="negPrompt">blur, low quality, ugly, deformed, watermark, bad anatomy</textarea></div>
+    </div>
+    <button class="gen-btn" id="genImgBtn" onclick="generateImage()"><span>⚡ GÉNÉRER L'IMAGE</span></button>
+    <div class="loading-bar" id="imgLoading">
+      <div class="loading-track"><div class="loading-fill" id="imgLoadFill"></div></div>
+      <div class="loading-text" id="imgLoadText">Initialisation...</div>
+      <div class="loading-timer" id="imgTimer">⏱ 0s</div>
+    </div>
+    <div class="result-area" id="imgResult">
+      <img id="resultImg" class="result-img" src="">
+      <div class="cost-bar">
+        <span class="cost-bar-label">💰 Coût estimé</span>
+        <span class="cost-bar-value" id="imgCost">—</span>
+        <span class="cost-bar-time" id="imgTime">—</span>
+      </div>
+      <div class="result-actions"><a class="action-btn primary" id="downloadImgBtn" download="shooter-prod.png">⬇️ Télécharger</a><button class="action-btn save" onclick="saveToGallery('image')">🗂 Galerie</button></div>
+    </div>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="section" id="section-video">
+    <div class="card"><div class="card-title">🎬 Modèle Vidéo</div><div class="model-grid" id="vidModelGrid"></div></div>
+    <div class="card">
+      <div class="card-title">✍️ Prompt Vidéo</div>
+      <textarea class="prompt-area" id="videoPrompt" placeholder="Décris ta vidéo..."></textarea>
+      <div class="preset-row" id="vidPresetRow"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🖼 Image de référence</div>
+      <div class="upload-area" onclick="document.getElementById('vidImgUpload').click()"><div class="icon">📁</div><p id="vidUploadLabel">Ajoute une image pour animer</p><input type="file" id="vidImgUpload" accept="image/*" style="display:none" onchange="handleUpload(this,'vidImgPreview','vidUploadLabel',s=>{state.uploadedVidImgBase64=s})"></div>
+      <img id="vidImgPreview" class="img2img-preview">
+      <div style="margin-top:12px;"><div class="option-group"><label>DURÉE</label><select id="vidDuration"><option value="5">5 secondes</option><option value="10">10 secondes</option></select></div></div>
+    </div>
+    <button class="gen-btn" id="genVidBtn" onclick="generateVideo()"><span>🎬 GÉNÉRER LA VIDÉO</span></button>
+    <div class="loading-bar" id="vidLoading">
+      <div class="loading-track"><div class="loading-fill" id="vidLoadFill"></div></div>
+      <div class="loading-text" id="vidLoadText">Génération vidéo...</div>
+      <div class="loading-timer" id="vidTimer">⏱ 0s</div>
+    </div>
+    <div class="result-area" id="vidResult">
+      <video id="resultVid" class="result-video" controls playsinline></video>
+      <div class="cost-bar">
+        <span class="cost-bar-label">💰 Coût estimé</span>
+        <span class="cost-bar-value" id="vidCost">—</span>
+        <span class="cost-bar-time" id="vidTime">—</span>
+      </div>
+      <div class="result-actions"><a class="action-btn primary" id="downloadVidBtn" download="shooter-prod.mp4">⬇️ Télécharger</a><button class="action-btn save" onclick="saveToGallery('video')">🗂 Galerie</button></div>
+    </div>
+  </div>
+
+  <!-- VOICE -->
+  <div class="section" id="section-voice">
+    <div class="card"><div class="card-title">🎙 Voix — PlayAI via fal.ai</div><div class="voice-grid" id="voiceGrid"></div></div>
+    <div class="card">
+      <div class="card-title">✍️ Texte</div>
+      <textarea class="prompt-area" id="voiceText" style="min-height:140px;" placeholder="Écris le texte à convertir en voix off..."></textarea>
+      <div class="preset-row" id="voicePresetRow"></div>
+      <div style="margin-top:10px;"><span style="font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;">CARACTÈRES: <span id="charCount" style="color:var(--accent)">0</span></span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚙️ Options</div>
+      <div class="options-grid">
+        <div class="option-group"><label>LANGUE</label><select id="voiceLang"><option value="french">🇫🇷 Français</option><option value="english">🇬🇧 English</option><option value="spanish">🇪🇸 Español</option><option value="portuguese">🇧🇷 Português</option></select></div>
+        <div class="option-group"><label>VITESSE</label><select id="voiceSpeed"><option value="0.85">Lent</option><option value="1" selected>Normal</option><option value="1.15">Rapide</option></select></div>
+      </div>
+    </div>
+    <button class="gen-btn" id="genVoiceBtn" onclick="generateVoice()"><span>🎙 GÉNÉRER LA VOIX OFF</span></button>
+    <div class="loading-bar" id="voiceLoading">
+      <div class="loading-track"><div class="loading-fill" id="voiceLoadFill"></div></div>
+      <div class="loading-text" id="voiceLoadText">Synthèse vocale...</div>
+      <div class="loading-timer" id="voiceTimer">⏱ 0s</div>
+    </div>
+    <div class="result-area" id="voiceResult">
+      <div class="audio-player"><div class="audio-wave"></div><audio id="resultAudio" controls style="width:100%"></audio></div>
+      <div class="cost-bar">
+        <span class="cost-bar-label">💰 Coût estimé</span>
+        <span class="cost-bar-value" id="voiceCost">—</span>
+        <span class="cost-bar-time" id="voiceTime">—</span>
+      </div>
+      <div class="result-actions"><a class="action-btn primary" id="downloadAudioBtn" download="voix-off.mp3">⬇️ Télécharger</a><button class="action-btn save" onclick="saveToGallery('voice')">🗂 Galerie</button></div>
+    </div>
+  </div>
+
+  <!-- FACE SWAP -->
+  <div class="section" id="section-faceswap">
+    <div class="card">
+      <div class="card-title">👤 Face Swap</div>
+      <div class="upload-pair">
+        <div class="upload-box" id="faceSourceBox" onclick="document.getElementById('faceSourceInput').click()"><div class="icon">🧑</div><p>Visage source<br><small>Le visage à utiliser</small></p><img id="faceSourcePreview"><input type="file" id="faceSourceInput" accept="image/*" style="display:none" onchange="handleFaceUpload(this,'faceSourcePreview','faceSourceBox',s=>{state.faceSource=s})"></div>
+        <div class="upload-box" id="faceTargetBox" onclick="document.getElementById('faceTargetInput').click()"><div class="icon">🖼</div><p>Image cible<br><small>L'image à modifier</small></p><img id="faceTargetPreview"><input type="file" id="faceTargetInput" accept="image/*" style="display:none" onchange="handleFaceUpload(this,'faceTargetPreview','faceTargetBox',s=>{state.faceTarget=s})"></div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title">⚙️ Modèle</div><div class="model-grid"><div class="model-card selected" data-model="fal-ai/face-swap" onclick="selectModel(this,'faceswap')"><div class="model-name">Face Swap</div><div class="model-tag">fal.ai</div><div class="model-cost">~$0.01/img</div><span class="model-badge badge-fast">⚡ RAPIDE</span></div><div class="model-card" data-model="fal-ai/instantid" onclick="selectModel(this,'faceswap')"><div class="model-name">InstantID</div><div class="model-tag">fal.ai</div><div class="model-cost">~$0.05/img</div><span class="model-badge badge-quality">✦ QUALITÉ</span></div></div></div>
+    <button class="gen-btn" id="genFaceBtn" onclick="generateFaceSwap()"><span>👤 LANCER LE FACE SWAP</span></button>
+    <div class="loading-bar" id="faceLoading">
+      <div class="loading-track"><div class="loading-fill" id="faceLoadFill"></div></div>
+      <div class="loading-text" id="faceLoadText">Traitement...</div>
+      <div class="loading-timer" id="faceTimer">⏱ 0s</div>
+    </div>
+    <div class="result-area" id="faceResult">
+      <img id="resultFace" class="result-img" src="">
+      <div class="cost-bar"><span class="cost-bar-label">💰 Coût estimé</span><span class="cost-bar-value" id="faceCost">—</span><span class="cost-bar-time" id="faceTime">—</span></div>
+      <div class="result-actions"><a class="action-btn primary" id="downloadFaceBtn" download="face-swap.png">⬇️ Télécharger</a><button class="action-btn save" onclick="saveToGallery('image')">🗂 Galerie</button></div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="section" id="section-gallery">
+    <div class="card"><div class="card-title">🗂 Ma Galerie</div><div class="gallery-grid" id="galleryGrid"><div class="empty-gallery"><span class="emoji">🎨</span><p>Tes créations apparaîtront ici</p></div></div></div>
+  </div>
+
+  <!-- ADMIN -->
+  <div class="section" id="section-admin">
+    <div id="adminLock">
+      <div class="admin-lock">
+        <div class="lock-icon">🔐</div>
+        <h3>Zone Admin</h3>
+        <p>Entre le mot de passe pour accéder aux paramètres</p>
+        <input class="admin-input" type="password" id="adminPwdInput" placeholder="••••••" onkeydown="if(event.key==='Enter')checkAdminPwd()">
+        <button class="admin-btn" onclick="checkAdminPwd()">🔓 Accéder</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;">Mot de passe par défaut : <strong style="color:var(--accent3)">1234</strong></p>
+      </div>
+    </div>
+    <div id="adminPanel" class="admin-section">
+      <div class="card">
+        <div class="card-title">🎨 Identité du Studio</div>
+        <div style="margin-bottom:10px;"><div class="admin-label">Nom du studio</div><input class="admin-field" id="adminStudioName" value="AI STUDIO"></div>
+        <div style="margin-bottom:10px;"><div class="admin-label">Sous-titre</div><input class="admin-field" id="adminStudioSub" value="SHOOTER PROD"></div>
+        <div><div class="admin-label">Icône (emoji)</div><input class="admin-field" id="adminStudioIcon" value="⚡" style="font-size:20px;text-align:center;"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔑 Sécurité</div>
+        <div class="admin-label">Changer le mot de passe admin</div>
+        <input class="admin-field" type="password" id="adminNewPwd" placeholder="Nouveau mot de passe" style="margin-top:8px;">
+        <input class="admin-field" type="password" id="adminConfirmPwd" placeholder="Confirmer" style="margin-top:8px;">
+      </div>
+      <div class="card">
+        <div class="card-title">🖼 Presets Image</div>
+        <div id="adminImgPresets"></div>
+        <div class="add-preset-row"><input id="newImgEmoji" placeholder="🎨" style="width:60px;text-align:center;"><input id="newImgName" placeholder="Nom du preset"><button class="add-btn" onclick="addPresetItem('image')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><div class="admin-label" style="margin-bottom:6px;">Prompt du preset sélectionné</div><textarea class="admin-field-ta" id="adminImgPromptEdit" placeholder="Appuie sur un preset pour modifier son prompt..."></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎬 Presets Vidéo</div>
+        <div id="adminVidPresets"></div>
+        <div class="add-preset-row"><input id="newVidEmoji" placeholder="🎥" style="width:60px;text-align:center;"><input id="newVidName" placeholder="Nom du preset"><button class="add-btn" onclick="addPresetItem('video')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminVidPromptEdit" placeholder="Appuie sur un preset pour modifier son prompt..."></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎙 Textes Voix Off</div>
+        <div id="adminVoicePresets"></div>
+        <div class="add-preset-row"><input id="newVoiceEmoji" placeholder="🎤" style="width:60px;text-align:center;"><input id="newVoiceName" placeholder="Nom du texte"><button class="add-btn" onclick="addPresetItem('voice')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminVoicePromptEdit" placeholder="Appuie sur un texte pour le modifier..." style="min-height:120px;"></textarea></div>
+      </div>
+      <div class="card"><div class="card-title">🤖 Modèles Actifs</div><div id="adminModels"></div></div>
+      <button class="save-admin-btn" onclick="saveAdminSettings()">💾 SAUVEGARDER TOUT</button>
+      <button class="admin-logout" onclick="logoutAdmin()">🔒 Verrouiller l'admin</button>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <h3>🔑 Clé API fal.ai</h3>
+    <p>Une seule clé pour tout : images, vidéos, voix et face swap.<br><br>Obtiens ta clé sur <strong>fal.ai/dashboard</strong> → Keys</p>
+    <input class="modal-input" type="password" id="apiKeyInput" placeholder="fal_xxxxxxxxxxxxxxxxxx">
+    <div class="modal-actions"><button class="modal-cancel" onclick="closeApiModal()">Annuler</button><button class="modal-save" onclick="saveApiKey()">💾 Sauvegarder</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const COSTS={'fal-ai/flux/schnell':0.003,'fal-ai/flux/dev':0.025,'fal-ai/flux-pro/v1.1':0.05,'fal-ai/stable-diffusion-v3-medium':0.035,'fal-ai/kling-video/v1.6/standard/text-to-video':{5:0.28,10:0.56},'fal-ai/kling-video/v1.6/pro/text-to-video':{5:0.45,10:0.90},'fal-ai/minimax-video/image-to-video':{5:0.30,10:0.60},'fal-ai/wan-i2v/720p':{5:0.25,10:0.50},'fal-ai/playai/tts':0.015,'fal-ai/face-swap':0.01,'fal-ai/instantid':0.05};
+function getCost(model,extra){const c=COSTS[model];if(!c)return'—';if(typeof c==='object')return'$'+(c[extra]||c[5]).toFixed(2);if(model==='fal-ai/playai/tts'){return'$'+(Math.max(0.001,(extra/1000)*c)).toFixed(3);}return'$'+c.toFixed(3);}
+
+const CHARME_PRESETS=[
+  {emoji:'🌸',name:'Boudoir',prompt:'Elegant boudoir photography, beautiful woman, soft natural light, tasteful implied nudity, fine art style, silk sheets, intimate atmosphere, professional photography, shallow depth of field'},
+  {emoji:'🏖',name:'Plage nue',prompt:'Artistic nude photography on tropical beach, beautiful woman, golden hour light, waves background, fine art, tasteful, professional photography, Guadeloupe, natural beauty'},
+  {emoji:'💃',name:'Charme mode',prompt:'Glamour fashion photography, beautiful woman in lingerie, studio lighting, professional model pose, elegant, high fashion editorial, sharp focus'},
+  {emoji:'🌿',name:'Nature art.',prompt:'Fine art nude photography in nature, beautiful woman, tropical jungle, soft dappled light, artistic, tasteful, professional photography, Guadeloupe forest'},
+  {emoji:'🛁',name:'Intimité',prompt:'Artistic intimate photography, beautiful woman, bathroom setting, natural light, tasteful, fine art boudoir, soft shadows, professional quality'},
+  {emoji:'🌅',name:'Coucher soleil',prompt:'Golden hour artistic photography, beautiful silhouette of woman, tropical sunset, implied nudity, fine art, warm tones, Guadeloupe beach, professional'},
+];
+
+const DEFAULT_CONFIG={studioName:'AI STUDIO',studioSub:'SHOOTER PROD',studioIcon:'⚡',adminPassword:'1234',
+  imageModels:[
+    {id:'fal-ai/flux/schnell',name:'FLUX Schnell',tag:'fal.ai',badge:'⚡ RAPIDE',badgeClass:'badge-fast',cost:'~$0.003',active:true},
+    {id:'fal-ai/flux/dev',name:'FLUX Dev',tag:'fal.ai',badge:'✦ QUALITÉ',badgeClass:'badge-quality',cost:'~$0.025',active:true},
+    {id:'fal-ai/flux-pro/v1.1',name:'FLUX Pro 1.1',tag:'fal.ai',badge:'★ PRO',badgeClass:'badge-new',cost:'~$0.05',active:true},
+    {id:'fal-ai/stable-diffusion-v3-medium',name:'SD3 Medium',tag:'fal.ai',badge:'🎨 ART',badgeClass:'badge-art',cost:'~$0.035',active:true},
+  ],
+  videoModels:[
+    {id:'fal-ai/kling-video/v1.6/standard/text-to-video',name:'Kling 1.6',tag:'fal.ai',badge:'🎬 5s',badgeClass:'badge-video',cost:'~$0.28/5s',active:true},
+    {id:'fal-ai/kling-video/v1.6/pro/text-to-video',name:'Kling Pro',tag:'fal.ai',badge:'★ PRO',badgeClass:'badge-new',cost:'~$0.45/5s',active:true},
+    {id:'fal-ai/minimax-video/image-to-video',name:'Hailuo',tag:'MiniMax',badge:'✦ HD',badgeClass:'badge-quality',cost:'~$0.30/5s',active:true},
+    {id:'fal-ai/wan-i2v/720p',name:'Wan 720p',tag:'fal.ai',badge:'⚡ FAST',badgeClass:'badge-fast',cost:'~$0.25/5s',active:true},
+  ],
+  imagePresets:[
+    {emoji:'👗',name:'Fashion',prompt:'Elegant female model in designer outfit, golden hour lighting, luxury fashion magazine style, sharp focus, professional photography, Guadeloupe street background'},
+    {emoji:'🏖',name:'Beach',prompt:'Beautiful model on white sand beach, crystal blue Caribbean water, golden sunset, flowing dress, cinematic photography, Guadeloupe'},
+    {emoji:'📷',name:'Portrait',prompt:'Close-up portrait, soft studio lighting, high fashion, sharp eyes, bokeh background, professional photography, 4K'},
+    {emoji:'🥗',name:'NutriNat.',prompt:'Fresh healthy meal bowl, colorful vegetables and fruits, natural light, food photography, clean aesthetic, tropical ingredients'},
+    {emoji:'🌿',name:'Nature',prompt:'Breathtaking Guadeloupe tropical landscape, lush green jungle, turquoise water, golden hour, drone view, ultra HD'},
+    {emoji:'💡',name:'Studio',prompt:'Professional studio portrait, dark background, dramatic rim lighting, high contrast, fashion editorial, 8K'},
+  ],
+  videoPresets:[
+    {emoji:'🚶',name:'Walking',prompt:'Elegant woman walking confidently on a tropical beach, slow motion, golden hour, flowing hair, cinematic movement, 4K'},
+    {emoji:'🌊',name:'Beach',prompt:'Slow cinematic pan over crystal clear Caribbean water, golden sunset reflections, waves gently breaking on white sand'},
+    {emoji:'🥗',name:'NutriNat.',prompt:'Fresh healthy food ingredients being poured into a bowl, slow motion, colorful, natural light, food documentary style'},
+    {emoji:'🚁',name:'Drone',prompt:'Smooth drone flight over lush green Guadeloupe jungle, revealing turquoise lagoon, cinematic aerial photography'},
+    {emoji:'🎥',name:'Cinéma',prompt:'Cinematic close-up of model turning to camera, soft breeze, warm golden light, shallow depth of field, film grain'},
+  ],
+  voicePresets:[
+    {emoji:'🎬',name:'Intro YT',prompt:"Bonjour et bienvenue sur NutriNaturel ! Je suis ravi de vous retrouver pour cette nouvelle vidéo dédiée au bien-être et à la nutrition. Aujourd'hui, on va découvrir ensemble des secrets pour transformer votre alimentation et votre santé."},
+    {emoji:'🥗',name:'NutriNat.',prompt:"Dans cette vidéo, je vais vous partager 5 erreurs alimentaires que presque tout le monde commet sans le savoir, et qui vous empêchent d'atteindre vos objectifs de poids. Restez jusqu'à la fin, car la dernière erreur va vous surprendre !"},
+    {emoji:'📷',name:'Shooter',prompt:"Bienvenue sur Shooter Prod, votre studio photo professionnel en Guadeloupe. Je propose des séances photo mode, plage et portrait, ainsi que des formations pour photographes et modèles."},
+    {emoji:'📣',name:'CTA',prompt:"Si cette vidéo vous a plu, abonnez-vous à NutriNaturel et activez la cloche ! Laissez un commentaire avec vos questions, je réponds à chacun d'entre vous !"},
+  ],
+};
+
+const VOICES=[
+  {id:'s3://voice-cloning-zero-shot/baf1ef41-36b6-428c-9bdf-50ba54682bd8/original/manifest.json',name:'Étienne',desc:'Homme · FR · Pro'},
+  {id:'s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json',name:'Sophie',desc:'Femme · FR · Douce'},
+  {id:'s3://voice-cloning-zero-shot/e040bd1b-f190-4bdb-83f0-75ef85b18f84/original/manifest.json',name:'Marcus',desc:'Homme · EN · Grave'},
+  {id:'s3://voice-cloning-zero-shot/f114a467-c40a-4db8-964d-aaba89cd08fa/original/manifest.json',name:'Layla',desc:'Femme · EN · Naturel'},
+  {id:'s3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c268/oliver/manifest.json',name:'Oliver',desc:'Homme · EN · Calme'},
+  {id:'s3://voice-cloning-zero-shot/a17d8c75-d08e-4b77-8b1b-e98e2484f86b/original/manifest.json',name:'Amara',desc:'Femme · EN · Chaud'},
+  {id:'s3://voice-cloning-zero-shot/2ee87190-8f84-4925-97da-e52547f9462c/original/manifest.json',name:'Darius',desc:'Homme · EN · Narrateur'},
+  {id:'s3://voice-cloning-zero-shot/1cf61571-ce6b-4b38-b960-42e79b1a1523/original/manifest.json',name:'Celeste',desc:'Femme · EN · Vivace'},
+];
+
+let config=JSON.parse(localStorage.getItem('aistudio_config')||'null')||JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+let state={apiKey:'',selectedImageModel:config.imageModels.find(m=>m.active)?.id||'',selectedVideoModel:config.videoModels.find(m=>m.active)?.id||'',selectedFaceModel:'fal-ai/face-swap',selectedVoice:VOICES[0].id,gallery:[],lastImageUrl:'',lastVideoUrl:'',lastAudioUrl:'',uploadedImgBase64:'',uploadedVidImgBase64:'',faceSource:'',faceTarget:'',adminUnlocked:false,safetyEnabled:false};
+
+let timerIntervals={};
+function startTimer(id){let s=0;timerIntervals[id]=setInterval(()=>{s++;const el=document.getElementById(id);if(el)el.textContent='⏱ '+s+'s';},1000);}
+function stopTimer(id){clearInterval(timerIntervals[id]);}
+
+function toggleSafety(el){
+  state.safetyEnabled=!state.safetyEnabled;
+  el.classList.toggle('on',state.safetyEnabled);
+  showToast(state.safetyEnabled?'🔒 Filtre activé':'🔓 Filtre désactivé — Mode pro',state.safetyEnabled?'info':'success');
+}
+
+function init(){
+  const k=localStorage.getItem('aistudio_key');
+  if(k){state.apiKey=k;updateApiBtn(true);}
+  const g=localStorage.getItem('aistudio_gallery');
+  if(g){state.gallery=JSON.parse(g);updateStats();}
+  applyBranding();renderModelGrids();renderPresetRows();renderCharmePresets();renderVoiceGrid();
+  document.getElementById('voiceText').addEventListener('input',e=>{document.getElementById('charCount').textContent=e.target.value.length;});
+}
+
+function applyBranding(){document.getElementById('headerTitle').textContent=config.studioName;document.getElementById('headerSub').textContent=config.studioSub;document.getElementById('headerIcon').textContent=config.studioIcon;document.title=config.studioName+' — '+config.studioSub;}
+
+function renderModelGrids(){
+  const imgActive=config.imageModels.filter(m=>m.active);
+  document.getElementById('imgModelGrid').innerHTML=imgActive.map((m,i)=>`<div class="model-card ${i===0?'selected':''}" data-model="${m.id}" onclick="selectModel(this,'image')"><div class="model-name">${m.name}</div><div class="model-tag">${m.tag}</div><div class="model-cost">${m.cost||''}</div><span class="model-badge ${m.badgeClass}">${m.badge}</span></div>`).join('');
+  if(imgActive.length>0)state.selectedImageModel=imgActive[0].id;
+  const vidActive=config.videoModels.filter(m=>m.active);
+  document.getElementById('vidModelGrid').innerHTML=vidActive.map((m,i)=>`<div class="model-card ${i===0?'selected':''}" data-model="${m.id}" onclick="selectModel(this,'video')"><div class="model-name">${m.name}</div><div class="model-tag">${m.tag}</div><div class="model-cost">${m.cost||''}</div><span class="model-badge ${m.badgeClass}">${m.badge}</span></div>`).join('');
+  if(vidActive.length>0)state.selectedVideoModel=vidActive[0].id;
+}
+
+function renderPresetRows(){
+  document.getElementById('imgPresetRow').innerHTML=config.imagePresets.map(p=>`<div class="preset-chip" onclick="setPrompt('imagePrompt','${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+  document.getElementById('vidPresetRow').innerHTML=config.videoPresets.map(p=>`<div class="preset-chip" onclick="setPrompt('videoPrompt','${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+  document.getElementById('voicePresetRow').innerHTML=config.voicePresets.map(p=>`<div class="preset-chip" onclick="setVoiceText('${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+}
+
+function renderCharmePresets(){
+  document.getElementById('charmePresetRow').innerHTML=CHARME_PRESETS.map(p=>`<div class="preset-chip charme" onclick="setPromptCharme('${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+}
+
+function setPromptCharme(val){
+  document.getElementById('imagePrompt').value=val;
+  if(state.safetyEnabled){state.safetyEnabled=false;document.getElementById('safetyToggle').classList.remove('on');showToast('🔓 Filtre désactivé automatiquement','info');}
+}
+
+function escQ(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function setPrompt(id,val){document.getElementById(id).value=val;}
+function setVoiceText(val){const ta=document.getElementById('voiceText');ta.value=val;document.getElementById('charCount').textContent=val.length;}
+
+function renderVoiceGrid(){document.getElementById('voiceGrid').innerHTML=VOICES.map(v=>`<div class="voice-card ${v.id===state.selectedVoice?'selected':''}" onclick="selectVoice('${v.id}',this)"><div class="voice-name">${v.name}</div><div class="voice-desc">${v.desc}</div></div>`).join('');}
+function selectVoice(id,el){state.selectedVoice=id;document.querySelectorAll('.voice-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');}
+
+function switchTab(tab){const tabs=['image','video','voice','faceswap','gallery','admin'];document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',tabs[i]===tab));document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('section-'+tab).classList.add('active');if(tab==='gallery')renderGallery();if(tab==='admin')renderAdminPanel();}
+
+function openApiModal(){document.getElementById('apiModal').classList.add('open');}
+function closeApiModal(){document.getElementById('apiModal').classList.remove('open');}
+function saveApiKey(){const k=document.getElementById('apiKeyInput').value.trim();if(!k)return showToast('Entre ta clé API','error');state.apiKey=k;localStorage.setItem('aistudio_key',k);updateApiBtn(true);closeApiModal();showToast('✅ Clé API sauvegardée !','success');}
+function updateApiBtn(c){document.getElementById('apiBtn').classList.toggle('connected',c);document.getElementById('apiStatus').textContent=c?'✅':'🔑';document.getElementById('apiLabel').textContent=c?'Connecté':'API Key';}
+
+function selectModel(el,type){el.closest('.model-grid').querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');if(type==='image')state.selectedImageModel=el.dataset.model;else if(type==='video')state.selectedVideoModel=el.dataset.model;else if(type==='faceswap')state.selectedFaceModel=el.dataset.model;}
+function handleUpload(input,previewId,labelId,cb){if(!input.files[0])return;const r=new FileReader();r.onload=e=>{cb(e.target.result);const p=document.getElementById(previewId);p.src=e.target.result;p.style.display='block';document.getElementById(labelId).textContent='✅ Image chargée';};r.readAsDataURL(input.files[0]);}
+function handleFaceUpload(input,previewId,boxId,cb){if(!input.files[0])return;const r=new FileReader();r.onload=e=>{cb(e.target.result);const p=document.getElementById(previewId);p.src=e.target.result;p.style.display='block';document.getElementById(boxId).classList.add('has-img');};r.readAsDataURL(input.files[0]);}
+
+async function falQueue(model,body,onProgress){
+  const submit=await fetch('https://queue.fal.run/'+model,{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!submit.ok){const e=await submit.json();throw new Error(e.detail||'Erreur API fal.ai');}
+  const{request_id}=await submit.json();
+  for(let i=0;i<300;i++){
+    await sleep(1000);
+    if(onProgress)onProgress(Math.min(10+i*1.5,92));
+    const s=await(await fetch('https://queue.fal.run/'+model+'/requests/'+request_id,{headers:{'Authorization':'Key '+state.apiKey}})).json();
+    if(s.status==='COMPLETED'&&s.output)return s.output;
+    if(s.status==='FAILED')throw new Error('Génération échouée');
+  }
+  throw new Error('Timeout — réessaie');
+}
+
+async function generateImage(){
+  if(!state.apiKey){openApiModal();return;}
+  const prompt=document.getElementById('imagePrompt').value.trim();
+  if(!prompt)return showToast('Écris un prompt','error');
+  const startTime=Date.now();
+  startLoading('genImgBtn','imgLoading','imgResult');
+  startTimer('imgTimer');
+  try{
+    const body={
+      prompt:prompt+', high quality, detailed, professional photography',
+      negative_prompt:document.getElementById('negPrompt').value,
+      image_size:document.getElementById('imgRatio').value,
+      num_inference_steps:parseInt(document.getElementById('imgSteps').value),
+      guidance_scale:parseFloat(document.getElementById('guidance').value),
+      num_images:1,
+      enable_safety_checker:state.safetyEnabled,
+    };
+    if(state.uploadedImgBase64){body.image_url=state.uploadedImgBase64;body.strength=0.75;}
+    const out=await falQueue(state.selectedImageModel,body,p=>setProgress('imgLoadFill','imgLoadText',p,'Génération image...'));
+    const url=out.images?.[0]?.url||out.image?.url;
+    if(!url)throw new Error("Pas d'image");
+    state.lastImageUrl=url;
+    stopTimer('imgTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    setProgress('imgLoadFill','imgLoadText',100,'');
+    const img=document.getElementById('resultImg');img.src=url;
+    img.onload=()=>{endLoading('genImgBtn','imgLoading','imgResult');document.getElementById('imgCost').textContent=getCost(state.selectedImageModel);document.getElementById('imgTime').textContent=elapsed+'s';};
+    document.getElementById('downloadImgBtn').href=url;
+    updateStats();showToast('✅ Image générée !','success');
+  }catch(e){stopTimer('imgTimer');endLoading('genImgBtn','imgLoading');showToast('❌ '+e.message,'error');}
+}
+
+async function generateVideo(){
+  if(!state.apiKey){openApiModal();return;}
+  const prompt=document.getElementById('videoPrompt').value.trim();
+  if(!prompt)return showToast('Écris un prompt','error');
+  const startTime=Date.now();
+  const dur=parseInt(document.getElementById('vidDuration').value);
+  startLoading('genVidBtn','vidLoading','vidResult');
+  startTimer('vidTimer');
+  try{
+    const body={prompt,duration:dur,aspect_ratio:'9:16'};
+    if(state.uploadedVidImgBase64)body.image_url=state.uploadedVidImgBase64;
+    const out=await falQueue(state.selectedVideoModel,body,p=>setProgress('vidLoadFill','vidLoadText',p,'Génération vidéo...'));
+    const url=out.video?.url||out.videos?.[0]?.url;
+    if(!url)throw new Error("Pas de vidéo");
+    state.lastVideoUrl=url;
+    stopTimer('vidTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    document.getElementById('resultVid').src=url;
+    endLoading('genVidBtn','vidLoading','vidResult');
+    document.getElementById('vidCost').textContent=getCost(state.selectedVideoModel,dur);
+    document.getElementById('vidTime').textContent=elapsed+'s';
+    document.getElementById('downloadVidBtn').href=url;
+    updateStats();showToast('✅ Vidéo générée !','success');
+  }catch(e){stopTimer('vidTimer');endLoading('genVidBtn','vidLoading');showToast('❌ '+e.message,'error');}
+}
+
+async function generateVoice(){
+  if(!state.apiKey){openApiModal();return;}
+  const text=document.getElementById('voiceText').value.trim();
+  if(!text||text.length<5)return showToast('Écris un texte','error');
+  const startTime=Date.now();
+  startLoading('genVoiceBtn','voiceLoading','voiceResult');
+  startTimer('voiceTimer');
+  try{
+    const body={model:'PlayDialog',input:text,voice:state.selectedVoice,speed:parseFloat(document.getElementById('voiceSpeed').value),language:document.getElementById('voiceLang').value,output_format:'mp3'};
+    const out=await falQueue('fal-ai/playai/tts',body,p=>setProgress('voiceLoadFill','voiceLoadText',p,'Synthèse vocale...'));
+    const url=out.audio?.url||out.url||out.audio_url;
+    if(!url)throw new Error("Pas d'audio");
+    state.lastAudioUrl=url;
+    stopTimer('voiceTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    document.getElementById('resultAudio').src=url;
+    endLoading('genVoiceBtn','voiceLoading','voiceResult');
+    document.getElementById('voiceCost').textContent=getCost('fal-ai/playai/tts',text.length);
+    document.getElementById('voiceTime').textContent=elapsed+'s';
+    document.getElementById('downloadAudioBtn').href=url;
+    updateStats();showToast('✅ Voix générée !','success');
+  }catch(e){stopTimer('voiceTimer');endLoading('genVoiceBtn','voiceLoading');showToast('❌ '+e.message,'error');}
+}
+
+async function generateFaceSwap(){
+  if(!state.apiKey){openApiModal();return;}
+  if(!state.faceSource||!state.faceTarget)return showToast('Ajoute les 2 images','error');
+  const startTime=Date.now();
+  startLoading('genFaceBtn','faceLoading','faceResult');
+  startTimer('faceTimer');
+  try{
+    const body={base_image_url:state.faceTarget,swap_image_url:state.faceSource};
+    const out=await falQueue(state.selectedFaceModel,body,p=>setProgress('faceLoadFill','faceLoadText',p,'Face swap...'));
+    const url=out.image?.url||out.images?.[0]?.url;
+    if(!url)throw new Error("Pas d'image");
+    state.lastImageUrl=url;
+    stopTimer('faceTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    const img=document.getElementById('resultFace');img.src=url;
+    img.onload=()=>{endLoading('genFaceBtn','faceLoading','faceResult');document.getElementById('faceCost').textContent=getCost(state.selectedFaceModel);document.getElementById('faceTime').textContent=elapsed+'s';};
+    document.getElementById('downloadFaceBtn').href=url;
+    updateStats();showToast('✅ Face swap terminé !','success');
+  }catch(e){stopTimer('faceTimer');endLoading('genFaceBtn','faceLoading');showToast('❌ '+e.message,'error');}
+}
+
+function saveToGallery(type){const url=type==='image'?state.lastImageUrl:type==='video'?state.lastVideoUrl:state.lastAudioUrl;if(!url)return showToast('Rien à sauvegarder','error');state.gallery.unshift({type,url,date:new Date().toLocaleDateString('fr')});localStorage.setItem('aistudio_gallery',JSON.stringify(state.gallery));updateStats();showToast('✅ Sauvegardé !','success');}
+function renderGallery(){const grid=document.getElementById('galleryGrid');if(!state.gallery.length){grid.innerHTML='<div class="empty-gallery"><span class="emoji">🎨</span><p>Tes créations apparaîtront ici</p></div>';return;}grid.innerHTML=state.gallery.map((item,i)=>`<div class="gallery-item">${item.type==='image'?`<img src="${item.url}" loading="lazy">`:item.type==='video'?`<video src="${item.url}" muted loop playsinline autoplay></video>`:`<div style="background:var(--surface2);height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;"><span style="font-size:28px">🎙</span><span style="font-size:9px;color:var(--muted);font-family:'Space Mono',monospace">${item.date}</span></div>`}<button class="gallery-delete" onclick="deleteFromGallery(${i})">✕</button></div>`).join('');}
+function deleteFromGallery(i){state.gallery.splice(i,1);localStorage.setItem('aistudio_gallery',JSON.stringify(state.gallery));updateStats();renderGallery();}
+function updateStats(){document.getElementById('imgCount').textContent=state.gallery.filter(i=>i.type==='image').length;document.getElementById('vidCount').textContent=state.gallery.filter(i=>i.type==='video').length;document.getElementById('voiceCount').textContent=state.gallery.filter(i=>i.type==='voice').length;document.getElementById('totalCount').textContent=state.gallery.length;}
+
+function checkAdminPwd(){const pwd=document.getElementById('adminPwdInput').value;if(pwd===config.adminPassword){state.adminUnlocked=true;document.getElementById('adminLock').style.display='none';document.getElementById('adminPanel').classList.add('visible');renderAdminPanel();showToast('🔓 Admin déverrouillé','success');}else{showToast('❌ Mot de passe incorrect','error');document.getElementById('adminPwdInput').value='';}}
+function logoutAdmin(){state.adminUnlocked=false;document.getElementById('adminLock').style.display='block';document.getElementById('adminPanel').classList.remove('visible');document.getElementById('adminPwdInput').value='';}
+function renderAdminPanel(){if(!state.adminUnlocked)return;document.getElementById('adminStudioName').value=config.studioName;document.getElementById('adminStudioSub').value=config.studioSub;document.getElementById('adminStudioIcon').value=config.studioIcon;renderAdminPresets('adminImgPresets',config.imagePresets,'image');renderAdminPresets('adminVidPresets',config.videoPresets,'video');renderAdminPresets('adminVoicePresets',config.voicePresets,'voice');renderAdminModels();}
+function renderAdminPresets(containerId,presets,type){document.getElementById(containerId).innerHTML=presets.map((p,i)=>`<div class="preset-item" onclick="editPreset('${type}',${i})"><span class="preset-item-emoji">${p.emoji}</span><span class="preset-item-name">${p.name}</span><button class="preset-item-del" onclick="event.stopPropagation();deletePreset('${type}',${i})">✕</button></div>`).join('');}
+function editPreset(type,i){const presets=type==='image'?config.imagePresets:type==='video'?config.videoPresets:config.voicePresets;const taId=type==='image'?'adminImgPromptEdit':type==='video'?'adminVidPromptEdit':'adminVoicePromptEdit';document.getElementById(taId).value=presets[i].prompt;document.getElementById(taId).oninput=function(){presets[i].prompt=this.value;};showToast('✏️ Modifie le prompt ci-dessous','info');}
+function deletePreset(type,i){if(type==='image')config.imagePresets.splice(i,1);else if(type==='video')config.videoPresets.splice(i,1);else config.voicePresets.splice(i,1);renderAdminPanel();showToast('🗑 Supprimé','info');}
+function addPresetItem(type){const e=document.getElementById('new'+type.charAt(0).toUpperCase()+type.slice(1)+'Emoji').value.trim()||'✨';const n=document.getElementById('new'+type.charAt(0).toUpperCase()+type.slice(1)+'Name').value.trim();if(!n)return showToast('Entre un nom','error');if(type==='image')config.imagePresets.push({emoji:e,name:n,prompt:''});else if(type==='video')config.videoPresets.push({emoji:e,name:n,prompt:''});else config.voicePresets.push({emoji:e,name:n,prompt:''});document.getElementById('new'+type.charAt(0).toUpperCase()+type.slice(1)+'Emoji').value='';document.getElementById('new'+type.charAt(0).toUpperCase()+type.slice(1)+'Name').value='';renderAdminPanel();showToast('✅ Preset ajouté !','success');}
+function renderAdminModels(){const all=[...config.imageModels.map(m=>({...m,type:'image'})),...config.videoModels.map(m=>({...m,type:'video'}))];document.getElementById('adminModels').innerHTML=all.map(m=>`<div class="admin-row"><div><div class="admin-label">${m.name}</div><div class="admin-sub">${m.type.toUpperCase()} · ${m.cost||''}</div></div><div class="toggle ${m.active?'on':''}" onclick="toggleModel('${m.type}','${m.id}',this)"></div></div>`).join('');}
+function toggleModel(type,id,el){const models=type==='image'?config.imageModels:config.videoModels;const m=models.find(x=>x.id===id);if(m){m.active=!m.active;el.classList.toggle('on',m.active);}}
+function saveAdminSettings(){config.studioName=document.getElementById('adminStudioName').value||'AI STUDIO';config.studioSub=document.getElementById('adminStudioSub').value||'SHOOTER PROD';config.studioIcon=document.getElementById('adminStudioIcon').value||'⚡';const np=document.getElementById('adminNewPwd').value;const cp=document.getElementById('adminConfirmPwd').value;if(np){if(np!==cp)return showToast('Mots de passe différents','error');if(np.length<3)return showToast('Trop court','error');config.adminPassword=np;document.getElementById('adminNewPwd').value='';document.getElementById('adminConfirmPwd').value='';}localStorage.setItem('aistudio_config',JSON.stringify(config));applyBranding();renderModelGrids();renderPresetRows();showToast('✅ Paramètres sauvegardés !','success');}
+
+function startLoading(btnId,loadId,resultId){document.getElementById(btnId).disabled=true;document.getElementById(loadId).classList.add('visible');if(resultId)document.getElementById(resultId).classList.remove('visible');}
+function endLoading(btnId,loadId,resultId){document.getElementById(btnId).disabled=false;document.getElementById(loadId).classList.remove('visible');if(resultId)document.getElementById(resultId).classList.add('visible');}
+function setProgress(fillId,textId,pct,msg){document.getElementById(fillId).style.width=pct+'%';if(msg)document.getElementById(textId).textContent=msg;}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+init();
+</script>
+</body>
+</html>
+ale...</div>
+      <div class="loading-timer" id="voiceTimer">⏱ 0s</div>
+    </div>
+    <div class="result-area" id="voiceResult">
+      <div class="audio-player"><div class="audio-wave"></div><audio id="resultAudio" controls style="width:100%"></audio></div>
+      <div class="cost-bar"><span class="cost-bar-label">💰 Coût estimé</span><span class="cost-bar-value" id="voiceCost">—</span><span class="cost-bar-time" id="voiceTime">—</span></div>
+      <div class="result-actions"><a class="action-btn primary" id="downloadAudioBtn" download="voix-off.mp3">⬇️ Télécharger</a><button class="action-btn save" onclick="saveToGallery('voice')">🗂 Galerie</button></div>
+    </div>
+  </div>
+
+  <!-- ===== FACE SWAP ===== -->
+  <div class="section" id="section-faceswap">
+    <div class="info-banner tip-banner">
+      <span class="info-banner-icon">💡</span>
+      <div>Pour du contenu NSFW avec face swap : génère d'abord l'image dans l'onglet 🔞, puis utilise-la comme image cible ici.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">👤 Face Swap</div>
+      <div class="upload-pair">
+        <div class="upload-box" id="faceSourceBox" onclick="document.getElementById('faceSourceInput').click()"><div class="icon">🧑</div><p>Visage source<br><small>Le visage à utiliser</small></p><img id="faceSourcePreview"><input type="file" id="faceSourceInput" accept="image/*" style="display:none" onchange="handleFaceUpload(this,'faceSourcePreview','faceSourceBox',s=>{state.faceSource=s})"></div>
+        <div class="upload-box" id="faceTargetBox" onclick="document.getElementById('faceTargetInput').click()"><div class="icon">🖼</div><p>Image cible<br><small>L'image à modifier</small></p><img id="faceTargetPreview"><input type="file" id="faceTargetInput" accept="image/*" style="display:none" onchange="handleFaceUpload(this,'faceTargetPreview','faceTargetBox',s=>{state.faceTarget=s})"></div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title">⚙️ Modèle</div><div class="model-grid"><div class="model-card selected" data-model="fal-ai/face-swap" onclick="selectModel(this,'faceswap')"><div class="model-name">Face Swap</div><div class="model-tag">fal.ai</div><div class="model-cost">~$0.01/img</div><span class="model-badge badge-fast">⚡ RAPIDE</span></div><div class="model-card" data-model="fal-ai/instantid" onclick="selectModel(this,'faceswap')"><div class="model-name">InstantID</div><div class="model-tag">fal.ai</div><div class="model-cost">~$0.05/img</div><span class="model-badge badge-quality">✦ QUALITÉ</span></div></div></div>
+    <button class="gen-btn" id="genFaceBtn" onclick="generateFaceSwap()"><span>👤 LANCER LE FACE SWAP</span></button>
+    <div class="loading-bar" id="faceLoading">
+      <div class="loading-track"><div class="loading-fill" id="faceLoadFill"></div></div>
+      <div class="loading-text" id="faceLoadText">Traitement...</div>
+      <div class="loading-timer" id="faceTimer">⏱ 0s</div>
+    </div>
+    <div class="result-area" id="faceResult">
+      <img id="resultFace" class="result-img" src="">
+      <div class="cost-bar"><span class="cost-bar-label">💰 Coût estimé</span><span class="cost-bar-value" id="faceCost">—</span><span class="cost-bar-time" id="faceTime">—</span></div>
+      <div class="result-actions"><a class="action-btn primary" id="downloadFaceBtn" download="face-swap.png">⬇️ Télécharger</a><button class="action-btn save" onclick="saveToGallery('image')">🗂 Galerie</button></div>
+    </div>
+  </div>
+
+  <!-- ===== GALLERY ===== -->
+  <div class="section" id="section-gallery">
+    <div class="card"><div class="card-title">🗂 Ma Galerie</div><div class="gallery-grid" id="galleryGrid"><div class="empty-gallery"><span class="emoji">🎨</span><p>Tes créations apparaîtront ici</p></div></div></div>
+  </div>
+
+  <!-- ===== ADMIN ===== -->
+  <div class="section" id="section-admin">
+    <div id="adminLock">
+      <div class="admin-lock">
+        <div class="lock-icon">🔐</div>
+        <h3>Zone Admin</h3>
+        <p>Entre le mot de passe pour accéder aux paramètres</p>
+        <input class="admin-input" type="password" id="adminPwdInput" placeholder="••••••" onkeydown="if(event.key==='Enter')checkAdminPwd()">
+        <button class="admin-btn" onclick="checkAdminPwd()">🔓 Accéder</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;">Mot de passe par défaut : <strong style="color:var(--accent3)">1234</strong></p>
+      </div>
+    </div>
+    <div id="adminPanel" class="admin-section">
+      <div class="card">
+        <div class="card-title">🎨 Identité du Studio</div>
+        <div style="margin-bottom:10px;"><div class="admin-label">Nom</div><input class="admin-field" id="adminStudioName" value="AI STUDIO"></div>
+        <div style="margin-bottom:10px;"><div class="admin-label">Sous-titre</div><input class="admin-field" id="adminStudioSub" value="SHOOTER PROD"></div>
+        <div><div class="admin-label">Icône (emoji)</div><input class="admin-field" id="adminStudioIcon" value="⚡" style="font-size:20px;text-align:center;"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔑 Sécurité</div>
+        <input class="admin-field" type="password" id="adminNewPwd" placeholder="Nouveau mot de passe" style="margin-bottom:8px;">
+        <input class="admin-field" type="password" id="adminConfirmPwd" placeholder="Confirmer">
+      </div>
+      <div class="card">
+        <div class="card-title">🖼 Presets Image SFW</div>
+        <div id="adminImgPresets"></div>
+        <div class="add-preset-row"><input id="newImgEmoji" placeholder="🎨" style="width:60px;text-align:center;"><input id="newImgName" placeholder="Nom"><button class="add-btn" onclick="addPresetItem('image')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminImgPromptEdit" placeholder="Prompt du preset sélectionné..."></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title pink">🔞 Presets Charme</div>
+        <div id="adminCharmePresets"></div>
+        <div class="add-preset-row"><input id="newCharmeEmoji" placeholder="🌸" style="width:60px;text-align:center;"><input id="newCharmeName" placeholder="Nom"><button class="add-btn" onclick="addPresetItem('charme')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminCharmePromptEdit" placeholder="Prompt charme sélectionné..."></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title pink">🔞 Presets Explicite</div>
+        <div id="adminExplicitPresets"></div>
+        <div class="add-preset-row"><input id="newExplicitEmoji" placeholder="🔥" style="width:60px;text-align:center;"><input id="newExplicitName" placeholder="Nom"><button class="add-btn" onclick="addPresetItem('explicit')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminExplicitPromptEdit" placeholder="Prompt explicite sélectionné..."></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎬 Presets Vidéo</div>
+        <div id="adminVidPresets"></div>
+        <div class="add-preset-row"><input id="newVidEmoji" placeholder="🎥" style="width:60px;text-align:center;"><input id="newVidName" placeholder="Nom"><button class="add-btn" onclick="addPresetItem('video')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminVidPromptEdit" placeholder="Prompt vidéo sélectionné..."></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎙 Textes Voix Off</div>
+        <div id="adminVoicePresets"></div>
+        <div class="add-preset-row"><input id="newVoiceEmoji" placeholder="🎤" style="width:60px;text-align:center;"><input id="newVoiceName" placeholder="Nom"><button class="add-btn" onclick="addPresetItem('voice')">+ Ajouter</button></div>
+        <div style="margin-top:10px;"><textarea class="admin-field-ta" id="adminVoicePromptEdit" placeholder="Texte voix sélectionné..." style="min-height:100px;"></textarea></div>
+      </div>
+      <div class="card"><div class="card-title">🤖 Modèles Actifs</div><div id="adminModels"></div></div>
+      <button class="save-admin-btn" onclick="saveAdminSettings()">💾 SAUVEGARDER TOUT</button>
+      <button class="admin-logout" onclick="logoutAdmin()">🔒 Verrouiller</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- API MODAL -->
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <h3>🔑 Clé API fal.ai</h3>
+    <p>Une seule clé pour tout. Obtiens ta clé sur <strong>fal.ai/dashboard</strong> → Keys</p>
+    <input class="modal-input" type="password" id="apiKeyInput" placeholder="fal_xxxxxxxxxxxxxxxxxx">
+    <div class="modal-actions"><button class="modal-cancel" onclick="closeApiModal()">Annuler</button><button class="modal-save" onclick="saveApiKey()">💾 Sauvegarder</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// COSTS
+// ============================================================
+const COSTS={
+  'fal-ai/flux/schnell':0.003,
+  'fal-ai/flux/dev':0.025,
+  'fal-ai/flux-pro/v1.1':0.05,
+  'fal-ai/flux-pro/v1.1-ultra':0.06,
+  'fal-ai/stable-diffusion-v3-medium':0.035,
+  'fal-ai/kling-video/v1.6/standard/text-to-video':{5:0.28,10:0.56},
+  'fal-ai/kling-video/v1.6/pro/text-to-video':{5:0.45,10:0.90},
+  'fal-ai/minimax-video/image-to-video':{5:0.30,10:0.60},
+  'fal-ai/wan-i2v/720p':{5:0.25,10:0.50},
+  'fal-ai/playai/tts':0.015,
+  'fal-ai/face-swap':0.01,
+  'fal-ai/instantid':0.05
+};
+function getCost(model,extra){const c=COSTS[model];if(!c)return'—';if(typeof c==='object')return'$'+(c[extra]||c[5]).toFixed(2);if(model==='fal-ai/playai/tts')return'$'+(Math.max(0.001,(extra/1000)*c)).toFixed(3);return'$'+c.toFixed(3);}
+
+// ============================================================
+// TOLERANCE LABELS
+// ============================================================
+const TOLERANCE_LABELS={
+  1:'🟢 Minimum — SFW strict',
+  2:'🟢 Faible — SFW permissif',
+  3:'🟡 Modéré — Charme léger',
+  4:'🟡 Élevé — Boudoir & charme',
+  5:'🔴 Très élevé — Nu artistique',
+  6:'🔞 Maximum — Contenu explicite autorisé'
+};
+function updateTolerance(v){
+  const label=document.getElementById('toleranceLabel');
+  label.textContent=v;
+  label.className='tolerance-val t'+v;
+  document.getElementById('toleranceDesc').textContent=TOLERANCE_LABELS[v];
+}
+
+// ============================================================
+// DEFAULT CONFIG
+// ============================================================
+const DEFAULT_CONFIG={
+  studioName:'AI STUDIO',studioSub:'SHOOTER PROD',studioIcon:'⚡',adminPassword:'1234',
+  imageModels:[
+    {id:'fal-ai/flux/schnell',name:'FLUX Schnell',tag:'fal.ai',badge:'⚡ RAPIDE',badgeClass:'badge-fast',cost:'~$0.003',active:true},
+    {id:'fal-ai/flux/dev',name:'FLUX Dev',tag:'fal.ai',badge:'✦ QUALITÉ',badgeClass:'badge-quality',cost:'~$0.025',active:true},
+    {id:'fal-ai/flux-pro/v1.1',name:'FLUX Pro 1.1',tag:'fal.ai',badge:'★ PRO',badgeClass:'badge-new',cost:'~$0.05',active:true},
+    {id:'fal-ai/stable-diffusion-v3-medium',name:'SD3 Medium',tag:'fal.ai',badge:'🎨 ART',badgeClass:'badge-art',cost:'~$0.035',active:true},
+  ],
+  videoModels:[
+    {id:'fal-ai/kling-video/v1.6/standard/text-to-video',name:'Kling 1.6',tag:'fal.ai',badge:'🎬 5s',badgeClass:'badge-video',cost:'~$0.28/5s',active:true},
+    {id:'fal-ai/kling-video/v1.6/pro/text-to-video',name:'Kling Pro',tag:'fal.ai',badge:'★ PRO',badgeClass:'badge-new',cost:'~$0.45/5s',active:true},
+    {id:'fal-ai/minimax-video/image-to-video',name:'Hailuo',tag:'MiniMax',badge:'✦ HD',badgeClass:'badge-quality',cost:'~$0.30/5s',active:true},
+    {id:'fal-ai/wan-i2v/720p',name:'Wan 720p',tag:'fal.ai',badge:'⚡ FAST',badgeClass:'badge-fast',cost:'~$0.25/5s',active:true},
+  ],
+  imagePresets:[
+    {emoji:'👗',name:'Fashion',prompt:'Elegant female model in designer outfit, golden hour lighting, luxury fashion magazine style, sharp focus, professional photography, Guadeloupe street background'},
+    {emoji:'🏖',name:'Beach',prompt:'Beautiful model on white sand beach, crystal blue Caribbean water, golden sunset, flowing dress, cinematic photography, Guadeloupe'},
+    {emoji:'📷',name:'Portrait',prompt:'Close-up portrait, soft studio lighting, high fashion, sharp eyes, bokeh background, professional photography, 4K'},
+    {emoji:'🥗',name:'NutriNat.',prompt:'Fresh healthy meal bowl, colorful vegetables and fruits, natural light, food photography, clean aesthetic, tropical ingredients'},
+    {emoji:'🌿',name:'Nature',prompt:'Breathtaking Guadeloupe tropical landscape, lush green jungle, turquoise water, golden hour, drone view, ultra HD'},
+    {emoji:'💡',name:'Studio',prompt:'Professional studio portrait, dark background, dramatic rim lighting, high contrast, fashion editorial, 8K'},
+  ],
+  charmePresets:[
+    {emoji:'🌸',name:'Boudoir',prompt:'Elegant boudoir photography, beautiful woman, soft natural light, tasteful implied nudity, fine art style, silk sheets, intimate atmosphere, professional photography, shallow depth of field'},
+    {emoji:'🏖',name:'Plage',prompt:'Artistic nude photography on tropical beach, beautiful woman, golden hour light, waves background, fine art, tasteful, professional photography, Guadeloupe, natural beauty'},
+    {emoji:'💃',name:'Lingerie',prompt:'Glamour fashion photography, beautiful woman in lingerie, studio lighting, professional model pose, elegant, high fashion editorial, sharp focus'},
+    {emoji:'🌿',name:'Nature art.',prompt:'Fine art nude photography in nature, beautiful woman, tropical jungle, soft dappled light, artistic, tasteful, professional photography, Guadeloupe forest'},
+    {emoji:'🛁',name:'Intimité',prompt:'Artistic intimate photography, beautiful woman, bathroom setting, natural light, tasteful, fine art boudoir, soft shadows, professional quality'},
+    {emoji:'🌅',name:'Coucher soleil',prompt:'Golden hour artistic photography, beautiful silhouette of woman, tropical sunset, implied nudity, fine art, warm tones, Guadeloupe beach, professional'},
+  ],
+  explicitPresets:[
+    {emoji:'🔥',name:'Nu explicite',prompt:'Photorealistic photo of a beautiful adult woman, fully nude, natural lighting, professional photography, anatomically correct, DSLR quality, 8K resolution, natural skin texture'},
+    {emoji:'📸',name:'Studio nu',prompt:'Professional studio nude photography, beautiful adult woman, dramatic lighting, high contrast, sharp focus, anatomically correct, artistic nude, 4K, no watermark'},
+    {emoji:'🌊',name:'Plage nude',prompt:'Photorealistic nude photography on tropical beach, beautiful adult woman, golden hour, natural lighting, waves, Guadeloupe, professional DSLR, high detail'},
+    {emoji:'💋',name:'Charme explicite',prompt:'Sensual explicit photography, beautiful adult woman, seductive pose, professional lighting, natural skin, high quality, photorealistic, 8K'},
+    {emoji:'🎭',name:'Artistique X',prompt:'Fine art explicit photography, beautiful adult woman, artistic nude, dramatic shadows, professional studio, high detail skin texture, photorealistic'},
+    {emoji:'🏝',name:'Tropicale',prompt:'Explicit tropical photography, beautiful adult woman nude on beach, warm golden light, Caribbean setting, natural beauty, professional quality, photorealistic'},
+  ],
+  videoPresets:[
+    {emoji:'🚶',name:'Walking',prompt:'Elegant woman walking confidently on a tropical beach, slow motion, golden hour, flowing hair, cinematic movement, 4K'},
+    {emoji:'🌊',name:'Beach',prompt:'Slow cinematic pan over crystal clear Caribbean water, golden sunset reflections, waves gently breaking on white sand'},
+    {emoji:'🥗',name:'NutriNat.',prompt:'Fresh healthy food ingredients being poured into a bowl, slow motion, colorful, natural light, food documentary style'},
+    {emoji:'🚁',name:'Drone',prompt:'Smooth drone flight over lush green Guadeloupe jungle, revealing turquoise lagoon, cinematic aerial photography'},
+    {emoji:'🎥',name:'Cinéma',prompt:'Cinematic close-up of model turning to camera, soft breeze, warm golden light, shallow depth of field, film grain'},
+  ],
+  voicePresets:[
+    {emoji:'🎬',name:'Intro YT',prompt:"Bonjour et bienvenue sur NutriNaturel ! Je suis ravi de vous retrouver pour cette nouvelle vidéo dédiée au bien-être et à la nutrition."},
+    {emoji:'🥗',name:'NutriNat.',prompt:"Dans cette vidéo, je vais vous partager 5 erreurs alimentaires que presque tout le monde commet sans le savoir, et qui vous empêchent d'atteindre vos objectifs de poids."},
+    {emoji:'📷',name:'Shooter',prompt:"Bienvenue sur Shooter Prod, votre studio photo professionnel en Guadeloupe. Je propose des séances photo mode, plage et portrait."},
+    {emoji:'📣',name:'CTA',prompt:"Si cette vidéo vous a plu, abonnez-vous à NutriNaturel et activez la cloche ! Laissez un commentaire avec vos questions."},
+  ],
+};
+
+const VOICES=[
+  {id:'s3://voice-cloning-zero-shot/baf1ef41-36b6-428c-9bdf-50ba54682bd8/original/manifest.json',name:'Étienne',desc:'Homme · FR · Pro'},
+  {id:'s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json',name:'Sophie',desc:'Femme · FR · Douce'},
+  {id:'s3://voice-cloning-zero-shot/e040bd1b-f190-4bdb-83f0-75ef85b18f84/original/manifest.json',name:'Marcus',desc:'Homme · EN · Grave'},
+  {id:'s3://voice-cloning-zero-shot/f114a467-c40a-4db8-964d-aaba89cd08fa/original/manifest.json',name:'Layla',desc:'Femme · EN · Naturel'},
+  {id:'s3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c268/oliver/manifest.json',name:'Oliver',desc:'Homme · EN · Calme'},
+  {id:'s3://voice-cloning-zero-shot/a17d8c75-d08e-4b77-8b1b-e98e2484f86b/original/manifest.json',name:'Amara',desc:'Femme · EN · Chaud'},
+  {id:'s3://voice-cloning-zero-shot/2ee87190-8f84-4925-97da-e52547f9462c/original/manifest.json',name:'Darius',desc:'Homme · EN · Narrateur'},
+  {id:'s3://voice-cloning-zero-shot/1cf61571-ce6b-4b38-b960-42e79b1a1523/original/manifest.json',name:'Celeste',desc:'Femme · EN · Vivace'},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let config=JSON.parse(localStorage.getItem('aistudio_config')||'null')||JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+let state={
+  apiKey:'',
+  selectedImageModel:config.imageModels.find(m=>m.active)?.id||'fal-ai/flux/schnell',
+  selectedNsfwModel:'fal-ai/flux/dev',
+  selectedVideoModel:config.videoModels.find(m=>m.active)?.id||'',
+  selectedFaceModel:'fal-ai/face-swap',
+  selectedVoice:VOICES[0].id,
+  gallery:[],
+  lastImageUrl:'',lastVideoUrl:'',lastAudioUrl:'',lastNsfwUrl:'',
+  uploadedImgBase64:'',uploadedVidImgBase64:'',nsfwImgBase64:'',
+  faceSource:'',faceTarget:'',
+  adminUnlocked:false,
+  ageConfirmed:false,
+};
+
+// ============================================================
+// TIMERS
+// ============================================================
+let timerIntervals={};
+function startTimer(id){let s=0;timerIntervals[id]=setInterval(()=>{s++;const el=document.getElementById(id);if(el)el.textContent='⏱ '+s+'s';},1000);}
+function stopTimer(id){clearInterval(timerIntervals[id]);}
+
+// ============================================================
+// AGE GATE
+// ============================================================
+function confirmAge(){
+  state.ageConfirmed=true;
+  localStorage.setItem('aistudio_age','1');
+  document.getElementById('ageGate').style.display='none';
+}
+function refuseAge(){
+  window.location.href='https://google.com';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init(){
+  // Age check
+  if(!localStorage.getItem('aistudio_age')){
+    document.getElementById('ageGate').style.display='flex';
+  } else {
+    state.ageConfirmed=true;
+  }
+  const k=localStorage.getItem('aistudio_key');
+  if(k){state.apiKey=k;updateApiBtn(true);}
+  const g=localStorage.getItem('aistudio_gallery');
+  if(g){state.gallery=JSON.parse(g);updateStats();}
+  applyBranding();
+  renderModelGrids();
+  renderPresetRows();
+  renderVoiceGrid();
+  updateTolerance(6);
+  document.getElementById('voiceText').addEventListener('input',e=>{document.getElementById('charCount').textContent=e.target.value.length;});
+}
+
+function applyBranding(){
+  document.getElementById('headerTitle').textContent=config.studioName;
+  document.getElementById('headerSub').textContent=config.studioSub;
+  document.getElementById('headerIcon').textContent=config.studioIcon;
+  document.title=config.studioName+' — '+config.studioSub;
+}
+
+function renderModelGrids(){
+  const imgActive=config.imageModels.filter(m=>m.active);
+  document.getElementById('imgModelGrid').innerHTML=imgActive.map((m,i)=>`<div class="model-card ${i===0?'selected':''}" data-model="${m.id}" onclick="selectModel(this,'image')"><div class="model-name">${m.name}</div><div class="model-tag">${m.tag}</div><div class="model-cost">${m.cost||''}</div><span class="model-badge ${m.badgeClass}">${m.badge}</span></div>`).join('');
+  if(imgActive.length>0)state.selectedImageModel=imgActive[0].id;
+  const vidActive=config.videoModels.filter(m=>m.active);
+  document.getElementById('vidModelGrid').innerHTML=vidActive.map((m,i)=>`<div class="model-card ${i===0?'selected':''}" data-model="${m.id}" onclick="selectModel(this,'video')"><div class="model-name">${m.name}</div><div class="model-tag">${m.tag}</div><div class="model-cost">${m.cost||''}</div><span class="model-badge ${m.badgeClass}">${m.badge}</span></div>`).join('');
+  if(vidActive.length>0)state.selectedVideoModel=vidActive[0].id;
+}
+
+function renderPresetRows(){
+  document.getElementById('imgPresetRow').innerHTML=config.imagePresets.map(p=>`<div class="preset-chip" onclick="setPrompt('imagePrompt','${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+  document.getElementById('charmePresetRow').innerHTML=config.charmePresets.map(p=>`<div class="preset-chip charme" onclick="setPrompt('nsfwPrompt','${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+  document.getElementById('explicitPresetRow').innerHTML=config.explicitPresets.map(p=>`<div class="preset-chip explicit" onclick="setPrompt('nsfwPrompt','${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+  document.getElementById('vidPresetRow').innerHTML=config.videoPresets.map(p=>`<div class="preset-chip" onclick="setPrompt('videoPrompt','${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+  document.getElementById('voicePresetRow').innerHTML=config.voicePresets.map(p=>`<div class="preset-chip" onclick="setVoiceText('${escQ(p.prompt)}')">${p.emoji} ${p.name}</div>`).join('');
+}
+
+function renderVoiceGrid(){document.getElementById('voiceGrid').innerHTML=VOICES.map(v=>`<div class="voice-card ${v.id===state.selectedVoice?'selected':''}" onclick="selectVoice('${v.id}',this)"><div class="voice-name">${v.name}</div><div class="voice-desc">${v.desc}</div></div>`).join('');}
+function selectVoice(id,el){state.selectedVoice=id;document.querySelectorAll('.voice-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');}
+
+function selectNsfwModel(el){
+  el.closest('.model-grid').querySelectorAll('.model-card').forEach(c=>{c.classList.remove('selected','nsfw-selected');});
+  el.classList.add('nsfw-selected');
+  state.selectedNsfwModel=el.dataset.model;
+}
+
+function escQ(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function setPrompt(id,val){document.getElementById(id).value=val;}
+function setVoiceText(val){const ta=document.getElementById('voiceText');ta.value=val;document.getElementById('charCount').textContent=val.length;}
+
+function switchTab(tab){
+  const tabs=['image','nsfw','video','voice','faceswap','gallery','admin'];
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',tabs[i]===tab));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('section-'+tab).classList.add('active');
+  if(tab==='gallery')renderGallery();
+  if(tab==='admin')renderAdminPanel();
+}
+
+// ============================================================
+// API
+// ============================================================
+function openApiModal(){document.getElementById('apiModal').classList.add('open');}
+function closeApiModal(){document.getElementById('apiModal').classList.remove('open');}
+function saveApiKey(){const k=document.getElementById('apiKeyInput').value.trim();if(!k)return showToast('Entre ta clé API','error');state.apiKey=k;localStorage.setItem('aistudio_key',k);updateApiBtn(true);closeApiModal();showToast('✅ Clé API sauvegardée !','success');}
+function updateApiBtn(c){document.getElementById('apiBtn').classList.toggle('connected',c);document.getElementById('apiStatus').textContent=c?'✅':'🔑';document.getElementById('apiLabel').textContent=c?'Connecté':'API Key';}
+
+function selectModel(el,type){el.closest('.model-grid').querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');if(type==='image')state.selectedImageModel=el.dataset.model;else if(type==='video')state.selectedVideoModel=el.dataset.model;else if(type==='faceswap')state.selectedFaceModel=el.dataset.model;}
+function handleUpload(input,previewId,labelId,cb){if(!input.files[0])return;const r=new FileReader();r.onload=e=>{cb(e.target.result);const p=document.getElementById(previewId);p.src=e.target.result;p.style.display='block';document.getElementById(labelId).textContent='✅ Image chargée';};r.readAsDataURL(input.files[0]);}
+function handleFaceUpload(input,previewId,boxId,cb){if(!input.files[0])return;const r=new FileReader();r.onload=e=>{cb(e.target.result);const p=document.getElementById(previewId);p.src=e.target.result;p.style.display='block';document.getElementById(boxId).classList.add('has-img');};r.readAsDataURL(input.files[0]);}
+
+// ============================================================
+// FAL QUEUE
+// ============================================================
+async function falQueue(model,body,onProgress){
+  const submit=await fetch('https://queue.fal.run/'+model,{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!submit.ok){const e=await submit.json();throw new Error(e.detail||'Erreur API fal.ai');}
+  const{request_id}=await submit.json();
+  for(let i=0;i<300;i++){
+    await sleep(1000);
+    if(onProgress)onProgress(Math.min(10+i*1.5,92));
+    const s=await(await fetch('https://queue.fal.run/'+model+'/requests/'+request_id,{headers:{'Authorization':'Key '+state.apiKey}})).json();
+    if(s.status==='COMPLETED'&&s.output)return s.output;
+    if(s.status==='FAILED')throw new Error('Génération échouée');
+  }
+  throw new Error('Timeout — réessaie');
+}
+
+// ============================================================
+// GENERATE IMAGE (SFW)
+// ============================================================
+async function generateImage(){
+  if(!state.apiKey){openApiModal();return;}
+  const prompt=document.getElementById('imagePrompt').value.trim();
+  if(!prompt)return showToast('Écris un prompt','error');
+  const startTime=Date.now();
+  startLoading('genImgBtn','imgLoading','imgResult');
+  startTimer('imgTimer');
+  try{
+    const body={prompt,negative_prompt:document.getElementById('negPrompt').value,image_size:document.getElementById('imgRatio').value,num_inference_steps:parseInt(document.getElementById('imgSteps').value),guidance_scale:parseFloat(document.getElementById('guidance').value),num_images:1,enable_safety_checker:false};
+    if(state.uploadedImgBase64){body.image_url=state.uploadedImgBase64;body.strength=0.75;}
+    const out=await falQueue(state.selectedImageModel,body,p=>setProgress('imgLoadFill','imgLoadText',p,'Génération image...'));
+    const url=out.images?.[0]?.url||out.image?.url;
+    if(!url)throw new Error("Pas d'image");
+    state.lastImageUrl=url;
+    stopTimer('imgTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    setProgress('imgLoadFill','imgLoadText',100,'');
+    const img=document.getElementById('resultImg');img.src=url;
+    img.onload=()=>{endLoading('genImgBtn','imgLoading','imgResult');document.getElementById('imgCost').textContent=getCost(state.selectedImageModel);document.getElementById('imgTime').textContent=elapsed+'s';};
+    document.getElementById('downloadImgBtn').href=url;
+    updateStats();showToast('✅ Image générée !','success');
+  }catch(e){stopTimer('imgTimer');endLoading('genImgBtn','imgLoading');showToast('❌ '+e.message,'error');}
+}
+
+// ============================================================
+// GENERATE NSFW
+// ============================================================
+async function generateNSFW(){
+  if(!state.apiKey){openApiModal();return;}
+  const prompt=document.getElementById('nsfwPrompt').value.trim();
+  if(!prompt)return showToast('Écris un prompt','error');
+  const startTime=Date.now();
+  const tolerance=parseInt(document.getElementById('safetyTolerance').value);
+  startLoading('genNsfwBtn','nsfwLoading','nsfwResult');
+  startTimer('nsfwTimer');
+  try{
+    // Body adapté selon le modèle
+    const body={
+      prompt,
+      negative_prompt:document.getElementById('nsfwNegPrompt').value,
+      image_size:document.getElementById('nsfwRatio').value,
+      num_inference_steps:parseInt(document.getElementById('nsfwSteps').value),
+      guidance_scale:parseFloat(document.getElementById('nsfwGuidance').value),
+      num_images:1,
+      enable_safety_checker:false,
+    };
+    // FLUX Ultra & Pro utilisent safety_tolerance
+    if(state.selectedNsfwModel==='fal-ai/flux-pro/v1.1-ultra'||state.selectedNsfwModel==='fal-ai/flux-pro/v1.1'){
+      body.safety_tolerance=tolerance;
+    }
+    if(state.nsfwImgBase64){body.image_url=state.nsfwImgBase64;body.strength=0.75;}
+    const out=await falQueue(state.selectedNsfwModel,body,p=>setProgress('nsfwLoadFill','nsfwLoadText',p,'Génération NSFW...'));
+    const url=out.images?.[0]?.url||out.image?.url;
+    if(!url)throw new Error("Pas d'image");
+    state.lastNsfwUrl=url;
+    state.lastImageUrl=url;
+    stopTimer('nsfwTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    setProgress('nsfwLoadFill','nsfwLoadText',100,'');
+    const img=document.getElementById('resultNsfw');img.src=url;
+    img.onload=()=>{endLoading('genNsfwBtn','nsfwLoading','nsfwResult');document.getElementById('nsfwCost').textContent=getCost(state.selectedNsfwModel);document.getElementById('nsfwTime').textContent=elapsed+'s';};
+    document.getElementById('downloadNsfwBtn').href=url;
+    updateStats();showToast('✅ Image générée !','success');
+  }catch(e){stopTimer('nsfwTimer');endLoading('genNsfwBtn','nsfwLoading');showToast('❌ '+e.message,'error');}
+}
+
+// ============================================================
+// GENERATE VIDEO
+// ============================================================
+async function generateVideo(){
+  if(!state.apiKey){openApiModal();return;}
+  const prompt=document.getElementById('videoPrompt').value.trim();
+  if(!prompt)return showToast('Écris un prompt','error');
+  const startTime=Date.now();
+  const dur=parseInt(document.getElementById('vidDuration').value);
+  startLoading('genVidBtn','vidLoading','vidResult');
+  startTimer('vidTimer');
+  try{
+    const body={prompt,duration:dur,aspect_ratio:'9:16'};
+    if(state.uploadedVidImgBase64)body.image_url=state.uploadedVidImgBase64;
+    const out=await falQueue(state.selectedVideoModel,body,p=>setProgress('vidLoadFill','vidLoadText',p,'Génération vidéo...'));
+    const url=out.video?.url||out.videos?.[0]?.url;
+    if(!url)throw new Error("Pas de vidéo");
+    state.lastVideoUrl=url;
+    stopTimer('vidTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    document.getElementById('resultVid').src=url;
+    endLoading('genVidBtn','vidLoading','vidResult');
+    document.getElementById('vidCost').textContent=getCost(state.selectedVideoModel,dur);
+    document.getElementById('vidTime').textContent=elapsed+'s';
+    document.getElementById('downloadVidBtn').href=url;
+    updateStats();showToast('✅ Vidéo générée !','success');
+  }catch(e){stopTimer('vidTimer');endLoading('genVidBtn','vidLoading');showToast('❌ '+e.message,'error');}
+}
+
+// ============================================================
+// GENERATE VOICE
+// ============================================================
+async function generateVoice(){
+  if(!state.apiKey){openApiModal();return;}
+  const text=document.getElementById('voiceText').value.trim();
+  if(!text||text.length<5)return showToast('Écris un texte','error');
+  const startTime=Date.now();
+  startLoading('genVoiceBtn','voiceLoading','voiceResult');
+  startTimer('voiceTimer');
+  try{
+    const body={model:'PlayDialog',input:text,voice:state.selectedVoice,speed:parseFloat(document.getElementById('voiceSpeed').value),language:document.getElementById('voiceLang').value,output_format:'mp3'};
+    const out=await falQueue('fal-ai/playai/tts',body,p=>setProgress('voiceLoadFill','voiceLoadText',p,'Synthèse vocale...'));
+    const url=out.audio?.url||out.url||out.audio_url;
+    if(!url)throw new Error("Pas d'audio");
+    state.lastAudioUrl=url;
+    stopTimer('voiceTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    document.getElementById('resultAudio').src=url;
+    endLoading('genVoiceBtn','voiceLoading','voiceResult');
+    document.getElementById('voiceCost').textContent=getCost('fal-ai/playai/tts',text.length);
+    document.getElementById('voiceTime').textContent=elapsed+'s';
+    document.getElementById('downloadAudioBtn').href=url;
+    updateStats();showToast('✅ Voix générée !','success');
+  }catch(e){stopTimer('voiceTimer');endLoading('genVoiceBtn','voiceLoading');showToast('❌ '+e.message,'error');}
+}
+
+// ============================================================
+// FACE SWAP
+// ============================================================
+async function generateFaceSwap(){
+  if(!state.apiKey){openApiModal();return;}
+  if(!state.faceSource||!state.faceTarget)return showToast('Ajoute les 2 images','error');
+  const startTime=Date.now();
+  startLoading('genFaceBtn','faceLoading','faceResult');
+  startTimer('faceTimer');
+  try{
+    const body={base_image_url:state.faceTarget,swap_image_url:state.faceSource};
+    const out=await falQueue(state.selectedFaceModel,body,p=>setProgress('faceLoadFill','faceLoadText',p,'Face swap...'));
+    const url=out.image?.url||out.images?.[0]?.url;
+    if(!url)throw new Error("Pas d'image");
+    state.lastImageUrl=url;
+    stopTimer('faceTimer');
+    const elapsed=((Date.now()-startTime)/1000).toFixed(1);
+    const img=document.getElementById('resultFace');img.src=url;
+    img.onload=()=>{endLoading('genFaceBtn','faceLoading','faceResult');document.getElementById('faceCost').textContent=getCost(state.selectedFaceModel);document.getElementById('faceTime').textContent=elapsed+'s';};
+    document.getElementById('downloadFaceBtn').href=url;
+    updateStats();showToast('✅ Face swap terminé !','success');
+  }catch(e){stopTimer('faceTimer');endLoading('genFaceBtn','faceLoading');showToast('❌ '+e.message,'error');}
+}
+
+// ============================================================
+// GALLERY
+// ============================================================
+function saveToGallery(type){const url=type==='image'?state.lastImageUrl:type==='video'?state.lastVideoUrl:state.lastAudioUrl;if(!url)return showToast('Rien à sauvegarder','error');state.gallery.unshift({type,url,date:new Date().toLocaleDateString('fr')});localStorage.setItem('aistudio_gallery',JSON.stringify(state.gallery));updateStats();showToast('✅ Sauvegardé !','success');}
+function renderGallery(){const grid=document.getElementById('galleryGrid');if(!state.gallery.length){grid.innerHTML='<div class="empty-gallery"><span class="emoji">🎨</span><p>Tes créations apparaîtront ici</p></div>';return;}grid.innerHTML=state.gallery.map((item,i)=>`<div class="gallery-item">${item.type==='image'?`<img src="${item.url}" loading="lazy">`:item.type==='video'?`<video src="${item.url}" muted loop playsinline autoplay></video>`:`<div style="background:var(--surface2);height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:28px">🎙</span></div>`}<button class="gallery-delete" onclick="deleteFromGallery(${i})">✕</button></div>`).join('');}
+function deleteFromGallery(i){state.gallery.splice(i,1);localStorage.setItem('aistudio_gallery',JSON.stringify(state.gallery));updateStats();renderGallery();}
+function updateStats(){document.getElementById('imgCount').textContent=state.gallery.filter(i=>i.type==='image').length;document.getElementById('vidCount').textContent=state.gallery.filter(i=>i.type==='video').length;document.getElementById('voiceCount').textContent=state.gallery.filter(i=>i.type==='voice').length;document.getElementById('totalCount').textContent=state.gallery.length;}
+
+// ============================================================
+// ADMIN
+// ============================================================
+function checkAdminPwd(){const pwd=document.getElementById('adminPwdInput').value;if(pwd===config.adminPassword){state.adminUnlocked=true;document.getElementById('adminLock').style.display='none';document.getElementById('adminPanel').classList.add('visible');renderAdminPanel();showToast('🔓 Admin déverrouillé','success');}else{showToast('❌ Mot de passe incorrect','error');document.getElementById('adminPwdInput').value='';}}
+function logoutAdmin(){state.adminUnlocked=false;document.getElementById('adminLock').style.display='block';document.getElementById('adminPanel').classList.remove('visible');document.getElementById('adminPwdInput').value='';}
+function renderAdminPanel(){
+  if(!state.adminUnlocked)return;
+  document.getElementById('adminStudioName').value=config.studioName;
+  document.getElementById('adminStudioSub').value=config.studioSub;
+  document.getElementById('adminStudioIcon').value=config.studioIcon;
+  renderAdminPresets('adminImgPresets',config.imagePresets,'image');
+  renderAdminPresets('adminCharmePresets',config.charmePresets,'charme');
+  renderAdminPresets('adminExplicitPresets',config.explicitPresets,'explicit');
+  renderAdminPresets('adminVidPresets',config.videoPresets,'video');
+  renderAdminPresets('adminVoicePresets',config.voicePresets,'voice');
+  renderAdminModels();
+}
+function renderAdminPresets(containerId,presets,type){
+  const taMap={image:'adminImgPromptEdit',charme:'adminCharmePromptEdit',explicit:'adminExplicitPromptEdit',video:'adminVidPromptEdit',voice:'adminVoicePromptEdit'};
+  document.getElementById(containerId).innerHTML=presets.map((p,i)=>`<div class="preset-item" onclick="editPreset('${type}',${i})"><span class="preset-item-emoji">${p.emoji}</span><span class="preset-item-name">${p.name}</span><button class="preset-item-del" onclick="event.stopPropagation();deletePreset('${type}',${i})">✕</button></div>`).join('');
+}
+function editPreset(type,i){
+  const presets=getPresets(type);
+  const taId={image:'adminImgPromptEdit',charme:'adminCharmePromptEdit',explicit:'adminExplicitPromptEdit',video:'adminVidPromptEdit',voice:'adminVoicePromptEdit'}[type];
+  document.getElementById(taId).value=presets[i].prompt;
+  document.getElementById(taId).oninput=function(){presets[i].prompt=this.value;};
+  showToast('✏️ Modifie le prompt ci-dessous','info');
+}
+function getPresets(type){return type==='image'?config.imagePresets:type==='charme'?config.charmePresets:type==='explicit'?config.explicitPresets:type==='video'?config.videoPresets:config.voicePresets;}
+function deletePreset(type,i){getPresets(type).splice(i,1);renderAdminPanel();showToast('🗑 Supprimé','info');}
+function addPresetItem(type){
+  const cap=type.charAt(0).toUpperCase()+type.slice(1);
+  const e=(document.getElementById('new'+cap+'Emoji')||{}).value?.trim()||'✨';
+  const n=(document.getElementById('new'+cap+'Name')||{}).value?.trim();
+  if(!n)return showToast('Entre un nom','error');
+  getPresets(type).push({emoji:e,name:n,prompt:''});
+  if(document.getElementById('new'+cap+'Emoji'))document.getElementById('new'+cap+'Emoji').value='';
+  if(document.getElementById('new'+cap+'Name'))document.getElementById('new'+cap+'Name').value='';
+  renderAdminPanel();showToast('✅ Preset ajouté !','success');
+}
+function renderAdminModels(){const all=[...config.imageModels.map(m=>({...m,type:'image'})),...config.videoModels.map(m=>({...m,type:'video'}))];document.getElementById('adminModels').innerHTML=all.map(m=>`<div class="admin-row"><div><div class="admin-label">${m.name}</div><div class="admin-sub">${m.type.toUpperCase()} · ${m.cost||''}</div></div><div class="toggle ${m.active?'on':''}" onclick="toggleModel('${m.type}','${m.id}',this)"></div></div>`).join('');}
+function toggleModel(type,id,el){const models=type==='image'?config.imageModels:config.videoModels;const m=models.find(x=>x.id===id);if(m){m.active=!m.active;el.classList.toggle('on',m.active);}}
+function saveAdminSettings(){
+  config.studioName=document.getElementById('adminStudioName').value||'AI STUDIO';
+  config.studioSub=document.getElementById('adminStudioSub').value||'SHOOTER PROD';
+  config.studioIcon=document.getElementById('adminStudioIcon').value||'⚡';
+  const np=document.getElementById('adminNewPwd').value;
+  const cp=document.getElementById('adminConfirmPwd').value;
+  if(np){if(np!==cp)return showToast('Mots de passe différents','error');if(np.length<3)return showToast('Trop court','error');config.adminPassword=np;document.getElementById('adminNewPwd').value='';document.getElementById('adminConfirmPwd').value='';}
+  localStorage.setItem('aistudio_config',JSON.stringify(config));
+  applyBranding();renderModelGrids();renderPresetRows();
+  showToast('✅ Paramètres sauvegardés !','success');
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function startLoading(btnId,loadId,resultId){document.getElementById(btnId).disabled=true;document.getElementById(loadId).classList.add('visible');if(resultId)document.getElementById(resultId).classList.remove('visible');}
+function endLoading(btnId,loadId,resultId){document.getElementById(btnId).disabled=false;document.getElementById(loadId).classList.remove('visible');if(resultId)document.getElementById(resultId).classList.add('visible');}
+function setProgress(fillId,textId,pct,msg){document.getElementById(fillId).style.width=pct+'%';if(msg)document.getElementById(textId).textContent=msg;}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+init();
+</script>
+</body>
+</html>
