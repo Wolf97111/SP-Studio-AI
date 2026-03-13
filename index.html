@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AI Studio — Shooter Prod</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080a0f;
+    --surface: #0e1118;
+    --surface2: #151b26;
+    --border: #1e2a3a;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --text: #e8edf5;
+    --muted: #5a6a7e;
+    --success: #10b981;
+    --error: #ef4444;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100dvh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 40% at 20% 10%, rgba(0,229,255,0.06) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 80% 90%, rgba(124,58,237,0.07) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+  header { position: sticky; top: 0; z-index: 100; background: rgba(8,10,15,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .logo-text { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+  .logo-sub { font-size: 10px; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 1px; }
+  .api-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: var(--radius-sm); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .api-btn:active { opacity: 0.7; transform: scale(0.97); }
+  .api-btn.connected { border-color: var(--success); color: var(--success); }
+  .tab-nav { display: flex; gap: 6px; padding: 16px 20px 0; position: relative; z-index: 1; }
+  .tab-btn { flex: 1; padding: 10px 6px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.25s; }
+  .tab-btn.active { background: linear-gradient(135deg, rgba(0,229,255,0.12), rgba(124,58,237,0.12)); border-color: var(--accent); color: var(--accent); }
+  main { padding: 20px; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; padding-bottom: 40px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+  .card-title { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; font-family: 'Space Mono', monospace; }
+  .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .model-card { padding: 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); cursor: pointer; transition: all 0.2s; background: var(--surface2); }
+  .model-card.selected { border-color: var(--accent); background: rgba(0,229,255,0.06); }
+  .model-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .model-tag { font-size: 10px; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .model-badge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 20px; margin-top: 5px; font-weight: 700; font-family: 'Space Mono', monospace; }
+  .badge-fast { background: rgba(16,185,129,0.15); color: var(--success); }
+  .badge-quality { background: rgba(0,229,255,0.15); color: var(--accent); }
+  .badge-video { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .badge-new { background: rgba(245,158,11,0.15); color: var(--accent3); }
+  .prompt-area { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Syne', sans-serif; font-size: 14px; padding: 14px; resize: none; min-height: 100px; transition: border-color 0.2s; outline: none; line-height: 1.5; }
+  .prompt-area:focus { border-color: var(--accent); }
+  .prompt-area::placeholder { color: var(--muted); }
+  .preset-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .preset-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .option-group label { display: block; font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; margin-bottom: 6px; }
+  .option-group select { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Syne', sans-serif; font-size: 13px; padding: 8px 10px; outline: none; -webkit-appearance: none; cursor: pointer; }
+  .neg-prompt { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 12px; padding: 10px 12px; resize: none; min-height: 60px; outline: none; }
+  .gen-btn { width: 100%; padding: 16px; border-radius: var(--radius); border: none; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .gen-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .loading-bar { display: none; margin-top: 16px; }
+  .loading-bar.visible { display: block; }
+  .loading-track { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .loading-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.3s; }
+  .loading-text { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; margin-top: 8px; text-align: center; }
+  .result-area { display: none; margin-top: 16px; }
+  .result-area.visible { display: block; }
+  .result-img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); display: block; }
+  .result-video { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); display: block; }
+  .result-actions { display: flex; gap: 10px; margin-top: 12px; }
+  .action-btn { flex: 1; padding: 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--surface2); color: var(--text); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+  .action-btn.primary { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.05); }
+  .action-btn.save { border-color: var(--accent3); color: var(--accent3); background: rgba(245,158,11,0.05); }
+  .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .gallery-item { position: relative; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1; cursor: pointer; }
+  .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-delete { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; background: rgba(239,68,68,0.8); border-radius: 50%; border: none; color: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .empty-gallery { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty-gallery .emoji { font-size: 40px; margin-bottom: 12px; display: block; }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 800; color: var(--accent); font-family: 'Space Mono', monospace; }
+  .stat-label { font-size: 10px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
+  .upload-area { border: 2px dashed var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; margin-top: 10px; }
+  .upload-area p { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .upload-area .icon { font-size: 28px; }
+  .img2img-preview { width: 100%; border-radius: var(--radius-sm); margin-top: 10px; display: none; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 200; align-items: flex-end; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 100%; }
+  .modal h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .modal p { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+  .modal-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Space Mono', monospace; font-size: 13px; padding: 12px 14px; outline: none; margin-bottom: 12px; }
+  .modal-actions { display: flex; gap: 10px; }
+  .modal-save { flex: 1; padding: 13px; border-radius: var(--radius-sm); border: none; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .modal-cancel { padding: 13px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 14px; cursor: pointer; }
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 20px; font-size: 13px; font-weight: 600; z-index: 999; transition: transform 0.3s; white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { border-color: var(--success); color: var(--success); }
+  .toast.error { border-color: var(--error); color: var(--error); }
+  .toast.info { border-color: var(--accent); color: var(--accent); }
+  input[type=range] { -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--border); width: 100%; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <div>
+      <div class="logo-text">AI STUDIO</div>
+      <div class="logo-sub">SHOOTER PROD</div>
+    </div>
+  </div>
+  <button class="api-btn" id="apiBtn" onclick="openApiModal()">
+    <span id="apiStatus">🔑</span>
+    <span id="apiLabel">API Key</span>
+  </button>
+</header>
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('image')">🖼 Image</button>
+  <button class="tab-btn" onclick="switchTab('video')">🎬 Vidéo</button>
+  <button class="tab-btn" onclick="switchTab('gallery')">🗂 Galerie</button>
+</div>
+<main>
+  <div class="section active" id="section-image">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num" id="imgCount">0</div><div class="stat-label">IMAGES</div></div>
+      <div class="stat-card"><div class="stat-num" id="vidCount">0</div><div class="stat-label">VIDÉOS</div></div>
+      <div class="stat-card"><div class="stat-num" id="totalCount">0</div><div class="stat-label">TOTAL</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🤖 Modèle Image</div>
+      <div class="model-grid">
+        <div class="model-card selected" data-model="fal-ai/flux/schnell" onclick="selectModel(this,'image')"><div class="model-name">FLUX Schnell</div><div class="model-tag">fal.ai</div><span class="model-badge badge-fast">⚡ RAPIDE</span></div>
+        <div class="model-card" data-model="fal-ai/flux/dev" onclick="selectModel(this,'image')"><div class="model-name">FLUX Dev</div><div class="model-tag">fal.ai</div><span class="model-badge badge-quality">✦ QUALITÉ</span></div>
+        <div class="model-card" data-model="fal-ai/flux-pro/v1.1" onclick="selectModel(this,'image')"><div class="model-name">FLUX Pro 1.1</div><div class="model-tag">fal.ai</div><span class="model-badge badge-new">★ PRO</span></div>
+        <div class="model-card" data-model="fal-ai/stable-diffusion-v3-medium" onclick="selectModel(this,'image')"><div class="model-name">SD3 Medium</div><div class="model-tag">fal.ai</div><span class="model-badge badge-quality">✦ HD</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">✍️ Prompt</div>
+      <textarea class="prompt-area" id="imagePrompt" placeholder="Décris ton image..."></textarea>
+      <div class="preset-row">
+        <div class="preset-chip" onclick="addPreset('img','fashion')">👗 Fashion</div>
+        <div class="preset-chip" onclick="addPreset('img','beach')">🏖 Beach</div>
+        <div class="preset-chip" onclick="addPreset('img','portrait')">📷 Portrait</div>
+        <div class="preset-chip" onclick="addPreset('img','nutri')">🥗 NutriNat.</div>
+        <div class="preset-chip" onclick="addPreset('img','landscape')">🌿 Nature</div>
+        <div class="preset-chip" onclick="addPreset('img','studio')">💡 Studio</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚙️ Options</div>
+      <div class="options-grid">
+        <div class="option-group"><label>FORMAT</label><select id="imgRatio"><option value="square_hd">Carré HD</option><option value="portrait_4_3">Portrait 4:3</option><option value="portrait_16_9" selected>Portrait 9:16</option><option value="landscape_16_9">Paysage 16:9</option></select></div>
+        <div class="option-group"><label>QUALITÉ</label><select id="imgSteps"><option value="4">Rapide</option><option value="20" selected>Standard</option><option value="50">Haute</option></select></div>
+      </div>
+      <div style="margin-top:12px;">
+        <label style="font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;">GUIDANCE: <span id="guidanceVal" style="color:var(--accent)">3.5</span></label>
+        <input type="range" id="guidance" min="1" max="10" step="0.5" value="3.5" oninput="document.getElementById('guidanceVal').textContent=this.value">
+      </div>
+      <div style="margin-top:14px;">
+        <div class="card-title" style="margin-bottom:8px;">🔄 Image de référence (optionnel)</div>
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('imgUpload').click()">
+          <div class="icon">📁</div><p>Ajoute une image de référence</p>
+          <input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="handleImgUpload(this)">
+        </div>
+        <img id="img2imgPreview" class="img2img-preview">
+      </div>
+      <div style="margin-top:14px;">
+        <div class="card-title" style="margin-bottom:8px;">🚫 Prompt négatif</div>
+        <textarea class="neg-prompt" id="negPrompt">blur, low quality, ugly, deformed, watermark</textarea>
+      </div>
+    </div>
+    <button class="gen-btn" id="genImgBtn" onclick="generateImage()"><span>⚡ GÉNÉRER L'IMAGE</span></button>
+    <div class="loading-bar" id="imgLoading">
+      <div class="loading-track"><div class="loading-fill" id="imgLoadFill"></div></div>
+      <div class="loading-text" id="imgLoadText">Initialisation...</div>
+    </div>
+    <div class="result-area" id="imgResult">
+      <img id="resultImg" class="result-img" src="">
+      <div class="result-actions">
+        <a class="action-btn primary" id="downloadImgBtn" download="shooter-prod.png">⬇️ Télécharger</a>
+        <button class="action-btn save" onclick="saveToGallery('image')">🗂 Galerie</button>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="section-video">
+    <div class="card">
+      <div class="card-title">🎬 Modèle Vidéo</div>
+      <div class="model-grid">
+        <div class="model-card selected" data-model="fal-ai/kling-video/v1.6/standard/text-to-video" onclick="selectModel(this,'video')"><div class="model-name">Kling 1.6</div><div class="model-tag">fal.ai</div><span class="model-badge badge-video">🎬 5s</span></div>
+        <div class="model-card" data-model="fal-ai/kling-video/v1.6/pro/text-to-video" onclick="selectModel(this,'video')"><div class="model-name">Kling Pro</div><div class="model-tag">fal.ai</div><span class="model-badge badge-new">★ PRO</span></div>
+        <div class="model-card" data-model="fal-ai/minimax-video/image-to-video" onclick="selectModel(this,'video')"><div class="model-name">Hailuo</div><div class="model-tag">MiniMax</div><span class="model-badge badge-quality">✦ HD</span></div>
+        <div class="model-card" data-model="fal-ai/wan-i2v/720p" onclick="selectModel(this,'video')"><div class="model-name">Wan 720p</div><div class="model-tag">fal.ai</div><span class="model-badge badge-fast">⚡ FAST</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">✍️ Prompt Vidéo</div>
+      <textarea class="prompt-area" id="videoPrompt" placeholder="Décris ta vidéo..."></textarea>
+      <div class="preset-row">
+        <div class="preset-chip" onclick="addPreset('vid','walk')">🚶 Walking</div>
+        <div class="preset-chip" onclick="addPreset('vid','beach')">🌊 Beach</div>
+        <div class="preset-chip" onclick="addPreset('vid','nutri')">🥗 NutriNat.</div>
+        <div class="preset-chip" onclick="addPreset('vid','drone')">🚁 Drone</div>
+        <div class="preset-chip" onclick="addPreset('vid','cinematic')">🎥 Cinéma</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🖼 Image de référence (recommandé)</div>
+      <div class="upload-area" id="vidUploadArea" onclick="document.getElementById('vidImgUpload').click()">
+        <div class="icon">📁</div><p>Ajoute une image pour animer</p>
+        <input type="file" id="vidImgUpload" accept="image/*" style="display:none" onchange="handleVidImgUpload(this)">
+      </div>
+      <img id="vidImgPreview" class="img2img-preview">
+      <div style="margin-top:12px;">
+        <div class="option-group"><label>DURÉE</label><select id="vidDuration"><option value="5">5 secondes</option><option value="10">10 secondes</option></select></div>
+      </div>
+    </div>
+    <button class="gen-btn" id="genVidBtn" onclick="generateVideo()"><span>🎬 GÉNÉRER LA VIDÉO</span></button>
+    <div class="loading-bar" id="vidLoading">
+      <div class="loading-track"><div class="loading-fill" id="vidLoadFill"></div></div>
+      <div class="loading-text" id="vidLoadText">Génération en cours... (1-3 min)</div>
+    </div>
+    <div class="result-area" id="vidResult">
+      <video id="resultVid" class="result-video" controls playsinline></video>
+      <div class="result-actions">
+        <a class="action-btn primary" id="downloadVidBtn" download="shooter-prod.mp4">⬇️ Télécharger</a>
+        <button class="action-btn save" onclick="saveToGallery('video')">🗂 Galerie</button>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="section-gallery">
+    <div class="card">
+      <div class="card-title">🗂 Ma Galerie</div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="empty-gallery"><span class="emoji">🎨</span><p>Tes créations apparaîtront ici</p></div>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <h3>🔑 Clé API fal.ai</h3>
+    <p>Entre ta clé API fal.ai. Stockée uniquement sur ton téléphone.<br><br>Obtiens ta clé sur <strong>fal.ai/dashboard</strong> → Keys</p>
+    <input class="modal-input" type="password" id="apiKeyInput" placeholder="fal_xxxxxxxxxxxxxxxxxx">
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeApiModal()">Annuler</button>
+      <button class="modal-save" onclick="saveApiKey()">💾 Sauvegarder</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+  let state = {
+    apiKey: '',
+    selectedImageModel: 'fal-ai/flux/schnell',
+    selectedVideoModel: 'fal-ai/kling-video/v1.6/standard/text-to-video',
+    gallery: [],
+    lastImageUrl: '',
+    lastVideoUrl: '',
+    uploadedImgBase64: '',
+    uploadedVidImgBase64: '',
+  };
+  const PRESETS = {
+    img: {
+      fashion: 'Elegant female model in designer outfit, golden hour lighting, luxury fashion magazine style, sharp focus, professional photography, Guadeloupe street background',
+      beach: 'Beautiful model on white sand beach, crystal blue Caribbean water, golden sunset, flowing dress, cinematic photography, Guadeloupe',
+      portrait: 'Close-up portrait, soft studio lighting, high fashion, sharp eyes, bokeh background, professional photography, 4K',
+      nutri: 'Fresh healthy meal bowl, colorful vegetables and fruits, natural light, food photography, clean aesthetic, tropical ingredients',
+      landscape: 'Breathtaking Guadeloupe tropical landscape, lush green jungle, turquoise water, golden hour, drone view, ultra HD',
+      studio: 'Professional studio portrait, dark background, dramatic rim lighting, high contrast, fashion editorial, 8K',
+    },
+    vid: {
+      walk: 'Elegant woman walking confidently on a tropical beach, slow motion, golden hour, flowing hair, cinematic movement, 4K',
+      beach: 'Slow cinematic pan over crystal clear Caribbean water, golden sunset reflections, waves gently breaking on white sand',
+      nutri: 'Fresh healthy food ingredients being poured into a bowl, slow motion, colorful, natural light, food documentary style',
+      drone: 'Smooth drone flight over lush green Guadeloupe jungle, revealing turquoise lagoon, cinematic aerial photography',
+      cinematic: 'Cinematic close-up of model turning to camera, soft breeze, warm golden light, shallow depth of field, film grain',
+    }
+  };
+  function init() {
+    const saved = localStorage.getItem('aistudio_key');
+    if (saved) { state.apiKey = saved; updateApiBtn(true); }
+    const gallery = localStorage.getItem('aistudio_gallery');
+    if (gallery) { state.gallery = JSON.parse(gallery); updateStats(); }
+  }
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => { const tabs=['image','video','gallery']; b.classList.toggle('active', tabs[i]===tab); });
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-'+tab).classList.add('active');
+    if (tab==='gallery') renderGallery();
+  }
+  function openApiModal() { document.getElementById('apiModal').classList.add('open'); }
+  function closeApiModal() { document.getElementById('apiModal').classList.remove('open'); }
+  function saveApiKey() {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    if (!key) return showToast('Entre ta clé API', 'error');
+    state.apiKey = key;
+    localStorage.setItem('aistudio_key', key);
+    updateApiBtn(true);
+    closeApiModal();
+    showToast('✅ Clé API sauvegardée !', 'success');
+  }
+  function updateApiBtn(connected) {
+    const btn = document.getElementById('apiBtn');
+    if (connected) { btn.classList.add('connected'); document.getElementById('apiStatus').textContent='✅'; document.getElementById('apiLabel').textContent='Connecté'; }
+    else { btn.classList.remove('connected'); document.getElementById('apiStatus').textContent='🔑'; document.getElementById('apiLabel').textContent='API Key'; }
+  }
+  function selectModel(el, type) {
+    el.closest('.model-grid').querySelectorAll('.model-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    if (type==='image') state.selectedImageModel = el.dataset.model;
+    else state.selectedVideoModel = el.dataset.model;
+  }
+  function addPreset(type, key) {
+    document.getElementById(type==='img'?'imagePrompt':'videoPrompt').value = PRESETS[type][key];
+  }
+  function handleImgUpload(input) {
+    if (!input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = (e) => { state.uploadedImgBase64=e.target.result; const p=document.getElementById('img2imgPreview'); p.src=e.target.result; p.style.display='block'; document.querySelector('#uploadArea p').textContent='✅ Image chargée'; };
+    reader.readAsDataURL(input.files[0]);
+  }
+  function handleVidImgUpload(input) {
+    if (!input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = (e) => { state.uploadedVidImgBase64=e.target.result; const p=document.getElementById('vidImgPreview'); p.src=e.target.result; p.style.display='block'; document.querySelector('#vidUploadArea p').textContent='✅ Image chargée'; };
+    reader.readAsDataURL(input.files[0]);
+  }
+  async function generateImage() {
+    if (!state.apiKey) { openApiModal(); showToast('Entre ta clé API fal.ai d\'abord', 'error'); return; }
+    const prompt = document.getElementById('imagePrompt').value.trim();
+    if (!prompt) return showToast('Écris un prompt', 'error');
+    const btn=document.getElementById('genImgBtn'), loading=document.getElementById('imgLoading'), fill=document.getElementById('imgLoadFill'), loadText=document.getElementById('imgLoadText'), result=document.getElementById('imgResult');
+    btn.disabled=true; loading.classList.add('visible'); result.classList.remove('visible');
+    let progress=0;
+    const iv = setInterval(() => { progress=Math.min(progress+Math.random()*8,85); fill.style.width=progress+'%'; loadText.textContent=['Initialisation...','Traitement...','Génération...','Finalisation...'][Math.floor(progress/25)]||'Génération...'; }, 400);
+    try {
+      const body = { prompt: prompt+', high quality, detailed', negative_prompt: document.getElementById('negPrompt').value, image_size: document.getElementById('imgRatio').value, num_inference_steps: parseInt(document.getElementById('imgSteps').value), guidance_scale: parseFloat(document.getElementById('guidance').value), num_images: 1, enable_safety_checker: true };
+      if (state.uploadedImgBase64) { body.image_url=state.uploadedImgBase64; body.strength=0.75; }
+      const submitRes = await fetch('https://queue.fal.run/'+state.selectedImageModel, { method:'POST', headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'}, body:JSON.stringify(body) });
+      if (!submitRes.ok) { const e=await submitRes.json(); throw new Error(e.detail||'Erreur API'); }
+      const { request_id } = await submitRes.json();
+      loadText.textContent='En attente...';
+      let imageUrl=null;
+      for (let i=0;i<60;i++) {
+        await sleep(2000);
+        const s=await (await fetch('https://queue.fal.run/'+state.selectedImageModel+'/requests/'+request_id,{headers:{'Authorization':'Key '+state.apiKey}})).json();
+        if (s.status==='COMPLETED'&&s.output) { imageUrl=s.output.images?.[0]?.url||s.output.image?.url; break; }
+        if (s.status==='FAILED') throw new Error('Génération échouée');
+      }
+      if (!imageUrl) throw new Error('Timeout — réessaie');
+      clearInterval(iv); fill.style.width='100%';
+      state.lastImageUrl=imageUrl;
+      const img=document.getElementById('resultImg');
+      img.src=imageUrl;
+      img.onload=()=>{ loading.classList.remove('visible'); result.classList.add('visible'); };
+      document.getElementById('downloadImgBtn').href=imageUrl;
+      updateStats(); showToast('✅ Image générée !','success');
+    } catch(err) { clearInterval(iv); loading.classList.remove('visible'); showToast('❌ '+err.message,'error'); }
+    finally { btn.disabled=false; }
+  }
+  async function generateVideo() {
+    if (!state.apiKey) { openApiModal(); showToast('Entre ta clé API fal.ai d\'abord','error'); return; }
+    const prompt=document.getElementById('videoPrompt').value.trim();
+    if (!prompt) return showToast('Écris un prompt','error');
+    const btn=document.getElementById('genVidBtn'), loading=document.getElementById('vidLoading'), fill=document.getElementById('vidLoadFill'), loadText=document.getElementById('vidLoadText'), result=document.getElementById('vidResult');
+    btn.disabled=true; loading.classList.add('visible'); result.classList.remove('visible');
+    let progress=0;
+    const iv=setInterval(()=>{ progress=Math.min(progress+Math.random()*3,85); fill.style.width=progress+'%'; loadText.textContent='Génération vidéo... '+Math.round(progress)+'% (1-3 min)'; },1000);
+    try {
+      const body={ prompt, duration: document.getElementById('vidDuration').value, aspect_ratio:'9:16' };
+      if (state.uploadedVidImgBase64) body.image_url=state.uploadedVidImgBase64;
+      const submitRes=await fetch('https://queue.fal.run/'+state.selectedVideoModel,{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if (!submitRes.ok) { const e=await submitRes.json(); throw new Error(e.detail||'Erreur API'); }
+      const { request_id }=await submitRes.json();
+      let videoUrl=null;
+      for (let i=0;i<120;i++) {
+        await sleep(3000);
+        const s=await (await fetch('https://queue.fal.run/'+state.selectedVideoModel+'/requests/'+request_id,{headers:{'Authorization':'Key '+state.apiKey}})).json();
+        if (s.status==='COMPLETED'&&s.output) { videoUrl=s.output.video?.url||s.output.videos?.[0]?.url; break; }
+        if (s.status==='FAILED') throw new Error('Génération vidéo échouée');
+      }
+      if (!videoUrl) throw new Error('Timeout — réessaie');
+      clearInterval(iv); fill.style.width='100%';
+      state.lastVideoUrl=videoUrl;
+      document.getElementById('resultVid').src=videoUrl;
+      loading.classList.remove('visible'); result.classList.add('visible');
+      document.getElementById('downloadVidBtn').href=videoUrl;
+      updateStats(); showToast('✅ Vidéo générée !','success');
+    } catch(err) { clearInterval(iv); loading.classList.remove('visible'); showToast('❌ '+err.message,'error'); }
+    finally { btn.disabled=false; }
+  }
+  function saveToGallery(type) {
+    const url=type==='image'?state.lastImageUrl:state.lastVideoUrl;
+    if (!url) return showToast('Rien à sauvegarder','error');
+    const model=type==='image'?state.selectedImageModel:state.selectedVideoModel;
+    state.gallery.unshift({type,url,model:model.split('/').pop().toUpperCase(),date:new Date().toLocaleDateString('fr')});
+    localStorage.setItem('aistudio_gallery',JSON.stringify(state.gallery));
+    updateStats(); showToast('✅ Sauvegardé !','success');
+  }
+  function renderGallery() {
+    const grid=document.getElementById('galleryGrid');
+    if (!state.gallery.length) { grid.innerHTML='<div class="empty-gallery"><span class="emoji">🎨</span><p>Tes créations apparaîtront ici</p></div>'; return; }
+    grid.innerHTML=state.gallery.map((item,i)=>`<div class="gallery-item">${item.type==='image'?`<img src="${item.url}" loading="lazy">`:`<video src="${item.url}" muted loop playsinline autoplay></video>`}<button class="gallery-delete" onclick="deleteFromGallery(${i})">✕</button></div>`).join('');
+  }
+  function deleteFromGallery(i) { state.gallery.splice(i,1); localStorage.setItem('aistudio_gallery',JSON.stringify(state.gallery)); updateStats(); renderGallery(); }
+  function updateStats() { document.getElementById('imgCount').textContent=state.gallery.filter(i=>i.type==='image').length; document.getElementById('vidCount').textContent=state.gallery.filter(i=>i.type==='video').length; document.getElementById('totalCount').textContent=state.gallery.length; }
+  function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
+  function showToast(msg,type='info') { const t=document.getElementById('toast'); t.textContent=msg; t.className='toast '+type; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+  init();
+</script>
+</body>
+</html>
