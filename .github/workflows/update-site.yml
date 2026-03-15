@@ -1,0 +1,97 @@
+name: 🤖 Mise à jour du site via Gemini AI
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  update-site:
+    if: contains(github.event.issue.title, '[UPDATE]')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: 📥 Récupérer le repo
+        uses: actions/checkout@v4
+
+      - name: 🐍 Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Installer les dépendances
+        run: pip install google-generativeai
+
+      - name: 🤖 Modifier le site avec Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          python3 << 'EOF'
+          import google.generativeai as genai
+          import os
+
+          genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+          model = genai.GenerativeModel("gemini-1.5-pro")
+
+          with open("index.html", "r", encoding="utf-8") as f:
+              current_html = f.read()
+
+          instruction = os.environ["ISSUE_BODY"]
+          title = os.environ["ISSUE_TITLE"]
+
+          prompt = f"""Tu es un expert développeur web. Modifie ce fichier HTML selon les instructions.
+
+INSTRUCTIONS : {title} — {instruction}
+
+RÈGLES :
+- Retourne UNIQUEMENT le HTML complet modifié
+- Ne change rien d'autre que ce qui est demandé
+- Garde le même style et la même structure
+
+HTML ACTUEL :
+{current_html}"""
+
+          response = model.generate_content(prompt)
+          new_html = response.text
+
+          if new_html.startswith("```html"):
+              new_html = new_html[7:]
+          if new_html.startswith("```"):
+              new_html = new_html[3:]
+          if new_html.endswith("```"):
+              new_html = new_html[:-3]
+          new_html = new_html.strip()
+
+          with open("index.html", "w", encoding="utf-8") as f:
+              f.write(new_html)
+          EOF
+
+      - name: 💾 Commit et push
+        run: |
+          git config user.name "Gemini Bot"
+          git config user.email "bot@sv.ai"
+          git add index.html
+          git diff --staged --quiet || git commit -m "🤖 ${{ github.event.issue.title }}"
+          git push
+
+      - name: ✅ Fermer l'issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "✅ Site mis à jour ! Vercel redéploie dans quelques secondes 🚀"
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: "closed"
+            });
