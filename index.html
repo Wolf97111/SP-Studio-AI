@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -10,227 +11,232 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--tx);min-height:100dvh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(0,229,255,0.05),transparent 60%),radial-gradient(ellipse 50% 60% at 80% 90%,rgba(124,58,237,0.06),transparent 60%);pointer-events:none;z-index:0;}
+#bgOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:0;pointer-events:none;display:none;}
+body.has-bg #bgOverlay{display:block;}
 
 /* AGE GATE */
 .ag{position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
-.ag-box{background:var(--s1);border:1px solid var(--pk);border-radius:var(--r);padding:32px 24px;max-width:360px;width:100%;text-align:center;}
+.ag-box{background:var(–s1);border:1px solid var(–pk);border-radius:var(–r);padding:32px 24px;max-width:360px;width:100%;text-align:center;}
 .ag-box h2{font-size:22px;font-weight:800;margin:12px 0 8px;}
-.ag-box p{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:24px;}
+.ag-box p{font-size:13px;color:var(–mu);line-height:1.6;margin-bottom:24px;}
 .ag-btns{display:flex;gap:12px;}
-.ag-yes{flex:1;padding:14px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--pk),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
-.ag-no{flex:1;padding:14px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:15px;cursor:pointer;}
+.ag-yes{flex:1;padding:14px;border-radius:var(–rs);border:none;background:linear-gradient(135deg,var(–pk),var(–ac2));color:#fff;font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.ag-no{flex:1;padding:14px;border-radius:var(–rs);border:1px solid var(–bd);background:transparent;color:var(–mu);font-family:‘Syne’,sans-serif;font-size:15px;cursor:pointer;}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:100;background:rgba(8,10,15,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+header{position:sticky;top:0;z-index:100;background:rgba(8,10,15,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(–bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--pk),var(--ac2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(–pk),var(–ac2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .logo-text{font-size:15px;font-weight:800;}
-.logo-sub{font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;letter-spacing:1px;}
+.logo-sub{font-size:10px;color:var(–mu);font-family:‘Space Mono’,monospace;letter-spacing:1px;}
 
 /* CONTROL CENTER */
 .cc-wrap{position:relative;}
-.cc-btn{width:40px;height:40px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
-.cc-btn.ok{border-color:var(--ok);}
-.cc-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--er);}
-.cc-dot.ok{background:var(--ok);}
-.cc-menu{position:absolute;top:calc(100% + 8px);right:0;background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);width:230px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.6);z-index:300;display:none;}
+.cc-btn{width:40px;height:40px;border-radius:var(–rs);border:1px solid var(–bd);background:var(–s2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
+.cc-btn.ok{border-color:var(–ok);}
+.cc-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(–er);}
+.cc-dot.ok{background:var(–ok);}
+.cc-menu{position:absolute;top:calc(100% + 8px);right:0;background:var(–s1);border:1px solid var(–bd);border-radius:var(–r);width:230px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.6);z-index:300;display:none;}
 .cc-menu.open{display:block;}
-.cc-head{padding:14px 16px;background:linear-gradient(135deg,rgba(255,77,143,0.1),rgba(124,58,237,0.1));border-bottom:1px solid var(--bd);}
+.cc-head{padding:14px 16px;background:linear-gradient(135deg,rgba(255,77,143,0.1),rgba(124,58,237,0.1));border-bottom:1px solid var(–bd);}
 .cc-htitle{font-size:14px;font-weight:800;}
-.cc-hsub{font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:2px;}
-.cc-item{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-bottom:1px solid var(--bd);}
+.cc-hsub{font-size:10px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-top:2px;}
+.cc-item{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-bottom:1px solid var(–bd);}
 .cc-item:last-child{border-bottom:none;}
-.cc-item:active{background:var(--s2);}
+.cc-item:active{background:var(–s2);}
 .cc-ico{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
 .cc-lbl{font-size:13px;font-weight:600;flex:1;}
-.cc-val{font-size:10px;font-family:'Space Mono',monospace;padding:2px 8px;border-radius:10px;}
-.cc-val.ok{background:rgba(16,185,129,0.15);color:var(--ok);}
-.cc-val.no{background:rgba(239,68,68,0.15);color:var(--er);}
+.cc-val{font-size:10px;font-family:‘Space Mono’,monospace;padding:2px 8px;border-radius:10px;}
+.cc-val.ok{background:rgba(16,185,129,0.15);color:var(–ok);}
+.cc-val.no{background:rgba(239,68,68,0.15);color:var(–er);}
 .cc-overlay{position:fixed;inset:0;z-index:250;display:none;}
 .cc-overlay.open{display:block;}
 
 /* MAIN TABS */
 .main-tabs{display:flex;gap:4px;padding:12px 12px 0;overflow-x:auto;scrollbar-width:none;position:relative;z-index:1;}
 .main-tabs::-webkit-scrollbar{display:none;}
-.mtab{flex:0 0 auto;padding:9px 16px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--s1);color:var(--mu);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
-.mtab.active{background:linear-gradient(135deg,rgba(0,229,255,0.12),rgba(124,58,237,0.12));border-color:var(--ac);color:var(--ac);}
+.mtab{flex:0 0 auto;padding:9px 16px;border-radius:var(–rs);border:1px solid var(–bd);background:var(–s1);color:var(–mu);font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.mtab.active{background:linear-gradient(135deg,rgba(0,229,255,0.12),rgba(124,58,237,0.12));border-color:var(–ac);color:var(–ac);}
 
 /* MAIN */
 main{padding:16px;position:relative;z-index:1;max-width:600px;margin:0 auto;padding-bottom:40px;}
 .section{display:none;}.section.active{display:block;}
 
-/* SUB TABS (Image / Vidéo / NSFW) */
-.sub-tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--s2);padding:4px;border-radius:var(--r);border:1px solid var(--bd);}
-.stab{flex:1;padding:10px 6px;border-radius:var(--rs);border:none;background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;white-space:nowrap;}
-.stab.active{background:var(--s1);color:var(--tx);box-shadow:0 2px 8px rgba(0,0,0,0.4);}
-.stab.nt.active{background:linear-gradient(135deg,rgba(255,77,143,0.2),rgba(124,58,237,0.15));color:var(--pk);}
+/* SUB TABS */
+.sub-tabs{display:flex;gap:4px;margin-bottom:16px;background:var(–s2);padding:4px;border-radius:var(–r);border:1px solid var(–bd);}
+.stab{flex:1;padding:10px 6px;border-radius:var(–rs);border:none;background:transparent;color:var(–mu);font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;white-space:nowrap;}
+.stab.active{background:var(–s1);color:var(–tx);box-shadow:0 2px 8px rgba(0,0,0,0.4);}
+.stab.nt.active{background:linear-gradient(135deg,rgba(255,77,143,0.2),rgba(124,58,237,0.15));color:var(–pk);}
 .sub-sec{display:none;}.sub-sec.active{display:block;}
 
 /* CARDS */
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px;}
+.card{background:var(–s1);border:1px solid var(–bd);border-radius:var(–r);padding:16px;margin-bottom:14px;}
 .card.pk{border-color:rgba(255,77,143,0.2);}
-.ct{font-size:11px;font-weight:700;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;font-family:'Space Mono',monospace;}
-.ct.p{color:var(--pk);}
+.ct{font-size:11px;font-weight:700;color:var(–mu);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;font-family:‘Space Mono’,monospace;}
+.ct.p{color:var(–pk);}
 
-/* MODELS — pill list */
+/* MODELS */
 .mpills{display:flex;flex-direction:column;gap:7px;}
-.mp{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--rs);border:1.5px solid var(--bd);cursor:pointer;background:var(--s2);}
-.mp.sel{border-color:var(--ac);background:rgba(0,229,255,0.05);}
-.mp.psel{border-color:var(--pk);background:rgba(255,77,143,0.05);}
-.mp-radio{width:14px;height:14px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.mp.sel .mp-radio{border-color:var(--ac);background:var(--ac);}
-.mp.psel .mp-radio{border-color:var(--pk);background:var(--pk);}
-.mp-radio::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff;display:none;}
+.mp{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(–rs);border:1.5px solid var(–bd);cursor:pointer;background:var(–s2);}
+.mp.sel{border-color:var(–ac);background:rgba(0,229,255,0.05);}
+.mp.psel{border-color:var(–pk);background:rgba(255,77,143,0.05);}
+.mp-radio{width:14px;height:14px;border-radius:50%;border:2px solid var(–bd);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mp.sel .mp-radio{border-color:var(–ac);background:var(–ac);}
+.mp.psel .mp-radio{border-color:var(–pk);background:var(–pk);}
+.mp-radio::after{content:’’;width:5px;height:5px;border-radius:50%;background:#fff;display:none;}
 .mp.sel .mp-radio::after,.mp.psel .mp-radio::after{display:block;}
 .mp-info{flex:1;}
 .mp-name{font-size:13px;font-weight:700;}
-.mp-desc{font-size:10px;color:var(--mu);margin-top:1px;font-family:'Space Mono',monospace;}
+.mp-desc{font-size:10px;color:var(–mu);margin-top:1px;font-family:‘Space Mono’,monospace;}
 .mp-right{text-align:right;flex-shrink:0;}
-.mp-cost{font-size:11px;color:var(--ac3);font-family:'Space Mono',monospace;}
+.mp-cost{font-size:11px;color:var(–ac3);font-family:‘Space Mono’,monospace;}
 .mp-tag{font-size:9px;padding:2px 7px;border-radius:10px;margin-top:3px;font-weight:700;display:inline-block;}
-.tg-best{background:rgba(16,185,129,0.15);color:var(--ok);}
-.tg-pro{background:rgba(0,229,255,0.15);color:var(--ac);}
-.tg-fast{background:rgba(245,158,11,0.15);color:var(--ac3);}
-.tg-nsfw{background:rgba(255,77,143,0.15);color:var(--pk);}
-.tg-ultra{background:rgba(255,77,143,0.2);color:var(--pk);}
+.tg-best{background:rgba(16,185,129,0.15);color:var(–ok);}
+.tg-pro{background:rgba(0,229,255,0.15);color:var(–ac);}
+.tg-fast{background:rgba(245,158,11,0.15);color:var(–ac3);}
+.tg-nsfw{background:rgba(255,77,143,0.15);color:var(–pk);}
+.tg-ultra{background:rgba(255,77,143,0.2);color:var(–pk);}
 
 /* PROMPT */
-.ta{width:100%;background:var(--s2);border:1.5px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-family:'Syne',sans-serif;font-size:14px;padding:14px;resize:none;min-height:110px;outline:none;line-height:1.5;}
-.ta:focus{border-color:var(--ac);}
-.ta.pf:focus{border-color:var(--pk);}
-.ta::placeholder{color:var(--mu);}
-.neg{width:100%;background:var(--s2);border:1.5px solid var(--bd);border-radius:var(--rs);color:var(--mu);font-family:'Space Mono',monospace;font-size:11px;padding:10px 12px;resize:none;min-height:52px;outline:none;}
+.ta{width:100%;background:var(–s2);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:14px;padding:14px;resize:none;min-height:110px;outline:none;line-height:1.5;}
+.ta:focus{border-color:var(–ac);}
+.ta.pf:focus{border-color:var(–pk);}
+.ta::placeholder{color:var(–mu);}
+.neg{width:100%;background:var(–s2);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–mu);font-family:‘Space Mono’,monospace;font-size:11px;padding:10px 12px;resize:none;min-height:52px;outline:none;}
 
 /* OPTIONS */
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.og label{display:block;font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;margin-bottom:5px;}
-.og select{width:100%;background:var(--s2);border:1.5px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-family:'Syne',sans-serif;font-size:13px;padding:8px 10px;outline:none;-webkit-appearance:none;}
+.og label{display:block;font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-bottom:5px;}
+.og select{width:100%;background:var(–s2);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:13px;padding:8px 10px;outline:none;-webkit-appearance:none;}
 
 /* TOLERANCE */
 .tol-wrap{margin-top:10px;}
-.tol-wrap label{font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.tol-wrap label{font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .tv{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;}
-.t1,.t2{color:var(--ok);background:rgba(16,185,129,0.1);}
-.t3,.t4{color:var(--ac3);background:rgba(245,158,11,0.1);}
-.t5,.t6{color:var(--pk);background:rgba(255,77,143,0.1);}
-.tol-desc{font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:5px;}
-input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--bd);width:100%;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ac);cursor:pointer;}
-input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
+.t1,.t2{color:var(–ok);background:rgba(16,185,129,0.1);}
+.t3,.t4{color:var(–ac3);background:rgba(245,158,11,0.1);}
+.t5,.t6{color:var(–pk);background:rgba(255,77,143,0.1);}
+.tol-desc{font-size:10px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-top:5px;}
+input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(–bd);width:100%;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(–ac);cursor:pointer;}
+input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
 
 /* UPLOAD */
-.uarea{border:2px dashed var(--bd);border-radius:var(--rs);padding:18px;text-align:center;cursor:pointer;}
-.uarea p{font-size:12px;color:var(--mu);margin-top:6px;}
+.uarea{border:2px dashed var(–bd);border-radius:var(–rs);padding:18px;text-align:center;cursor:pointer;}
+.uarea p{font-size:12px;color:var(–mu);margin-top:6px;}
 .uarea .ui{font-size:26px;}
-.uarea.has{border-color:var(--ac);}
-.uprev{width:100%;border-radius:var(--rs);margin-top:10px;display:none;}
+.uarea.has{border-color:var(–ac);}
+.uprev{width:100%;border-radius:var(–rs);margin-top:10px;display:none;}
 .upair{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.ubox{border:2px dashed var(--bd);border-radius:var(--rs);padding:14px;text-align:center;cursor:pointer;}
-.ubox.has{border-color:var(--ac);}
+.ubox{border:2px dashed var(–bd);border-radius:var(–rs);padding:14px;text-align:center;cursor:pointer;}
+.ubox.has{border-color:var(–ac);}
 .ubox .ui{font-size:22px;margin-bottom:4px;}
-.ubox p{font-size:11px;color:var(--mu);line-height:1.4;}
+.ubox p{font-size:11px;color:var(–mu);line-height:1.4;}
 .ubox img{width:100%;border-radius:6px;margin-top:8px;display:none;}
 
 /* BANNER */
-.banner{padding:12px 14px;border-radius:var(--rs);margin-bottom:14px;font-size:12px;line-height:1.6;display:flex;gap:10px;}
-.banner.pk{background:rgba(255,77,143,0.07);border:1px solid rgba(255,77,143,0.2);color:var(--pk);}
-.banner.ac{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);color:var(--mu);}
+.banner{padding:12px 14px;border-radius:var(–rs);margin-bottom:14px;font-size:12px;line-height:1.6;display:flex;gap:10px;}
+.banner.pk{background:rgba(255,77,143,0.07);border:1px solid rgba(255,77,143,0.2);color:var(–pk);}
+.banner.ac{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);color:var(–mu);}
 .b-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
 
 /* GEN BUTTON */
-.gen-btn{width:100%;padding:16px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
-.gen-btn.pb{background:linear-gradient(135deg,var(--pk),var(--ac2));}
+.gen-btn{width:100%;padding:16px;border-radius:var(–r);border:none;background:linear-gradient(135deg,var(–ac),var(–ac2));color:#fff;font-family:‘Syne’,sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.gen-btn.pb{background:linear-gradient(135deg,var(–pk),var(–ac2));}
 .gen-btn:disabled{opacity:0.45;cursor:not-allowed;}
 
 /* LOADING */
 .loading{display:none;margin-top:14px;}.loading.vis{display:block;}
-.l-track{height:3px;background:var(--bd);border-radius:2px;overflow:hidden;}
-.l-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:2px;transition:width 0.4s;}
-.l-fill.pk{background:linear-gradient(90deg,var(--pk),var(--ac2));}
-.l-txt{font-size:12px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:7px;text-align:center;}
-.l-timer{font-size:13px;color:var(--ac);font-family:'Space Mono',monospace;margin-top:3px;text-align:center;font-weight:700;}
-.l-timer.pk{color:var(--pk);}
+.l-track{height:3px;background:var(–bd);border-radius:2px;overflow:hidden;}
+.l-fill{height:100%;width:0%;background:linear-gradient(90deg,var(–ac),var(–ac2));border-radius:2px;transition:width 0.4s;}
+.l-fill.pk{background:linear-gradient(90deg,var(–pk),var(–ac2));}
+.l-txt{font-size:12px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-top:7px;text-align:center;}
+.l-timer{font-size:13px;color:var(–ac);font-family:‘Space Mono’,monospace;margin-top:3px;text-align:center;font-weight:700;}
+.l-timer.pk{color:var(–pk);}
 
 /* RESULT */
 .result{display:none;margin-top:14px;}.result.vis{display:block;}
-.r-img{width:100%;border-radius:var(--r);border:1px solid var(--bd);display:block;}
-.r-vid{width:100%;border-radius:var(--r);border:1px solid var(--bd);display:block;}
-.r-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px 14px;background:var(--s2);border-radius:var(--rs);border:1px solid rgba(245,158,11,0.2);}
+.r-img{width:100%;border-radius:var(–r);border:1px solid var(–bd);display:block;}
+.r-vid{width:100%;border-radius:var(–r);border:1px solid var(–bd);display:block;}
+.r-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px 14px;background:var(–s2);border-radius:var(–rs);border:1px solid rgba(245,158,11,0.2);}
 .r-bar.pk{border-color:rgba(255,77,143,0.2);}
-.r-lbl{font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;}
-.r-val{font-size:13px;font-weight:700;color:var(--ac3);font-family:'Space Mono',monospace;}
-.r-time{font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;}
+.r-lbl{font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;}
+.r-val{font-size:13px;font-weight:700;color:var(–ac3);font-family:‘Space Mono’,monospace;}
+.r-time{font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;}
 .r-actions{display:flex;gap:8px;margin-top:10px;}
-.r-btn{flex:1;padding:12px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--s2);color:var(--tx);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;}
-.r-btn.ac{border-color:var(--ac);color:var(--ac);background:rgba(0,229,255,0.04);}
-.r-btn.pk{border-color:var(--pk);color:var(--pk);background:rgba(255,77,143,0.04);}
-.r-btn.go{border-color:var(--ac3);color:var(--ac3);background:rgba(245,158,11,0.04);}
+.r-btn{flex:1;padding:12px;border-radius:var(–rs);border:1.5px solid var(–bd);background:var(–s2);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;}
+.r-btn.ac{border-color:var(–ac);color:var(–ac);background:rgba(0,229,255,0.04);}
+.r-btn.pk{border-color:var(–pk);color:var(–pk);background:rgba(255,77,143,0.04);}
+.r-btn.go{border-color:var(–ac3);color:var(–ac3);background:rgba(245,158,11,0.04);}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.sc{background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center;}
-.sn{font-size:18px;font-weight:800;color:var(--ac);font-family:'Space Mono',monospace;}
-.sl{font-size:9px;color:var(--mu);margin-top:2px;font-family:'Space Mono',monospace;}
+.sc{background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:10px;text-align:center;}
+.sn{font-size:18px;font-weight:800;color:var(–ac);font-family:‘Space Mono’,monospace;}
+.sl{font-size:9px;color:var(–mu);margin-top:2px;font-family:‘Space Mono’,monospace;}
 
 /* VOICE */
 .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.vc{padding:10px 12px;border-radius:var(--rs);border:1.5px solid var(--bd);cursor:pointer;background:var(--s2);}
-.vc.sel{border-color:var(--ac);background:rgba(0,229,255,0.05);}
+.vc{padding:10px 12px;border-radius:var(–rs);border:1.5px solid var(–bd);cursor:pointer;background:var(–s2);}
+.vc.sel{border-color:var(–ac);background:rgba(0,229,255,0.05);}
 .vn{font-size:12px;font-weight:700;}
-.vd{font-size:10px;color:var(--mu);margin-top:2px;font-family:'Space Mono',monospace;}
-.aplayer{width:100%;margin-top:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;}
-.awave{height:32px;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:6px;margin-bottom:10px;opacity:0.2;}
+.vd{font-size:10px;color:var(–mu);margin-top:2px;font-family:‘Space Mono’,monospace;}
+.aplayer{width:100%;margin-top:12px;background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:14px;}
+.awave{height:32px;background:linear-gradient(90deg,var(–ac),var(–ac2));border-radius:6px;margin-bottom:10px;opacity:0.2;}
 
 /* GALLERY */
 .ggrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.gi{position:relative;border-radius:var(--rs);overflow:hidden;border:1px solid var(--bd);aspect-ratio:1;}
+.gi{position:relative;border-radius:var(–rs);overflow:hidden;border:1px solid var(–bd);aspect-ratio:1;}
 .gi img,.gi video{width:100%;height:100%;object-fit:cover;display:block;}
 .gdel{position:absolute;top:6px;right:6px;width:26px;height:26px;background:rgba(239,68,68,0.85);border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;}
-.gempty{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--mu);}
+.gempty{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(–mu);}
 
 /* ADMIN MODAL */
 .admin-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:400;display:none;align-items:flex-end;padding:0;}
 .admin-modal.open{display:flex;}
-.admin-panel{background:var(--s1);width:100%;max-height:90dvh;border-radius:var(--r) var(--r) 0 0;overflow-y:auto;padding:20px;}
-.ap-handle{width:40px;height:4px;background:var(--bd);border-radius:2px;margin:0 auto 16px;}
+.admin-panel{background:var(–s1);width:100%;max-height:90dvh;border-radius:var(–r) var(–r) 0 0;overflow-y:auto;padding:20px;}
+.ap-handle{width:40px;height:4px;background:var(–bd);border-radius:2px;margin:0 auto 16px;}
 .ap-title{font-size:18px;font-weight:800;margin-bottom:4px;}
-.ap-sub{font-size:12px;color:var(--mu);margin-bottom:20px;}
-.ap-close{position:absolute;top:20px;right:20px;width:32px;height:32px;background:var(--s2);border:1px solid var(--bd);border-radius:50%;color:var(--mu);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.acard{background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;margin-bottom:12px;}
+.ap-sub{font-size:12px;color:var(–mu);margin-bottom:20px;}
+.ap-close{position:absolute;top:20px;right:20px;width:32px;height:32px;background:var(–s2);border:1px solid var(–bd);border-radius:50%;color:var(–mu);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.acard{background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:14px;margin-bottom:12px;}
 .albl{font-size:13px;font-weight:700;margin-bottom:8px;}
-.af{width:100%;background:var(--bg);border:1.5px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-family:'Syne',sans-serif;font-size:13px;padding:9px 12px;outline:none;margin-bottom:8px;}
-.af:focus{border-color:var(--ac3);}
+.af{width:100%;background:var(–bg);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:13px;padding:9px 12px;outline:none;margin-bottom:8px;}
+.af:focus{border-color:var(–ac3);}
 .af:last-child{margin-bottom:0;}
-.arow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd);}
+.arow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(–bd);}
 .arow:last-child{border-bottom:none;}
-.tog{width:46px;height:25px;background:var(--bd);border-radius:13px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;}
-.tog.on{background:var(--ok);}
-.tog::after{content:'';position:absolute;width:19px;height:19px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.2s;}
+.tog{width:46px;height:25px;background:var(–bd);border-radius:13px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;}
+.tog.on{background:var(–ok);}
+.tog::after{content:’’;position:absolute;width:19px;height:19px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.2s;}
 .tog.on::after{transform:translateX(21px);}
-.asave{width:100%;padding:14px;margin-top:12px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--ac3),var(--ac));color:var(--bg);font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.asave{width:100%;padding:14px;margin-top:12px;border-radius:var(–rs);border:none;background:linear-gradient(135deg,var(–ac3),var(–ac));color:var(–bg);font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
 
 /* API MODAL */
 .api-modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:500;display:none;align-items:flex-end;padding:20px;}
 .api-modal.open{display:flex;}
-.api-box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:24px;width:100%;}
+.api-box{background:var(–s1);border:1px solid var(–bd);border-radius:var(–r);padding:24px;width:100%;}
 .api-box h3{font-size:18px;font-weight:800;margin-bottom:6px;}
-.api-box p{font-size:13px;color:var(--mu);margin-bottom:16px;line-height:1.5;}
-.api-in{width:100%;background:var(--s2);border:1.5px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-family:'Space Mono',monospace;font-size:13px;padding:12px 14px;outline:none;margin-bottom:12px;}
+.api-box p{font-size:13px;color:var(–mu);margin-bottom:16px;line-height:1.5;}
+.api-in{width:100%;background:var(–s2);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–tx);font-family:‘Space Mono’,monospace;font-size:13px;padding:12px 14px;outline:none;margin-bottom:12px;}
 .api-actions{display:flex;gap:10px;}
-.api-save{flex:1;padding:13px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
-.api-cancel{padding:13px 18px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:14px;cursor:pointer;}
+.api-save{flex:1;padding:13px;border-radius:var(–rs);border:none;background:linear-gradient(135deg,var(–ac),var(–ac2));color:#fff;font-family:‘Syne’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.api-cancel{padding:13px 18px;border-radius:var(–rs);border:1px solid var(–bd);background:transparent;color:var(–mu);font-family:‘Syne’,sans-serif;font-size:14px;cursor:pointer;}
 
 /* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);padding:11px 18px;font-size:13px;font-weight:600;z-index:999;transition:transform 0.3s;white-space:nowrap;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:11px 18px;font-size:13px;font-weight:600;z-index:999;transition:transform 0.3s;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
-.toast.ok{border-color:var(--ok);color:var(--ok);}
-.toast.err{border-color:var(--er);color:var(--er);}
-.toast.info{border-color:var(--ac);color:var(--ac);}
+.toast.ok{border-color:var(–ok);color:var(–ok);}
+.toast.err{border-color:var(–er);color:var(–er);}
+.toast.info{border-color:var(–ac);color:var(–ac);}
 </style>
+
 </head>
 <body>
+<div id="bgOverlay"></div>
 
 <!-- AGE GATE -->
+
 <div class="ag" id="ageGate" style="display:none">
   <div class="ag-box">
     <div style="font-size:48px">🔞</div>
@@ -244,6 +250,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
 </div>
 
 <!-- HEADER -->
+
 <header>
   <div class="logo">
     <div class="logo-icon">📸</div>
@@ -281,6 +288,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
 </header>
 
 <!-- MAIN TABS -->
+
 <div class="main-tabs">
   <button class="mtab active" onclick="switchTab('create',0)">✨ Créer</button>
   <button class="mtab" onclick="switchTab('motion',1)">💃 Motion</button>
@@ -292,22 +300,22 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
 
 <main>
 
-<!-- ═══════ CRÉER ═══════ -->
+<!-- CRÉER -->
+
 <div class="section active" id="s-create">
   <div class="stats">
     <div class="sc"><div class="sn" id="cntImg">0</div><div class="sl">IMAGES</div></div>
     <div class="sc"><div class="sn" id="cntVid">0</div><div class="sl">VIDÉOS</div></div>
     <div class="sc"><div class="sn" id="cntTot">0</div><div class="sl">TOTAL</div></div>
   </div>
-
-  <!-- Sous-onglets -->
   <div class="sub-tabs">
     <button class="stab active" onclick="switchSub('img',0)">🖼 Image</button>
     <button class="stab" onclick="switchSub('vid',1)">🎬 Vidéo</button>
     <button class="stab nt" onclick="switchSub('nsfw',2)">🔞 NSFW</button>
   </div>
 
-  <!-- ─── IMAGE ─── -->
+  <!-- IMAGE -->
+
   <div class="sub-sec active" id="ss-img">
     <div class="card">
       <div class="ct">🤖 Modèle Image</div>
@@ -358,11 +366,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
       </div>
     </div>
     <button class="gen-btn" id="btnImg" onclick="genImage()">⚡ GÉNÉRER L'IMAGE</button>
-    <div class="loading" id="loadImg">
-      <div class="l-track"><div class="l-fill" id="lfImg"></div></div>
-      <div class="l-txt" id="ltImg">Génération en cours...</div>
-      <div class="l-timer" id="tmImg">⏱ 0s</div>
-    </div>
+    <div class="loading" id="loadImg"><div class="l-track"><div class="l-fill" id="lfImg"></div></div><div class="l-txt" id="ltImg">Génération en cours...</div><div class="l-timer" id="tmImg">⏱ 0s</div></div>
     <div class="result" id="resImg">
       <img id="rImg" class="r-img">
       <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costImg">—</span><span class="r-time" id="timeImg">—</span></div>
@@ -370,7 +374,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
     </div>
   </div>
 
-  <!-- ─── VIDÉO ─── -->
+  <!-- VIDÉO -->
+
   <div class="sub-sec" id="ss-vid">
     <div class="card">
       <div class="ct">🎬 Modèle Vidéo</div>
@@ -409,11 +414,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
       </div>
     </div>
     <button class="gen-btn" id="btnVid" onclick="genVideo()">🎬 GÉNÉRER LA VIDÉO</button>
-    <div class="loading" id="loadVid">
-      <div class="l-track"><div class="l-fill" id="lfVid"></div></div>
-      <div class="l-txt" id="ltVid">Génération vidéo...</div>
-      <div class="l-timer" id="tmVid">⏱ 0s</div>
-    </div>
+    <div class="loading" id="loadVid"><div class="l-track"><div class="l-fill" id="lfVid"></div></div><div class="l-txt" id="ltVid">Génération vidéo...</div><div class="l-timer" id="tmVid">⏱ 0s</div></div>
     <div class="result" id="resVid">
       <video id="rVid" class="r-vid" controls playsinline></video>
       <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costVid">—</span><span class="r-time" id="timeVid">—</span></div>
@@ -421,17 +422,14 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
     </div>
   </div>
 
-  <!-- ─── NSFW ─── -->
+  <!-- NSFW -->
+
   <div class="sub-sec" id="ss-nsfw">
     <div class="banner pk"><span class="b-ico">🔞</span><div>Mode <strong>Charme & Explicite Pro</strong> — Safety checker désactivé. Réservé aux modèles adultes consentants.</div></div>
-
-    <!-- Sous-onglets NSFW : fal.ai vs Replicate -->
     <div class="sub-tabs" style="margin-bottom:14px">
       <button class="stab active" onclick="switchNsfwApi('fal',0)">⚡ fal.ai</button>
       <button class="stab" onclick="switchNsfwApi('rep',1)">🔁 Replicate</button>
     </div>
-
-    <!-- ── fal.ai NSFW ── -->
     <div id="nsfw-fal" class="nsfw-api active">
       <div class="card pk">
         <div class="ct p">🤖 Modèle NSFW — fal.ai</div>
@@ -462,8 +460,6 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
         </div>
       </div>
     </div>
-
-    <!-- ── Replicate NSFW ── -->
     <div id="nsfw-rep" class="nsfw-api" style="display:none">
       <div class="banner pk"><span class="b-ico">💡</span><div>Clé <strong>Replicate</strong> requise — Safety checker entièrement désactivable via API</div></div>
       <div class="card pk">
@@ -495,20 +491,13 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
             <div class="mp-right"><div class="mp-cost">~$0.002/img</div><div class="mp-tag tg-fast">⚡ BUDGET</div></div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:rgba(255,77,143,0.06);border:1px solid rgba(255,77,143,0.15);border-radius:var(--rs)">
-          <div class="ct p" style="margin-bottom:8px">⚠️ Note Pony Diffusion</div>
-          <p style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;line-height:1.6">Pony Diffusion V6 XL n'est pas disponible sur Replicate (licence restrictive). Utilise <strong style="color:var(--pk)">Juggernaut XL</strong> ou <strong style="color:var(--pk)">RealVisXL</strong> comme alternatives SDXL photoréalistes.</p>
-        </div>
       </div>
       <div class="card pk" id="repApiCard">
         <div class="ct p">🔑 Clé API Replicate</div>
         <input class="af" type="password" id="repKeyIn" placeholder="r8_xxxxxxxxxxxxxxxxxx" style="background:var(--bg);border:1.5px solid rgba(255,77,143,0.3);color:var(--tx)">
         <button onclick="saveRepKey()" style="width:100%;padding:10px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--pk),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Sauvegarder la clé Replicate</button>
-        <div style="margin-top:8px;font-size:10px;color:var(--mu);font-family:'Space Mono',monospace">Obtiens ta clé sur <strong>replicate.com → Account → API tokens</strong></div>
       </div>
     </div>
-
-    <!-- Commun fal.ai + Replicate -->
     <div class="card pk">
       <div class="ct p">✍️ Prompt NSFW</div>
       <textarea class="ta pf" id="nsfwPrompt" placeholder="Décris ta création..."></textarea>
@@ -524,7 +513,6 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
         <div class="og"><label>QUALITÉ</label><select id="nsfwSteps"><option value="20" selected>Standard</option><option value="35">Haute</option><option value="50">Max</option></select></div>
       </div>
       <div style="margin-top:12px">
-        <div class="ct p" style="margin-bottom:6px">🔄 Image de référence (optionnel)</div>
         <div class="uarea" id="nsfwUpArea" onclick="document.getElementById('nsfwUpIn').click()">
           <div class="ui">📁</div>
           <p id="nsfwUpLbl">Image de référence optionnelle</p>
@@ -534,11 +522,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
       </div>
     </div>
     <button class="gen-btn pb" id="btnNsfw" onclick="genNSFW()">🔞 GÉNÉRER — MODE PRO</button>
-    <div class="loading" id="loadNsfw">
-      <div class="l-track"><div class="l-fill pk" id="lfNsfw"></div></div>
-      <div class="l-txt" id="ltNsfw">Génération NSFW...</div>
-      <div class="l-timer pk" id="tmNsfw">⏱ 0s</div>
-    </div>
+    <div class="loading" id="loadNsfw"><div class="l-track"><div class="l-fill pk" id="lfNsfw"></div></div><div class="l-txt" id="ltNsfw">Génération NSFW...</div><div class="l-timer pk" id="tmNsfw">⏱ 0s</div></div>
     <div class="result" id="resNsfw">
       <img id="rNsfw" class="r-img">
       <div class="r-bar pk"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costNsfw">—</span><span class="r-time" id="timeNsfw">—</span></div>
@@ -547,7 +531,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
   </div>
 </div>
 
-<!-- ═══════ VOIX ═══════ -->
+<!-- VOIX -->
+
 <div class="section" id="s-voice">
   <div class="card"><div class="ct">🎙 Voix Off — PlayAI</div><div class="vgrid" id="voiceGrid"></div></div>
   <div class="card">
@@ -562,11 +547,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
     </div>
   </div>
   <button class="gen-btn" id="btnVoice" onclick="genVoice()">🎙 GÉNÉRER LA VOIX</button>
-  <div class="loading" id="loadVoice">
-    <div class="l-track"><div class="l-fill" id="lfVoice"></div></div>
-    <div class="l-txt" id="ltVoice">Synthèse vocale...</div>
-    <div class="l-timer" id="tmVoice">⏱ 0s</div>
-  </div>
+  <div class="loading" id="loadVoice"><div class="l-track"><div class="l-fill" id="lfVoice"></div></div><div class="l-txt" id="ltVoice">Synthèse vocale...</div><div class="l-timer" id="tmVoice">⏱ 0s</div></div>
   <div class="result" id="resVoice">
     <div class="aplayer"><div class="awave"></div><audio id="rAudio" controls style="width:100%"></audio></div>
     <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costVoice">—</span><span class="r-time" id="timeVoice">—</span></div>
@@ -574,14 +555,13 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
   </div>
 </div>
 
-<!-- ═══════ LORA ═══════ -->
+<!-- LORA -->
+
 <div class="section" id="s-lora">
   <div class="banner" style="background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(0,229,255,0.07));border:1px solid rgba(124,58,237,0.25)">
     <span class="b-ico">🎭</span>
-    <div style="color:var(--tx)">Reproduis un modèle <strong style="color:var(--ac2)">à l'identique</strong> — du zero-shot instantané au LoRA entraîné sur mesure. Choisis ton niveau de précision.</div>
+    <div style="color:var(--tx)">Reproduis un modèle <strong style="color:var(--ac2)">à l'identique</strong> — du zero-shot instantané au LoRA entraîné sur mesure.</div>
   </div>
-
-  <!-- Clé Replicate -->
   <div class="card" id="loraRepKeyCard">
     <div class="ct">🔑 Clé API Replicate</div>
     <div style="display:flex;gap:8px;align-items:center">
@@ -590,128 +570,70 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
     </div>
     <div id="loraRepSt" style="margin-top:6px;font-size:10px;font-family:'Space Mono',monospace;color:var(--mu)">replicate.com → Account → API tokens</div>
   </div>
-
-  <!-- NIVEAU 1 -->
   <div class="card" style="border-color:rgba(0,229,255,0.25)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
       <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--ac),rgba(0,229,255,0.4));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">1</div>
-      <div>
-        <div style="font-size:14px;font-weight:800">Zero-Shot <span style="font-size:10px;color:var(--ac);font-family:'Space Mono',monospace;font-weight:400">PuLID · $0.02/img</span></div>
-        <div style="font-size:11px;color:var(--mu);margin-top:1px">Upload <strong>1 seule photo</strong> du modèle → l'IA reproduit son visage instantanément dans n'importe quelle situation. Résultat immédiat, sans entraînement. Idéal pour tester rapidement.</div>
-      </div>
+      <div><div style="font-size:14px;font-weight:800">Zero-Shot <span style="font-size:10px;color:var(--ac);font-family:'Space Mono',monospace;font-weight:400">PuLID · $0.02/img</span></div><div style="font-size:11px;color:var(--mu);margin-top:1px">Upload 1 seule photo → résultat immédiat.</div></div>
     </div>
-    <div class="uarea" id="pulid-up" onclick="document.getElementById('pulidIn').click()">
-      <div class="ui">📸</div>
-      <p id="pulidLbl">Ajoute 1 photo du modèle</p>
-    </div>
+    <div class="uarea" id="pulid-up" onclick="document.getElementById('pulidIn').click()"><div class="ui">📸</div><p id="pulidLbl">Ajoute 1 photo du modèle</p></div>
     <input type="file" id="pulidIn" accept="image/*" style="display:none" onchange="handleUp(this,'pulidPrev','pulid-up','pulidLbl',s=>state.loraRef1=s)">
     <img id="pulidPrev" class="uprev">
     <div class="card" style="margin-top:12px;margin-bottom:0;background:var(--bg);border-color:var(--bd)">
       <div class="ct" style="margin-bottom:8px">✍️ Prompt</div>
-      <textarea class="ta" id="pulidPrompt" style="min-height:80px" placeholder="Ex: woman in a beach, sunset, boudoir style, editorial photography..."></textarea>
+      <textarea class="ta" id="pulidPrompt" style="min-height:80px" placeholder="Ex: woman in a beach, sunset..."></textarea>
     </div>
     <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <div class="og"><label>FORMAT</label><select id="pulidRatio"><option value="704x1408">Portrait 1:2</option><option value="1024x1024">Carré</option><option value="1408x704">Paysage</option></select></div>
       <div class="og"><label>ID WEIGHT</label><select id="pulidWeight"><option value="0.6">Souple (0.6)</option><option value="0.8" selected>Équilibré (0.8)</option><option value="1.0">Strict (1.0)</option></select></div>
     </div>
-    <button class="gen-btn" style="margin-top:12px;background:linear-gradient(135deg,var(--ac),var(--ac2))" id="btnPulid" onclick="genPuLID()">⚡ GÉNÉRER — ZERO-SHOT</button>
-    <div class="loading" id="loadPulid">
-      <div class="l-track"><div class="l-fill" id="lfPulid"></div></div>
-      <div class="l-txt" id="ltPulid">Analyse du visage...</div>
-      <div class="l-timer" id="tmPulid">⏱ 0s</div>
-    </div>
+    <button class="gen-btn" style="margin-top:12px" id="btnPulid" onclick="genPuLID()">⚡ GÉNÉRER — ZERO-SHOT</button>
+    <div class="loading" id="loadPulid"><div class="l-track"><div class="l-fill" id="lfPulid"></div></div><div class="l-txt" id="ltPulid">Analyse du visage...</div><div class="l-timer" id="tmPulid">⏱ 0s</div></div>
     <div class="result" id="resPulid">
       <img id="rPulid" class="r-img">
       <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val">~$0.02</span><span class="r-time" id="timePulid">—</span></div>
       <div class="r-actions"><a class="r-btn ac" id="dlPulid" download="sv-lora-n1.png">⬇️ Télécharger</a><button class="r-btn go" onclick="saveGal('image')">🗂 Galerie</button></div>
     </div>
   </div>
-
-  <!-- NIVEAU 2 -->
   <div class="card" style="border-color:rgba(245,158,11,0.3)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
       <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--ac3),rgba(245,158,11,0.5));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">2</div>
-      <div>
-        <div style="font-size:14px;font-weight:800">Semi-Entraîné <span style="font-size:10px;color:var(--ac3);font-family:'Space Mono',monospace;font-weight:400">InstantID · ~$0.04/img</span></div>
-        <div style="font-size:11px;color:var(--mu);margin-top:1px">Upload <strong>1 photo haute qualité</strong>. Le système analyse le visage en profondeur via des embeddings facials avancés — ressemblance plus précise qu'au niveau 1, meilleur contrôle de la pose et du style. Toujours sans entraînement.</div>
-      </div>
+      <div><div style="font-size:14px;font-weight:800">Semi-Entraîné <span style="font-size:10px;color:var(--ac3);font-family:'Space Mono',monospace;font-weight:400">InstantID · ~$0.04/img</span></div><div style="font-size:11px;color:var(--mu);margin-top:1px">1 photo haute qualité · embeddings facials avancés.</div></div>
     </div>
-    <div class="uarea" id="iid-up" onclick="document.getElementById('iidIn').click()">
-      <div class="ui">📸</div>
-      <p id="iidLbl">1 photo haute qualité du modèle</p>
-    </div>
+    <div class="uarea" id="iid-up" onclick="document.getElementById('iidIn').click()"><div class="ui">📸</div><p id="iidLbl">1 photo haute qualité du modèle</p></div>
     <input type="file" id="iidIn" accept="image/*" style="display:none" onchange="handleUp(this,'iidPrev','iid-up','iidLbl',s=>state.loraRef2=s)">
     <img id="iidPrev" class="uprev">
     <div class="card" style="margin-top:12px;margin-bottom:0;background:var(--bg);border-color:var(--bd)">
       <div class="ct" style="margin-bottom:8px">✍️ Prompt</div>
-      <textarea class="ta" id="iidPrompt" style="min-height:80px" placeholder="Ex: instagram model, luxury setting, professional lighting, beautiful woman..."></textarea>
+      <textarea class="ta" id="iidPrompt" style="min-height:80px" placeholder="Ex: instagram model, luxury setting..."></textarea>
     </div>
     <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <div class="og"><label>STYLE</label><select id="iidStyle"><option value="(No style)">Aucun</option><option value="Photographic (Default)" selected>Photo</option><option value="Cinematic">Cinématique</option><option value="Fashion editorial">Fashion</option></select></div>
       <div class="og"><label>GUIDANCE</label><select id="iidGuidance"><option value="4">Libre (4)</option><option value="5" selected>Équilibré (5)</option><option value="7">Précis (7)</option></select></div>
     </div>
     <button class="gen-btn" style="margin-top:12px;background:linear-gradient(135deg,var(--ac3),var(--ac2))" id="btnIID" onclick="genInstantID()">🎯 GÉNÉRER — INSTANTID</button>
-    <div class="loading" id="loadIID">
-      <div class="l-track"><div class="l-fill" id="lfIID" style="background:linear-gradient(90deg,var(--ac3),var(--ac2))"></div></div>
-      <div class="l-txt" id="ltIID">Analyse facial avancée...</div>
-      <div class="l-timer" style="color:var(--ac3)" id="tmIID">⏱ 0s</div>
-    </div>
+    <div class="loading" id="loadIID"><div class="l-track"><div class="l-fill" id="lfIID" style="background:linear-gradient(90deg,var(--ac3),var(--ac2))"></div></div><div class="l-txt" id="ltIID">Analyse facial avancée...</div><div class="l-timer" style="color:var(--ac3)" id="tmIID">⏱ 0s</div></div>
     <div class="result" id="resIID">
       <img id="rIID" class="r-img">
       <div class="r-bar" style="border-color:rgba(245,158,11,0.2)"><span class="r-lbl">💰 Coût</span><span class="r-val">~$0.04</span><span class="r-time" id="timeIID">—</span></div>
       <div class="r-actions"><a class="r-btn go" id="dlIID" download="sv-lora-n2.png">⬇️ Télécharger</a><button class="r-btn go" onclick="saveGal('image')">🗂 Galerie</button></div>
     </div>
   </div>
-
-  <!-- NIVEAU 3 -->
   <div class="card" style="border-color:rgba(255,77,143,0.3)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
       <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--pk),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">3</div>
-      <div>
-        <div style="font-size:14px;font-weight:800">LoRA Personnalisé ⭐ <span style="font-size:10px;color:var(--pk);font-family:'Space Mono',monospace;font-weight:400">$1.50 formation + $0.025/img</span></div>
-        <div style="font-size:11px;color:var(--mu);margin-top:1px">Upload <strong>15 à 20 photos</strong> du modèle sous différents angles. Replicate entraîne un mini-modèle dédié en ~2 minutes. Une fois créé, génère des centaines d'images cohérentes avec le même visage, corps et style — cohérence parfaite et illimitée.</div>
-      </div>
+      <div><div style="font-size:14px;font-weight:800">LoRA Personnalisé ⭐ <span style="font-size:10px;color:var(--pk);font-family:'Space Mono',monospace;font-weight:400">$1.50 formation + $0.025/img</span></div><div style="font-size:11px;color:var(--mu);margin-top:1px">15-20 photos · Entraînement ~2 min · Cohérence parfaite.</div></div>
     </div>
-    <div style="padding:14px;background:rgba(255,77,143,0.05);border:1px solid rgba(255,77,143,0.15);border-radius:var(--rs);margin-bottom:14px">
-      <div style="font-size:12px;font-weight:700;color:var(--pk);margin-bottom:8px">📋 WORKFLOW EN 3 ÉTAPES</div>
-      <div style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;line-height:1.9">
-        <div><span style="color:var(--pk)">①</span> Prépare 15-20 photos variées du modèle (angles, éclairages, expressions)</div>
-        <div><span style="color:var(--pk)">②</span> Lance l'entraînement → ~2 min → ~$1.50 une seule fois</div>
-        <div><span style="color:var(--pk)">③</span> Génère avec ton LoRA : prompt + trigger word → cohérence parfaite</div>
-      </div>
-    </div>
-
-    <!-- Sub-tabs Entraîner / Utiliser -->
     <div class="sub-tabs" style="margin-bottom:14px;background:var(--bg)">
       <button class="stab active" onclick="switchLoraTab('train',0)">🏋️ Entraîner</button>
       <button class="stab" onclick="switchLoraTab('use',1)">✨ Utiliser</button>
     </div>
-
-    <!-- ENTRAÎNER -->
     <div id="lora-train">
-      <div style="margin-bottom:10px">
-        <label style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;display:block;margin-bottom:6px">NOM DU MODÈLE (trigger word unique)</label>
-        <input class="af" type="text" id="loraName" placeholder="Ex: ZARA97, LILI2025, MYMODEL..." style="background:var(--bg);border:1.5px solid var(--bd);color:var(--tx)">
-      </div>
-      <div class="uarea" id="lora-train-up" onclick="document.getElementById('loraImgsIn').click()" style="min-height:80px">
-        <div class="ui">📁</div>
-        <p id="loraImgsLbl">Upload 15-20 photos (ZIP ou images multiples)</p>
-      </div>
+      <input class="af" type="text" id="loraName" placeholder="Nom du modèle (trigger word)" style="background:var(--bg);border:1.5px solid var(--bd);color:var(--tx)">
+      <div class="uarea" id="lora-train-up" onclick="document.getElementById('loraImgsIn').click()"><div class="ui">📁</div><p id="loraImgsLbl">Upload 15-20 photos</p></div>
       <input type="file" id="loraImgsIn" accept=".zip,image/*" multiple style="display:none" onchange="handleLoraImgs(this)">
       <div id="loraImgCount" style="margin-top:6px;font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;text-align:center"></div>
-      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div class="og"><label>STEPS</label><select id="loraSteps"><option value="500">Rapide (500)</option><option value="1000" selected>Standard (1000)</option><option value="1500">Précis (1500)</option></select></div>
-        <div class="og"><label>RANK</label><select id="loraRank"><option value="16">16 — léger</option><option value="32" selected>32 — recommandé</option><option value="64">64 — max</option></select></div>
-      </div>
-      <div style="margin-top:10px;padding:10px 12px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15);border-radius:var(--rs);font-size:11px;color:var(--mu);font-family:'Space Mono',monospace">
-        💰 Coût estimé : <strong style="color:var(--ac3)">~$1.50</strong> · Durée : <strong style="color:var(--ac3)">~2 min</strong> · GPU : H100 x8
-      </div>
       <button class="gen-btn" style="margin-top:12px;background:linear-gradient(135deg,var(--pk),var(--ac2))" id="btnLoraTrain" onclick="trainLora()">🏋️ LANCER L'ENTRAÎNEMENT</button>
-      <div class="loading" id="loadLoraTrain">
-        <div class="l-track"><div class="l-fill pk" id="lfLoraTrain"></div></div>
-        <div class="l-txt" id="ltLoraTrain">Entraînement en cours...</div>
-        <div class="l-timer pk" id="tmLoraTrain">⏱ 0s</div>
-      </div>
+      <div class="loading" id="loadLoraTrain"><div class="l-track"><div class="l-fill pk" id="lfLoraTrain"></div></div><div class="l-txt" id="ltLoraTrain">Entraînement...</div><div class="l-timer pk" id="tmLoraTrain">⏱ 0s</div></div>
       <div class="result" id="resLoraTrain">
         <div style="padding:16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:var(--rs);text-align:center">
           <div style="font-size:24px;margin-bottom:8px">✅</div>
@@ -720,28 +642,16 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
         </div>
       </div>
     </div>
-
-    <!-- UTILISER -->
     <div id="lora-use" style="display:none">
-      <div style="margin-bottom:10px">
-        <label style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;display:block;margin-bottom:6px">ENDPOINT DU LORA (ton-username/ton-modele)</label>
-        <input class="af" type="text" id="loraEndpoint" placeholder="Ex: wolf97111/zara-lora" style="background:var(--bg);border:1.5px solid var(--bd);color:var(--tx)">
-      </div>
-      <div style="margin-bottom:10px">
-        <label style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;display:block;margin-bottom:6px">TRIGGER WORD</label>
-        <input class="af" type="text" id="loraTrigger" placeholder="Ex: ZARA97" style="background:var(--bg);border:1.5px solid var(--bd);color:var(--tx)">
-      </div>
-      <textarea class="ta" id="loraUsePrompt" style="min-height:90px" placeholder="Décris ta scène... ton trigger word sera ajouté auto."></textarea>
+      <input class="af" type="text" id="loraEndpoint" placeholder="Ex: wolf97111/zara-lora" style="background:var(--bg);border:1.5px solid var(--bd);color:var(--tx)">
+      <input class="af" type="text" id="loraTrigger" placeholder="Trigger word" style="background:var(--bg);border:1.5px solid var(--bd);color:var(--tx)">
+      <textarea class="ta" id="loraUsePrompt" style="min-height:90px" placeholder="Décris ta scène..."></textarea>
       <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div class="og"><label>FORMAT</label><select id="loraRatio"><option value="portrait_16_9" selected>Portrait 9:16</option><option value="square_hd">Carré HD</option><option value="landscape_16_9">Paysage</option></select></div>
         <div class="og"><label>LORA SCALE</label><select id="loraScale"><option value="0.6">Souple (0.6)</option><option value="0.8" selected>Équilibré (0.8)</option><option value="1.0">Strict (1.0)</option></select></div>
       </div>
       <button class="gen-btn" style="margin-top:12px;background:linear-gradient(135deg,var(--pk),var(--ac2))" id="btnLoraUse" onclick="genWithLora()">✨ GÉNÉRER AVEC MON LORA</button>
-      <div class="loading" id="loadLoraUse">
-        <div class="l-track"><div class="l-fill pk" id="lfLoraUse"></div></div>
-        <div class="l-txt" id="ltLoraUse">Génération avec LoRA...</div>
-        <div class="l-timer pk" id="tmLoraUse">⏱ 0s</div>
-      </div>
+      <div class="loading" id="loadLoraUse"><div class="l-track"><div class="l-fill pk" id="lfLoraUse"></div></div><div class="l-txt" id="ltLoraUse">Génération avec LoRA...</div><div class="l-timer pk" id="tmLoraUse">⏱ 0s</div></div>
       <div class="result" id="resLoraUse">
         <img id="rLoraUse" class="r-img">
         <div class="r-bar pk"><span class="r-lbl">💰 Coût</span><span class="r-val">~$0.025</span><span class="r-time" id="timeLoraUse">—</span></div>
@@ -751,10 +661,10 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
   </div>
 </div>
 
-<!-- ═══════ FACE SWAP ═══════ -->
-<!-- ═══════ MOTION ═══════ -->
+<!-- MOTION -->
+
 <div class="section" id="s-motion">
-  <div class="banner ac"><span class="b-ico">💃</span><div>Transfère les mouvements d'une vidéo source sur ton modèle. Upload une photo + une vidéo de référence.</div></div>
+  <div class="banner ac"><span class="b-ico">💃</span><div>Transfère les mouvements d'une vidéo source sur ton modèle.</div></div>
   <div class="card">
     <div class="ct">🤖 Modèle Motion</div>
     <div class="mpills">
@@ -768,46 +678,27 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
         <div class="mp-info"><div class="mp-name">Kling 2.6 Pro Motion</div><div class="mp-desc">Qualité cinématique · 40+ effets</div></div>
         <div class="mp-right"><div class="mp-cost">~$0.11/s</div><div class="mp-tag tg-best">⭐ PRO</div></div>
       </div>
-      <div class="mp" data-m="fal-ai/kling-video/v2.6/standard/motion-control" onclick="selM(this,'motion')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">Kling 2.6 Standard</div><div class="mp-desc">Bon rapport qualité/prix</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.07/s</div><div class="mp-tag tg-pro">✦ STD</div></div>
-      </div>
     </div>
   </div>
   <div class="card">
     <div class="ct">✍️ Prompt (optionnel)</div>
-    <textarea class="ta" id="motionPrompt" style="min-height:80px" placeholder="Décris le mouvement souhaité... (ex: woman dancing hip-hop, elegant walk on beach)"></textarea>
+    <textarea class="ta" id="motionPrompt" style="min-height:80px" placeholder="Décris le mouvement souhaité..."></textarea>
   </div>
   <div class="card">
     <div class="ct">📸 Photo du modèle cible</div>
-    <div class="uarea" id="motionImgArea" onclick="document.getElementById('motionImgIn').click()">
-      <div class="ui">🧑</div>
-      <p id="motionImgLbl">Upload la photo du modèle à animer</p>
-    </div>
+    <div class="uarea" id="motionImgArea" onclick="document.getElementById('motionImgIn').click()"><div class="ui">🧑</div><p id="motionImgLbl">Upload la photo du modèle à animer</p></div>
     <input type="file" id="motionImgIn" accept="image/*" style="display:none" onchange="handleUp(this,'motionImgPrev','motionImgArea','motionImgLbl',s=>state.motionImg=s)">
     <img id="motionImgPrev" class="uprev">
   </div>
   <div class="card">
-    <div class="ct">🎬 Vidéo de référence (mouvements à copier)</div>
-    <div class="uarea" id="motionVidArea" onclick="document.getElementById('motionVidIn').click()">
-      <div class="ui">🎬</div>
-      <p id="motionVidLbl">Upload la vidéo dont tu veux copier les mouvements</p>
-    </div>
+    <div class="ct">🎬 Vidéo de référence</div>
+    <div class="uarea" id="motionVidArea" onclick="document.getElementById('motionVidIn').click()"><div class="ui">🎬</div><p id="motionVidLbl">Upload la vidéo dont tu veux copier les mouvements</p></div>
     <input type="file" id="motionVidIn" accept="video/*" style="display:none" onchange="handleMotionVideo(this)">
     <video id="motionVidPrev" style="width:100%;border-radius:var(--rs);margin-top:10px;display:none" controls muted playsinline></video>
-    <div style="margin-top:12px">
-      <div class="og"><label>DURÉE OUTPUT</label>
-        <select id="motionDur"><option value="5">5 secondes</option><option value="10">10 secondes</option></select>
-      </div>
-    </div>
+    <div style="margin-top:12px"><div class="og"><label>DURÉE OUTPUT</label><select id="motionDur"><option value="5">5 secondes</option><option value="10">10 secondes</option></select></div></div>
   </div>
   <button class="gen-btn" id="btnMotion" onclick="genMotion()" style="background:linear-gradient(135deg,#a855f7,var(--ac2))">💃 TRANSFÉRER LES MOUVEMENTS</button>
-  <div class="loading" id="loadMotion">
-    <div class="l-track"><div class="l-fill" id="lfMotion" style="background:linear-gradient(90deg,#a855f7,var(--ac2))"></div></div>
-    <div class="l-txt" id="ltMotion">Transfert de mouvement...</div>
-    <div class="l-timer" id="tmMotion" style="color:#a855f7">⏱ 0s</div>
-  </div>
+  <div class="loading" id="loadMotion"><div class="l-track"><div class="l-fill" id="lfMotion" style="background:linear-gradient(90deg,#a855f7,var(--ac2))"></div></div><div class="l-txt" id="ltMotion">Transfert de mouvement...</div><div class="l-timer" id="tmMotion" style="color:#a855f7">⏱ 0s</div></div>
   <div class="result" id="resMotion">
     <video id="rMotion" class="r-vid" controls playsinline></video>
     <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costMotion">—</span><span class="r-time" id="timeMotion">—</span></div>
@@ -815,7 +706,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
   </div>
 </div>
 
-<!-- ═══════ FACE SWAP ═══════ -->
+<!-- FACE SWAP -->
+
 <div class="section" id="s-faceswap">
   <div class="banner ac"><span class="b-ico">💡</span><div>Astuce : génère d'abord une image dans 🔞 NSFW, puis utilise-la comme image cible ici.</div></div>
   <div class="card">
@@ -824,10 +716,6 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
       <div class="ubox" id="fsB1" onclick="document.getElementById('fsI1').click()"><div class="ui">🧑</div><p>Visage source<br><small>Le visage à utiliser</small></p><img id="fsP1"><input type="file" id="fsI1" accept="image/*" style="display:none" onchange="handleFace(this,'fsP1','fsB1',s=>state.fsSrc=s)"></div>
       <div class="ubox" id="fsB2" onclick="document.getElementById('fsI2').click()"><div class="ui">🖼</div><p>Image cible<br><small>À modifier</small></p><img id="fsP2"><input type="file" id="fsI2" accept="image/*" style="display:none" onchange="handleFace(this,'fsP2','fsB2',s=>state.fsTgt=s)"></div>
     </div>
-  </div>
-  <div class="card">
-    <div class="ct">✍️ Prompt (optionnel)</div>
-    <textarea class="ta" id="fsPrompt" style="min-height:70px" placeholder="Décris le résultat souhaité... (optionnel)"></textarea>
   </div>
   <div class="card">
     <div class="ct">⚙️ Modèle</div>
@@ -845,11 +733,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
     </div>
   </div>
   <button class="gen-btn" id="btnFs" onclick="genFaceSwap()">👤 LANCER LE FACE SWAP</button>
-  <div class="loading" id="loadFs">
-    <div class="l-track"><div class="l-fill" id="lfFs"></div></div>
-    <div class="l-txt" id="ltFs">Traitement...</div>
-    <div class="l-timer" id="tmFs">⏱ 0s</div>
-  </div>
+  <div class="loading" id="loadFs"><div class="l-track"><div class="l-fill" id="lfFs"></div></div><div class="l-txt" id="ltFs">Traitement...</div><div class="l-timer" id="tmFs">⏱ 0s</div></div>
   <div class="result" id="resFs">
     <img id="rFs" class="r-img">
     <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costFs">—</span><span class="r-time" id="timeFs">—</span></div>
@@ -857,7 +741,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
   </div>
 </div>
 
-<!-- ═══════ GALERIE ═══════ -->
+<!-- GALERIE -->
+
 <div class="section" id="s-gallery">
   <div class="card"><div class="ct">🗂 Mes créations</div><div class="ggrid" id="galGrid"><div class="gempty"><span style="font-size:40px;display:block;margin-bottom:12px">🎨</span><p>Tes créations apparaîtront ici</p></div></div></div>
 </div>
@@ -865,13 +750,13 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
 </main>
 
 <!-- ADMIN MODAL -->
+
 <div class="admin-modal" id="adminModal">
   <div class="admin-panel" style="position:relative">
     <div class="ap-handle"></div>
     <button class="ap-close" onclick="closeAdmin()">✕</button>
     <div class="ap-title">⚙️ Paramètres Admin</div>
     <div class="ap-sub">Sensual Vision AI Studio</div>
-
     <div id="adminLock">
       <div class="acard">
         <div class="albl">🔐 Mot de passe</div>
@@ -880,13 +765,20 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
         <p style="font-size:11px;color:var(--mu);margin-top:10px;text-align:center">Défaut : <strong style="color:var(--ac3)">1234</strong></p>
       </div>
     </div>
-
     <div id="adminContent" style="display:none">
       <div class="acard">
         <div class="albl">🎨 Studio</div>
         <input class="af" id="aN" placeholder="Nom du studio">
         <input class="af" id="aPw1" type="password" placeholder="Nouveau mot de passe (optionnel)">
         <input class="af" id="aPw2" type="password" placeholder="Confirmer">
+      </div>
+      <div class="acard">
+        <div class="albl">🖼 Image de fond</div>
+        <input class="af" type="text" id="bgUrl" placeholder="Colle une URL d'image...">
+        <div style="display:flex;gap:8px">
+          <button onclick="applyBg()" style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">👁 Aperçu</button>
+          <button onclick="removeBg()" style="flex:1;padding:10px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">✕ Supprimer</button>
+        </div>
       </div>
       <div class="acard">
         <div class="albl">🤖 Modèles actifs</div>
@@ -899,10 +791,11 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
 </div>
 
 <!-- API MODAL -->
+
 <div class="api-modal" id="apiModal">
   <div class="api-box">
     <h3>🔑 Clé API fal.ai</h3>
-    <p>Obtiens ta clé sur <strong>fal.ai/dashboard → Keys</strong>. Une seule clé pour tout.</p>
+    <p>Obtiens ta clé sur <strong>fal.ai/dashboard → Keys</strong>.</p>
     <input class="api-in" type="password" id="apiKeyIn" placeholder="fal_xxxxxxxxxxxxxxxxxx">
     <div class="api-actions">
       <button class="api-cancel" onclick="closeApiModal()">Annuler</button>
@@ -914,714 +807,78 @@ input[type=range].pr::-webkit-slider-thumb{background:var(--pk);}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── COSTS ──────────────────────────────────────────
-const COSTS={
-  'fal-ai/flux-2/pro':0.03,
-  'fal-ai/flux/dev':0.025,
-  'fal-ai/realistic-vision':0.039,
-  'fal-ai/flux-pro/v1.1-ultra':0.06,
-  'fal-ai/flux-pro/v1.1':0.05,
-  'fal-ai/kling-video/v2.6/pro/image-to-video':{5:0.35,10:0.70},
-  'fal-ai/kling-video/v2.1/standard/image-to-video':{5:0.28,10:0.56},
-  'fal-ai/wan-i2v/720p':{5:0.25,10:0.50},
-  'fal-ai/playai/tts':0.015,
-  'fal-ai/face-swap':0.01,
-  'fal-ai/instantid':0.05,
-  'asiryan/juggernaut-xl-v7':0.004,
-  'fofr/juggernaut-xl-lightning':0.002,
-  'adirik/realvisxl-v4.0':0.021,
-  'lucataco/dreamshaper-xl-lightning':0.002,
-  'black-forest-labs/flux-dev':0.025,
-};
+const COSTS={'fal-ai/flux-2/pro':0.03,'fal-ai/flux/dev':0.025,'fal-ai/realistic-vision':0.039,'fal-ai/flux-pro/v1.1-ultra':0.06,'fal-ai/flux-pro/v1.1':0.05,'fal-ai/kling-video/v2.6/pro/image-to-video':{5:0.35,10:0.70},'fal-ai/kling-video/v2.1/standard/image-to-video':{5:0.28,10:0.56},'fal-ai/wan-i2v/720p':{5:0.25,10:0.50},'fal-ai/playai/tts':0.015,'fal-ai/face-swap':0.01,'fal-ai/instantid':0.05,'asiryan/juggernaut-xl-v7':0.004,'fofr/juggernaut-xl-lightning':0.002,'adirik/realvisxl-v4.0':0.021,'lucataco/dreamshaper-xl-lightning':0.002,'black-forest-labs/flux-dev':0.025};
 function getCost(m,x){const c=COSTS[m];if(!c)return'—';if(typeof c==='object')return'$'+(c[x||5]).toFixed(2);if(m==='fal-ai/playai/tts')return'$'+(Math.max(0.001,(x/1000)*c)).toFixed(3);return'$'+c.toFixed(3);}
-
-// ── TOLERANCE ──────────────────────────────────────
 const TLBL={1:'🟢 SFW strict',2:'🟢 SFW permissif',3:'🟡 Charme léger',4:'🟡 Boudoir & charme',5:'🔴 Nu artistique',6:'🔞 Contenu explicite maximum'};
 function updTol(v){const el=document.getElementById('tolLbl');el.textContent=v;el.className='tv t'+v;document.getElementById('tolDesc').textContent=TLBL[v];}
-
-// ── CONFIG ─────────────────────────────────────────
 let cfg=JSON.parse(localStorage.getItem('sv_cfg')||'null')||{adminPwd:'1234',studioName:'Sensual Vision'};
-
-const VOICES=[
-  {id:'s3://voice-cloning-zero-shot/baf1ef41-36b6-428c-9bdf-50ba54682bd8/original/manifest.json',n:'Étienne',d:'Homme · FR · Pro'},
-  {id:'s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json',n:'Sophie',d:'Femme · FR · Douce'},
-  {id:'s3://voice-cloning-zero-shot/e040bd1b-f190-4bdb-83f0-75ef85b18f84/original/manifest.json',n:'Marcus',d:'Homme · EN · Grave'},
-  {id:'s3://voice-cloning-zero-shot/f114a467-c40a-4db8-964d-aaba89cd08fa/original/manifest.json',n:'Layla',d:'Femme · EN'},
-  {id:'s3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c268/oliver/manifest.json',n:'Oliver',d:'Homme · EN · Calme'},
-  {id:'s3://voice-cloning-zero-shot/2ee87190-8f84-4925-97da-e52547f9462c/original/manifest.json',n:'Darius',d:'Homme · EN · Narr.'},
-];
-
-// ── STATE ──────────────────────────────────────────
-let state={
-  apiKey:'',
-  repKey:'',
-  imgModel:'fal-ai/flux-2/pro',
-  vidModel:'fal-ai/kling-video/v2.6/pro/image-to-video',
-  nsfwModel:'fal-ai/flux/dev',
-  nsfwApi:'fal',
-  fsModel:'fal-ai/face-swap',
-  voice:VOICES[0].id,
-  gallery:[],
-  lastImg:'',lastVid:'',lastAud:'',
-  imgRef:null,vidRef:null,nsfwRef:null,
-  fsSrc:null,fsTgt:null,
-  motionImg:null,motionVidUrl:null,motionModel:'fal-ai/wan-motion',
-  loraRef1:null,loraRef2:null,
-  adminOk:false,
-};
-
-// ── TIMERS ─────────────────────────────────────────
+const VOICES=[{id:'s3://voice-cloning-zero-shot/baf1ef41-36b6-428c-9bdf-50ba54682bd8/original/manifest.json',n:'Étienne',d:'Homme · FR · Pro'},{id:'s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json',n:'Sophie',d:'Femme · FR · Douce'},{id:'s3://voice-cloning-zero-shot/e040bd1b-f190-4bdb-83f0-75ef85b18f84/original/manifest.json',n:'Marcus',d:'Homme · EN · Grave'},{id:'s3://voice-cloning-zero-shot/f114a467-c40a-4db8-964d-aaba89cd08fa/original/manifest.json',n:'Layla',d:'Femme · EN'},{id:'s3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c268/oliver/manifest.json',n:'Oliver',d:'Homme · EN · Calme'},{id:'s3://voice-cloning-zero-shot/2ee87190-8f84-4925-97da-e52547f9462c/original/manifest.json',n:'Darius',d:'Homme · EN · Narr.'}];
+let state={apiKey:'',repKey:'',imgModel:'fal-ai/flux-2/pro',vidModel:'fal-ai/kling-video/v2.6/pro/image-to-video',nsfwModel:'fal-ai/flux/dev',nsfwApi:'fal',fsModel:'fal-ai/face-swap',voice:VOICES[0].id,gallery:[],lastImg:'',lastVid:'',lastAud:'',imgRef:null,vidRef:null,nsfwRef:null,fsSrc:null,fsTgt:null,motionImg:null,motionVidUrl:null,motionModel:'fal-ai/wan-motion',loraRef1:null,loraRef2:null,adminOk:false};
 const TI={};
 function startTimer(id){let s=0;TI[id]=setInterval(()=>{s++;const e=document.getElementById(id);if(e)e.textContent='⏱ '+s+'s';},1000);}
 function stopTimer(id){clearInterval(TI[id]);}
-
-// ── AGE GATE ───────────────────────────────────────
 function confirmAge(){localStorage.setItem('sv_age','1');document.getElementById('ageGate').style.display='none';}
-
-// ── INIT ───────────────────────────────────────────
 function init(){
   if(!localStorage.getItem('sv_age'))document.getElementById('ageGate').style.display='flex';
-  const k=localStorage.getItem('sv_key');
-  if(k){state.apiKey=k;setApiSt(true);}
-  const rk=localStorage.getItem('sv_rep_key');
-  if(rk){state.repKey=rk;setRepSt(true);}
-  const g=localStorage.getItem('sv_gallery');
-  if(g){state.gallery=JSON.parse(g);updStats();}
-  buildVoices();
-  updTol(6);
+  const k=localStorage.getItem('sv_key');if(k){state.apiKey=k;setApiSt(true);}
+  const rk=localStorage.getItem('sv_rep_key');if(rk){state.repKey=rk;setRepSt(true);}
+  const g=localStorage.getItem('sv_gallery');if(g){state.gallery=JSON.parse(g);updStats();}
+  buildVoices();updTol(6);
   document.getElementById('voiceText').addEventListener('input',e=>document.getElementById('charCnt').textContent=e.target.value.length);
+  const bg=localStorage.getItem('sv_bg');
+  if(bg){document.body.style.backgroundImage='url('+bg+')';document.body.style.backgroundSize='cover';document.body.style.backgroundPosition='center';document.body.style.backgroundAttachment='fixed';document.body.classList.add('has-bg');document.getElementById('bgUrl').value=bg;}
 }
-
-function setApiSt(ok){
-  document.getElementById('ccBtn').classList.toggle('ok',ok);
-  document.getElementById('ccDot').classList.toggle('ok',ok);
-  const el=document.getElementById('ccApiSt');
-  el.textContent=ok?'connectée':'non configurée';
-  el.className='cc-val'+(ok?' ok':' no');
-}
-
-// ── CONTROL CENTER ─────────────────────────────────
-function toggleCC(){
-  const m=document.getElementById('ccMenu');
-  const o=document.getElementById('ccOverlay');
-  const isOpen=m.classList.contains('open');
-  m.classList.toggle('open',!isOpen);
-  o.classList.toggle('open',!isOpen);
-}
-function closeCC(){
-  document.getElementById('ccMenu').classList.remove('open');
-  document.getElementById('ccOverlay').classList.remove('open');
-}
-
-// ── TABS ───────────────────────────────────────────
-function switchTab(tab,idx){
-  document.querySelectorAll('.mtab').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s-'+tab).classList.add('active');
-  if(tab==='gallery')renderGal();
-}
-
-function switchSub(sub,idx){
-  document.querySelectorAll('.stab').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.querySelectorAll('.sub-sec').forEach(s=>s.classList.remove('active'));
-  document.getElementById('ss-'+sub).classList.add('active');
-}
-
-function switchNsfwApi(api,idx){
-  document.querySelectorAll('#ss-nsfw .sub-tabs .stab').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.getElementById('nsfw-fal').style.display=api==='fal'?'block':'none';
-  document.getElementById('nsfw-rep').style.display=api==='rep'?'block':'none';
-  state.nsfwApi=api;
-}
-
-function switchLoraTab(tab,idx){
-  document.querySelectorAll('#s-lora .sub-tabs .stab').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.getElementById('lora-train').style.display=tab==='train'?'block':'none';
-  document.getElementById('lora-use').style.display=tab==='use'?'block':'none';
-}
-
-// ── MODEL SELECT ───────────────────────────────────
-function selM(el,type){
-  el.closest('.mpills').querySelectorAll('.mp').forEach(m=>{m.classList.remove('sel','psel');});
-  el.classList.add(type==='nsfw'?'psel':'sel');
-  if(type==='img')state.imgModel=el.dataset.m;
-  else if(type==='vid')state.vidModel=el.dataset.m;
-  else if(type==='nsfw')state.nsfwModel=el.dataset.m;
-  else if(type==='fs')state.fsModel=el.dataset.m;
-  else if(type==='motion')state.motionModel=el.dataset.m;
-}
-
-// ── UPLOAD — FIXED ─────────────────────────────────
-function handleUp(input,prevId,areaId,lblId,cb){
-  if(!input.files||!input.files[0])return;
-  const file=input.files[0];
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const dataUrl=e.target.result;
-    cb(dataUrl);
-    const prev=document.getElementById(prevId);
-    prev.src=dataUrl;
-    prev.style.display='block';
-    document.getElementById(areaId).classList.add('has');
-    document.getElementById(lblId).textContent='✅ '+file.name;
-  };
-  reader.readAsDataURL(file);
-}
-
-function handleFace(input,prevId,boxId,cb){
-  if(!input.files||!input.files[0])return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    cb(e.target.result);
-    const p=document.getElementById(prevId);p.src=e.target.result;p.style.display='block';
-    document.getElementById(boxId).classList.add('has');
-  };
-  reader.readAsDataURL(input.files[0]);
-}
-
-function buildVoices(){
-  document.getElementById('voiceGrid').innerHTML=VOICES.map(v=>`<div class="vc ${v.id===state.voice?'sel':''}" onclick="selV('${v.id}',this)"><div class="vn">${v.n}</div><div class="vd">${v.d}</div></div>`).join('');
-}
+function setApiSt(ok){document.getElementById('ccBtn').classList.toggle('ok',ok);document.getElementById('ccDot').classList.toggle('ok',ok);const el=document.getElementById('ccApiSt');el.textContent=ok?'connectée':'non configurée';el.className='cc-val'+(ok?' ok':' no');}
+function toggleCC(){const m=document.getElementById('ccMenu');const o=document.getElementById('ccOverlay');const isOpen=m.classList.contains('open');m.classList.toggle('open',!isOpen);o.classList.toggle('open',!isOpen);}
+function closeCC(){document.getElementById('ccMenu').classList.remove('open');document.getElementById('ccOverlay').classList.remove('open');}
+function switchTab(tab,idx){document.querySelectorAll('.mtab').forEach((b,i)=>b.classList.toggle('active',i===idx));document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('s-'+tab).classList.add('active');if(tab==='gallery')renderGal();}
+function switchSub(sub,idx){document.querySelectorAll('.stab').forEach((b,i)=>b.classList.toggle('active',i===idx));document.querySelectorAll('.sub-sec').forEach(s=>s.classList.remove('active'));document.getElementById('ss-'+sub).classList.add('active');}
+function switchNsfwApi(api,idx){document.querySelectorAll('#ss-nsfw .sub-tabs .stab').forEach((b,i)=>b.classList.toggle('active',i===idx));document.getElementById('nsfw-fal').style.display=api==='fal'?'block':'none';document.getElementById('nsfw-rep').style.display=api==='rep'?'block':'none';state.nsfwApi=api;}
+function switchLoraTab(tab,idx){document.querySelectorAll('#s-lora .sub-tabs .stab').forEach((b,i)=>b.classList.toggle('active',i===idx));document.getElementById('lora-train').style.display=tab==='train'?'block':'none';document.getElementById('lora-use').style.display=tab==='use'?'block':'none';}
+function selM(el,type){el.closest('.mpills').querySelectorAll('.mp').forEach(m=>{m.classList.remove('sel','psel');});el.classList.add(type==='nsfw'?'psel':'sel');if(type==='img')state.imgModel=el.dataset.m;else if(type==='vid')state.vidModel=el.dataset.m;else if(type==='nsfw')state.nsfwModel=el.dataset.m;else if(type==='fs')state.fsModel=el.dataset.m;else if(type==='motion')state.motionModel=el.dataset.m;}
+function handleUp(input,prevId,areaId,lblId,cb){if(!input.files||!input.files[0])return;const file=input.files[0];const reader=new FileReader();reader.onload=function(e){const dataUrl=e.target.result;cb(dataUrl);const prev=document.getElementById(prevId);prev.src=dataUrl;prev.style.display='block';document.getElementById(areaId).classList.add('has');document.getElementById(lblId).textContent='✅ '+file.name;};reader.readAsDataURL(file);}
+function handleFace(input,prevId,boxId,cb){if(!input.files||!input.files[0])return;const reader=new FileReader();reader.onload=function(e){cb(e.target.result);const p=document.getElementById(prevId);p.src=e.target.result;p.style.display='block';document.getElementById(boxId).classList.add('has');};reader.readAsDataURL(input.files[0]);}
+function buildVoices(){document.getElementById('voiceGrid').innerHTML=VOICES.map(v=>`<div class="vc ${v.id===state.voice?'sel':''}" onclick="selV('${v.id}',this)"><div class="vn">${v.n}</div><div class="vd">${v.d}</div></div>`).join('');}
 function selV(id,el){state.voice=id;document.querySelectorAll('.vc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
-
-// ── API ────────────────────────────────────────────
 function openApiModal(){document.getElementById('apiModal').classList.add('open');}
 function closeApiModal(){document.getElementById('apiModal').classList.remove('open');}
-function saveApiKey(){
-  const k=document.getElementById('apiKeyIn').value.trim();
-  if(!k)return toast('Entre ta clé API','err');
-  state.apiKey=k;localStorage.setItem('sv_key',k);
-  setApiSt(true);closeApiModal();toast('✅ Clé sauvegardée !','ok');
-}
-
-// ── ADMIN ──────────────────────────────────────────
+function saveApiKey(){const k=document.getElementById('apiKeyIn').value.trim();if(!k)return toast('Entre ta clé API','err');state.apiKey=k;localStorage.setItem('sv_key',k);setApiSt(true);closeApiModal();toast('✅ Clé sauvegardée !','ok');}
 function openAdmin(){document.getElementById('adminModal').classList.add('open');}
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');}
-function chkAdmin(){
-  const p=document.getElementById('adminPwd').value;
-  if(p===cfg.adminPwd){
-    state.adminOk=true;
-    document.getElementById('adminLock').style.display='none';
-    document.getElementById('adminContent').style.display='block';
-    document.getElementById('aN').value=cfg.studioName||'Sensual Vision';
-    renderAdminModels();
-    toast('🔓 Admin déverrouillé','ok');
-  }else{toast('❌ Mot de passe incorrect','err');document.getElementById('adminPwd').value='';}
-}
-function lockAdmin(){
-  state.adminOk=false;
-  document.getElementById('adminLock').style.display='block';
-  document.getElementById('adminContent').style.display='none';
-  document.getElementById('adminPwd').value='';
-}
-function renderAdminModels(){
-  const models=[
-    {id:'fal-ai/flux-2/pro',name:'FLUX 2 Pro (Image)'},
-    {id:'fal-ai/flux/dev',name:'FLUX Dev (Image/NSFW)'},
-    {id:'fal-ai/realistic-vision',name:'Realistic Vision (Image)'},
-    {id:'fal-ai/kling-video/v2.6/pro/image-to-video',name:'Kling 2.6 Pro (Vidéo)'},
-    {id:'fal-ai/kling-video/v2.1/standard/image-to-video',name:'Kling 2.1 Std (Vidéo)'},
-    {id:'fal-ai/wan-i2v/720p',name:'Wan 2.2 (Vidéo)'},
-  ];
-  document.getElementById('aModels').innerHTML=models.map(m=>`<div class="arow"><div style="font-size:13px;font-weight:600">${m.name}</div><div style="font-size:10px;color:var(--ok);font-family:'Space Mono',monospace">✓ actif</div></div>`).join('');
-}
-function saveAdmin(){
-  const p1=document.getElementById('aPw1').value;
-  const p2=document.getElementById('aPw2').value;
-  if(p1){if(p1!==p2)return toast('Mots de passe différents','err');cfg.adminPwd=p1;document.getElementById('aPw1').value='';document.getElementById('aPw2').value='';}
-  cfg.studioName=document.getElementById('aN').value||'Sensual Vision';
-  localStorage.setItem('sv_cfg',JSON.stringify(cfg));
-  toast('✅ Sauvegardé !','ok');
-}
-
-// ── FAL QUEUE — CORRECT ────────────────────────────
-async function falQueue(model,body,onProg){
-  const sub=await fetch(`https://queue.fal.run/${model}`,{
-    method:'POST',
-    headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  });
-  if(!sub.ok){
-    let err='Erreur API ('+sub.status+')';
-    try{const j=await sub.json();err=j.detail||j.error||err;}catch(e){}
-    throw new Error(err);
-  }
-  const {request_id}=await sub.json();
-  if(!request_id)throw new Error('Pas de request_id reçu');
-
-  for(let i=0;i<300;i++){
-    await sleep(1000);
-    if(onProg)onProg(Math.min(10+i*1.5,90));
-    try{
-      const sRes=await fetch(`https://queue.fal.run/${model}/requests/${request_id}/status`,{
-        headers:{'Authorization':'Key '+state.apiKey}
-      });
-      if(!sRes.ok)continue;
-      const s=await sRes.json();
-      if(s.status==='COMPLETED'){
-        const rRes=await fetch(`https://queue.fal.run/${model}/requests/${request_id}`,{
-          headers:{'Authorization':'Key '+state.apiKey}
-        });
-        if(!rRes.ok)throw new Error('Erreur récupération résultat ('+rRes.status+')');
-        return await rRes.json();
-      }
-      if(s.status==='FAILED')throw new Error(s.error||'Génération échouée');
-    }catch(e){if(e.message.includes('Génération'))throw e;}
-  }
-  throw new Error('Timeout — réessaie');
-}
-
-// ── REPLICATE API KEY ──────────────────────────────
-function saveRepKey(){
-  const k=(document.getElementById('repKeyIn')||document.getElementById('loraRepKey'))?.value?.trim();
-  if(!k)return toast('Entre ta clé Replicate','err');
-  state.repKey=k;localStorage.setItem('sv_rep_key',k);
-  setRepSt(true);toast('✅ Clé Replicate sauvegardée !','ok');
-}
-function setRepSt(ok){
-  const st=document.getElementById('loraRepSt');
-  if(st){st.textContent=ok?'✅ Connectée':'replicate.com → Account → API tokens';st.style.color=ok?'var(--ok)':'var(--mu)';}
-}
-
-// ── REPLICATE QUEUE ────────────────────────────────
-async function repQueue(model,body,onProg){
-  const res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{
-    method:'POST',
-    headers:{'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json','Prefer':'wait=5'},
-    body:JSON.stringify({input:body})
-  });
-  if(!res.ok){let e='Erreur Replicate ('+res.status+')';try{const j=await res.json();e=j.detail||e;}catch(x){}throw new Error(e);}
-  let pred=await res.json();
-  const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;
-  for(let i=0;i<180;i++){
-    if(pred.status==='succeeded')return pred.output;
-    if(pred.status==='failed')throw new Error(pred.error||'Génération Replicate échouée');
-    await sleep(2000);
-    if(onProg)onProg(Math.min(15+i*2,90));
-    const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});
-    pred=await r.json();
-  }
-  throw new Error('Timeout Replicate');
-}
-
-// ── NSFW REPLICATE ─────────────────────────────────
-async function genNSFWReplicate(){
-  const prompt=document.getElementById('nsfwPrompt').value.trim();
-  if(!prompt)return toast('Écris un prompt','err');
-  const t0=Date.now();
-  startLoad('btnNsfw','loadNsfw','resNsfw');startTimer('tmNsfw');
-  const m=state.nsfwModel;
-  try{
-    const body={
-      prompt,
-      negative_prompt:document.getElementById('nsfwNeg').value,
-      width:768,height:1344,
-      num_inference_steps:+document.getElementById('nsfwSteps').value,
-      guidance_scale:7,
-      disable_safety_checker:true
-    };
-    if(state.nsfwRef){body.image=state.nsfwRef;body.strength=0.75;}
-    const out=await repQueue(m,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));
-    const url=Array.isArray(out)?out[0]:out;
-    if(!url)throw new Error('Pas d\'URL Replicate');
-    state.lastImg=url;
-    stopTimer('tmNsfw');
-    const el=document.getElementById('rNsfw');
-    el.src=url;
-    el.onload=()=>{
-      endLoad('btnNsfw','loadNsfw','resNsfw');
-      const costs={'asiryan/juggernaut-xl-v7':'~$0.004','fofr/juggernaut-xl-lightning':'~$0.002','adirik/realvisxl-v4.0':'~$0.021','lucataco/dreamshaper-xl-lightning':'~$0.002','black-forest-labs/flux-dev':'~$0.025'};
-      document.getElementById('costNsfw').textContent=costs[m]||'variable';
-      document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    };
-    document.getElementById('dlNsfw').href=url;
-    updStats();toast('✅ Image NSFW générée !','ok');
-  }catch(e){stopTimer('tmNsfw');endLoad('btnNsfw','loadNsfw');toast('❌ '+e.message,'err');}
-}
-
-// ── PULID (Niveau 1) ───────────────────────────────
-async function genPuLID(){
-  if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');
-  if(!state.loraRef1)return toast('Ajoute une photo du modèle','err');
-  const prompt=document.getElementById('pulidPrompt').value.trim();
-  if(!prompt)return toast('Écris un prompt','err');
-  const t0=Date.now();
-  startLoad('btnPulid','loadPulid','resPulid');startTimer('tmPulid');
-  try{
-    const wh=document.getElementById('pulidRatio').value.split('x');
-    const body={
-      main_face_image:state.loraRef1,
-      prompt,
-      width:+wh[0],height:+wh[1],
-      id_weight:+document.getElementById('pulidWeight').value,
-      num_steps:20,
-      start_step:0,
-      true_cfg:1,
-      guidance:4
-    };
-    const out=await repQueue('bytedance/flux-pulid',body,p=>prog('lfPulid','ltPulid',p,'Analyse du visage...'));
-    const url=Array.isArray(out)?out[0]:out;
-    if(!url)throw new Error('Pas de résultat PuLID');
-    state.lastImg=url;
-    stopTimer('tmPulid');
-    const el=document.getElementById('rPulid');
-    el.src=url;
-    el.onload=()=>{endLoad('btnPulid','loadPulid','resPulid');document.getElementById('timePulid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};
-    document.getElementById('dlPulid').href=url;
-    updStats();toast('✅ Niveau 1 généré !','ok');
-  }catch(e){stopTimer('tmPulid');endLoad('btnPulid','loadPulid');toast('❌ '+e.message,'err');}
-}
-
-// ── INSTANT ID (Niveau 2) ──────────────────────────
-async function genInstantID(){
-  if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');
-  if(!state.loraRef2)return toast('Ajoute une photo haute qualité','err');
-  const prompt=document.getElementById('iidPrompt').value.trim();
-  if(!prompt)return toast('Écris un prompt','err');
-  const t0=Date.now();
-  startLoad('btnIID','loadIID','resIID');startTimer('tmIID');
-  try{
-    const body={
-      image:state.loraRef2,
-      prompt,
-      style:document.getElementById('iidStyle').value,
-      guidance_scale:+document.getElementById('iidGuidance').value,
-      num_inference_steps:30,
-      enable_safety_checker:false
-    };
-    const out=await repQueue('grandlineai/instant-id-photorealistic',body,p=>prog('lfIID','ltIID',p,'Analyse facial avancée...'));
-    const url=Array.isArray(out)?out[0]:out;
-    if(!url)throw new Error('Pas de résultat InstantID');
-    state.lastImg=url;
-    stopTimer('tmIID');
-    const el=document.getElementById('rIID');
-    el.src=url;
-    el.onload=()=>{endLoad('btnIID','loadIID','resIID');document.getElementById('timeIID').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};
-    document.getElementById('dlIID').href=url;
-    updStats();toast('✅ Niveau 2 généré !','ok');
-  }catch(e){stopTimer('tmIID');endLoad('btnIID','loadIID');toast('❌ '+e.message,'err');}
-}
-
-// ── LORA TRAIN (Niveau 3) ─────────────────────────
-function handleLoraImgs(input){
-  if(!input.files||!input.files[0])return;
-  state._loraFiles=Array.from(input.files);
-  const n=state._loraFiles.length;
-  document.getElementById('loraImgCount').textContent=n+' photo'+(n>1?'s':'')+' sélectionnée'+(n>1?'s':'')+' '+(n>=15?'✅':'⚠️ minimum 15 recommandé');
-  document.getElementById('lora-train-up').classList.add('has');
-  document.getElementById('loraImgsLbl').textContent='✅ '+n+' fichier'+(n>1?'s':'');
-}
-
-async function trainLora(){
-  if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');
-  const name=document.getElementById('loraName').value.trim();
-  if(!name)return toast('Donne un nom à ton LoRA','err');
-  if(!state._loraFiles||state._loraFiles.length<1)return toast('Ajoute tes photos','err');
-  toast('🏋️ Entraînement lancé sur Replicate — Ouvre replicate.com/trainings pour suivre la progression','ok');
-  startLoad('btnLoraTrain','loadLoraTrain','resLoraTrain');startTimer('tmLoraTrain');
-  try{
-    prog('lfLoraTrain','ltLoraTrain',10,'Préparation...');
-    await sleep(2000);
-    prog('lfLoraTrain','ltLoraTrain',30,'Upload des images...');
-    await sleep(2000);
-    prog('lfLoraTrain','ltLoraTrain',60,'Entraînement en cours...');
-    await sleep(3000);
-    prog('lfLoraTrain','ltLoraTrain',100,'Terminé !');
-    stopTimer('tmLoraTrain');
-    endLoad('btnLoraTrain','loadLoraTrain','resLoraTrain');
-    document.getElementById('loraTrainId').textContent='Endpoint : replicate.com/votre-user/'+name.toLowerCase().replace(/\s+/g,'-');
-    toast('✅ Pour un vrai entraînement, va sur replicate.com/fast-flux-trainer','ok');
-  }catch(e){stopTimer('tmLoraTrain');endLoad('btnLoraTrain','loadLoraTrain');toast('❌ '+e.message,'err');}
-}
-
-async function genWithLora(){
-  if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');
-  const endpoint=document.getElementById('loraEndpoint').value.trim();
-  if(!endpoint)return toast('Entre l\'endpoint de ton LoRA','err');
-  const trigger=document.getElementById('loraTrigger').value.trim();
-  const promptBase=document.getElementById('loraUsePrompt').value.trim();
-  if(!promptBase)return toast('Écris un prompt','err');
-  const prompt=trigger?trigger+', '+promptBase:promptBase;
-  const t0=Date.now();
-  startLoad('btnLoraUse','loadLoraUse','resLoraUse');startTimer('tmLoraUse');
-  try{
-    const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'landscape_16_9':{w:1344,h:768}};
-    const sz=ratioMap[document.getElementById('loraRatio').value]||{w:768,h:1344};
-    const body={
-      prompt,
-      lora_weights:endpoint,
-      lora_scale:+document.getElementById('loraScale').value,
-      width:sz.w,height:sz.h,
-      num_inference_steps:28,
-      guidance_scale:3.5,
-      disable_safety_checker:true,
-      go_fast:true
-    };
-    const out=await repQueue('black-forest-labs/flux-dev-lora',body,p=>prog('lfLoraUse','ltLoraUse',p,'Génération avec LoRA...'));
-    const url=Array.isArray(out)?out[0]:out;
-    if(!url)throw new Error('Pas de résultat LoRA');
-    state.lastImg=url;
-    stopTimer('tmLoraUse');
-    const el=document.getElementById('rLoraUse');
-    el.src=url;
-    el.onload=()=>{endLoad('btnLoraUse','loadLoraUse','resLoraUse');document.getElementById('timeLoraUse').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};
-    document.getElementById('dlLoraUse').href=url;
-    updStats();toast('✅ Générée avec ton LoRA !','ok');
-  }catch(e){stopTimer('tmLoraUse');endLoad('btnLoraUse','loadLoraUse');toast('❌ '+e.message,'err');}
-}
-
-// ── FAL IMAGE ──────────────────────────────────────
-async function genImage(){
-  if(!state.apiKey){openApiModal();return;}
-  const prompt=document.getElementById('imgPrompt').value.trim();
-  if(!prompt)return toast('Écris un prompt','err');
-  const t0=Date.now();
-  startLoad('btnImg','loadImg','resImg');startTimer('tmImg');
-  try{
-    const body={
-      prompt,
-      negative_prompt:document.getElementById('imgNeg').value,
-      image_size:document.getElementById('imgRatio').value,
-      num_inference_steps:+document.getElementById('imgSteps').value,
-      guidance_scale:+document.getElementById('guidance').value,
-      num_images:1,
-      enable_safety_checker:false
-    };
-    // Image de référence — envoi en base64
-    if(state.imgRef){
-      body.image_url=state.imgRef;
-      body.strength=0.75;
-    }
-    const out=await falQueue(state.imgModel,body,p=>prog('lfImg','ltImg',p,'Génération...'));
-    const url=out.images?.[0]?.url||out.image?.url;
-    if(!url)throw new Error('Pas d\'URL dans la réponse');
-    state.lastImg=url;
-    stopTimer('tmImg');
-    prog('lfImg','ltImg',100,'Terminé !');
-    const el=document.getElementById('rImg');
-    el.src=url;
-    el.onload=()=>{
-      endLoad('btnImg','loadImg','resImg');
-      document.getElementById('costImg').textContent=getCost(state.imgModel);
-      document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    };
-    document.getElementById('dlImg').href=url;
-    updStats();toast('✅ Image générée !','ok');
-  }catch(e){stopTimer('tmImg');endLoad('btnImg','loadImg');toast('❌ '+e.message,'err');}
-}
-
-// ── NSFW ───────────────────────────────────────────
-async function genNSFW(){
-  if(state.nsfwApi==='rep'){
-    if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');
-    return genNSFWReplicate();
-  }
-  if(!state.apiKey){openApiModal();return;}
-  const prompt=document.getElementById('nsfwPrompt').value.trim();
-  if(!prompt)return toast('Écris un prompt','err');
-  const t0=Date.now();
-  const tol=+document.getElementById('tolRange').value;
-  startLoad('btnNsfw','loadNsfw','resNsfw');startTimer('tmNsfw');
-  try{
-    const body={
-      prompt,
-      negative_prompt:document.getElementById('nsfwNeg').value,
-      image_size:document.getElementById('nsfwRatio').value,
-      num_inference_steps:+document.getElementById('nsfwSteps').value,
-      num_images:1,
-      enable_safety_checker:false
-    };
-    if(state.nsfwModel==='fal-ai/flux-pro/v1.1-ultra'||state.nsfwModel==='fal-ai/flux-pro/v1.1'){
-      body.safety_tolerance=tol;
-    }
-    if(state.nsfwRef){body.image_url=state.nsfwRef;body.strength=0.75;}
-    const out=await falQueue(state.nsfwModel,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));
-    const url=out.images?.[0]?.url||out.image?.url;
-    if(!url)throw new Error('Pas d\'URL dans la réponse');
-    state.lastImg=url;
-    stopTimer('tmNsfw');
-    prog('lfNsfw','ltNsfw',100,'Terminé !');
-    const el=document.getElementById('rNsfw');
-    el.src=url;
-    el.onload=()=>{
-      endLoad('btnNsfw','loadNsfw','resNsfw');
-      document.getElementById('costNsfw').textContent=getCost(state.nsfwModel);
-      document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    };
-    document.getElementById('dlNsfw').href=url;
-    updStats();toast('✅ Image générée !','ok');
-  }catch(e){stopTimer('tmNsfw');endLoad('btnNsfw','loadNsfw');toast('❌ '+e.message,'err');}
-}
-
-// ── VIDEO ──────────────────────────────────────────
-async function genVideo(){
-  if(!state.apiKey){openApiModal();return;}
-  const prompt=document.getElementById('vidPrompt').value.trim();
-  if(!prompt)return toast('Écris un prompt','err');
-  const t0=Date.now();
-  const dur=+document.getElementById('vidDur').value;
-  startLoad('btnVid','loadVid','resVid');startTimer('tmVid');
-  try{
-    const body={prompt,duration:dur,aspect_ratio:'9:16'};
-    if(state.vidRef)body.image_url=state.vidRef;
-    const out=await falQueue(state.vidModel,body,p=>prog('lfVid','ltVid',p,'Génération vidéo...'));
-    const url=out.video?.url||out.videos?.[0]?.url;
-    if(!url)throw new Error('Pas d\'URL vidéo dans la réponse');
-    state.lastVid=url;
-    stopTimer('tmVid');
-    document.getElementById('rVid').src=url;
-    endLoad('btnVid','loadVid','resVid');
-    document.getElementById('costVid').textContent=getCost(state.vidModel,dur);
-    document.getElementById('timeVid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    document.getElementById('dlVid').href=url;
-    updStats();toast('✅ Vidéo générée !','ok');
-  }catch(e){stopTimer('tmVid');endLoad('btnVid','loadVid');toast('❌ '+e.message,'err');}
-}
-
-// ── VOICE ──────────────────────────────────────────
-async function genVoice(){
-  if(!state.apiKey){openApiModal();return;}
-  const text=document.getElementById('voiceText').value.trim();
-  if(text.length<5)return toast('Écris un texte','err');
-  const t0=Date.now();
-  startLoad('btnVoice','loadVoice','resVoice');startTimer('tmVoice');
-  try{
-    const body={model:'PlayDialog',input:text,voice:state.voice,speed:+document.getElementById('voiceSpd').value,language:document.getElementById('voiceLang').value,output_format:'mp3'};
-    const out=await falQueue('fal-ai/playai/tts',body,p=>prog('lfVoice','ltVoice',p,'Synthèse...'));
-    const url=out.audio?.url||out.url;
-    if(!url)throw new Error('Pas d\'URL audio dans la réponse');
-    state.lastAud=url;
-    stopTimer('tmVoice');
-    document.getElementById('rAudio').src=url;
-    endLoad('btnVoice','loadVoice','resVoice');
-    document.getElementById('costVoice').textContent=getCost('fal-ai/playai/tts',text.length);
-    document.getElementById('timeVoice').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    document.getElementById('dlVoice').href=url;
-    updStats();toast('✅ Voix générée !','ok');
-  }catch(e){stopTimer('tmVoice');endLoad('btnVoice','loadVoice');toast('❌ '+e.message,'err');}
-}
-
-// ── MOTION VIDEO UPLOAD ────────────────────────────
-function handleMotionVideo(input){
-  if(!input.files||!input.files[0])return;
-  const file=input.files[0];
-  // Store as object URL for video preview + will upload to fal storage
-  const url=URL.createObjectURL(file);
-  const prev=document.getElementById('motionVidPrev');
-  prev.src=url;prev.style.display='block';
-  document.getElementById('motionVidArea').classList.add('has');
-  document.getElementById('motionVidLbl').textContent='✅ '+file.name;
-  // Store file for upload
-  state._motionVidFile=file;
-  state.motionVidUrl=null; // will be set after upload
-}
-
-// ── MOTION TRANSFER ────────────────────────────────
-async function genMotion(){
-  if(!state.apiKey){openApiModal();return;}
-  if(!state.motionImg)return toast('Ajoute la photo du modèle','err');
-  if(!state._motionVidFile&&!state.motionVidUrl)return toast('Ajoute la vidéo de référence','err');
-  const t0=Date.now();
-  startLoad('btnMotion','loadMotion','resMotion');startTimer('tmMotion');
-  try{
-    // Upload video to fal storage if needed
-    let vidUrl=state.motionVidUrl;
-    if(!vidUrl&&state._motionVidFile){
-      document.getElementById('ltMotion').textContent='Upload vidéo en cours...';
-      const uploadRes=await fetch('https://fal.run/fal-ai/storage/upload',{
-        method:'POST',
-        headers:{'Authorization':'Key '+state.apiKey,'Content-Type':state._motionVidFile.type},
-        body:state._motionVidFile
-      });
-      if(!uploadRes.ok)throw new Error('Erreur upload vidéo ('+uploadRes.status+')');
-      const uploadData=await uploadRes.json();
-      vidUrl=uploadData.url||uploadData.file_url;
-      state.motionVidUrl=vidUrl;
-    }
-    const prompt=document.getElementById('motionPrompt').value.trim();
-    const dur=+document.getElementById('motionDur').value;
-    let body={};
-    const m=state.motionModel;
-    if(m==='fal-ai/wan-motion'){
-      body={video_url:vidUrl,image_url:state.motionImg,adapt_motion:true,enhance_identity:false};
-      if(prompt)body.prompt=prompt;
-    } else {
-      // Kling motion control
-      body={image_url:state.motionImg,video_url:vidUrl,character_orientation:'video',duration:dur};
-      if(prompt)body.prompt=prompt;
-    }
-    const out=await falQueue(m,body,p=>prog('lfMotion','ltMotion',p,'Transfert en cours...'));
-    const url=out.video?.url||out.videos?.[0]?.url;
-    if(!url)throw new Error('Pas de vidéo dans la réponse');
-    state.lastVid=url;
-    stopTimer('tmMotion');
-    document.getElementById('rMotion').src=url;
-    endLoad('btnMotion','loadMotion','resMotion');
-    const elapsed=((Date.now()-t0)/1000).toFixed(1);
-    const costPerSec=m.includes('wan-motion')?0.06:m.includes('pro')?0.112:0.07;
-    document.getElementById('costMotion').textContent='~$'+(costPerSec*dur).toFixed(2);
-    document.getElementById('timeMotion').textContent=elapsed+'s';
-    document.getElementById('dlMotion').href=url;
-    updStats();toast('✅ Motion généré !','ok');
-  }catch(e){stopTimer('tmMotion');endLoad('btnMotion','loadMotion');toast('❌ '+e.message,'err');}
-}
-
-// ── FACE SWAP ──────────────────────────────────────
-async function genFaceSwap(){
-  if(!state.apiKey){openApiModal();return;}
-  if(!state.fsSrc||!state.fsTgt)return toast('Ajoute les 2 images','err');
-  const t0=Date.now();
-  startLoad('btnFs','loadFs','resFs');startTimer('tmFs');
-  try{
-    const body={base_image_url:state.fsTgt,swap_image_url:state.fsSrc};
-    const out=await falQueue(state.fsModel,body,p=>prog('lfFs','ltFs',p,'Face swap...'));
-    const url=out.image?.url||out.images?.[0]?.url;
-    if(!url)throw new Error('Pas d\'URL dans la réponse');
-    state.lastImg=url;
-    stopTimer('tmFs');
-    const el=document.getElementById('rFs');
-    el.src=url;
-    el.onload=()=>{
-      endLoad('btnFs','loadFs','resFs');
-      document.getElementById('costFs').textContent=getCost(state.fsModel);
-      document.getElementById('timeFs').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    };
-    document.getElementById('dlFs').href=url;
-    updStats();toast('✅ Face swap terminé !','ok');
-  }catch(e){stopTimer('tmFs');endLoad('btnFs','loadFs');toast('❌ '+e.message,'err');}
-}
-
-// ── GALLERY ────────────────────────────────────────
-function saveGal(type){
-  const url=type==='image'?state.lastImg:type==='video'?state.lastVid:state.lastAud;
-  if(!url)return toast('Rien à sauvegarder','err');
-  state.gallery.unshift({type,url,date:new Date().toLocaleDateString('fr')});
-  localStorage.setItem('sv_gallery',JSON.stringify(state.gallery));
-  updStats();toast('✅ Sauvegardé !','ok');
-}
-function renderGal(){
-  const g=document.getElementById('galGrid');
-  if(!state.gallery.length){g.innerHTML='<div class="gempty"><span style="font-size:40px;display:block;margin-bottom:12px">🎨</span><p>Tes créations apparaîtront ici</p></div>';return;}
-  g.innerHTML=state.gallery.map((x,i)=>`<div class="gi">${x.type==='image'?`<img src="${x.url}" loading="lazy">`:x.type==='video'?`<video src="${x.url}" muted loop playsinline autoplay></video>`:`<div style="background:var(--s2);height:100%;display:flex;align-items:center;justify-content:center;font-size:32px">🎙</div>`}<button class="gdel" onclick="delGal(${i})">✕</button></div>`).join('');
-}
+function chkAdmin(){const p=document.getElementById('adminPwd').value;if(p===cfg.adminPwd){state.adminOk=true;document.getElementById('adminLock').style.display='none';document.getElementById('adminContent').style.display='block';document.getElementById('aN').value=cfg.studioName||'Sensual Vision';const bg=localStorage.getItem('sv_bg');if(bg)document.getElementById('bgUrl').value=bg;renderAdminModels();toast('🔓 Admin déverrouillé','ok');}else{toast('❌ Mot de passe incorrect','err');document.getElementById('adminPwd').value='';}}
+function lockAdmin(){state.adminOk=false;document.getElementById('adminLock').style.display='block';document.getElementById('adminContent').style.display='none';document.getElementById('adminPwd').value='';}
+function renderAdminModels(){const models=[{id:'fal-ai/flux-2/pro',name:'FLUX 2 Pro (Image)'},{id:'fal-ai/flux/dev',name:'FLUX Dev (Image/NSFW)'},{id:'fal-ai/realistic-vision',name:'Realistic Vision (Image)'},{id:'fal-ai/kling-video/v2.6/pro/image-to-video',name:'Kling 2.6 Pro (Vidéo)'},{id:'fal-ai/wan-i2v/720p',name:'Wan 2.2 (Vidéo)'}];document.getElementById('aModels').innerHTML=models.map(m=>`<div class="arow"><div style="font-size:13px;font-weight:600">${m.name}</div><div style="font-size:10px;color:var(--ok);font-family:'Space Mono',monospace">✓ actif</div></div>`).join('');}
+function saveAdmin(){const p1=document.getElementById('aPw1').value;const p2=document.getElementById('aPw2').value;if(p1){if(p1!==p2)return toast('Mots de passe différents','err');cfg.adminPwd=p1;document.getElementById('aPw1').value='';document.getElementById('aPw2').value='';}cfg.studioName=document.getElementById('aN').value||'Sensual Vision';localStorage.setItem('sv_cfg',JSON.stringify(cfg));toast('✅ Sauvegardé !','ok');}
+function applyBg(){const u=document.getElementById('bgUrl').value.trim();if(!u)return toast('Entre une URL d\'image','err');document.body.style.backgroundImage='url('+u+')';document.body.style.backgroundSize='cover';document.body.style.backgroundPosition='center';document.body.style.backgroundAttachment='fixed';document.body.classList.add('has-bg');localStorage.setItem('sv_bg',u);toast('✅ Fond appliqué !','ok');}
+function removeBg(){document.body.style.backgroundImage='';document.body.classList.remove('has-bg');localStorage.removeItem('sv_bg');document.getElementById('bgUrl').value='';toast('Fond supprimé','info');}
+async function falQueue(model,body,onProg){const sub=await fetch(`https://queue.fal.run/${model}`,{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!sub.ok){let err='Erreur API ('+sub.status+')';try{const j=await sub.json();err=j.detail||j.error||err;}catch(e){}throw new Error(err);}const{request_id}=await sub.json();if(!request_id)throw new Error('Pas de request_id reçu');for(let i=0;i<300;i++){await sleep(1000);if(onProg)onProg(Math.min(10+i*1.5,90));try{const sRes=await fetch(`https://queue.fal.run/${model}/requests/${request_id}/status`,{headers:{'Authorization':'Key '+state.apiKey}});if(!sRes.ok)continue;const s=await sRes.json();if(s.status==='COMPLETED'){const rRes=await fetch(`https://queue.fal.run/${model}/requests/${request_id}`,{headers:{'Authorization':'Key '+state.apiKey}});if(!rRes.ok)throw new Error('Erreur récupération résultat ('+rRes.status+')');return await rRes.json();}if(s.status==='FAILED')throw new Error(s.error||'Génération échouée');}catch(e){if(e.message.includes('Génération'))throw e;}}throw new Error('Timeout — réessaie');}
+function saveRepKey(){const k=(document.getElementById('repKeyIn')||document.getElementById('loraRepKey'))?.value?.trim();if(!k)return toast('Entre ta clé Replicate','err');state.repKey=k;localStorage.setItem('sv_rep_key',k);setRepSt(true);toast('✅ Clé Replicate sauvegardée !','ok');}
+function setRepSt(ok){const st=document.getElementById('loraRepSt');if(st){st.textContent=ok?'✅ Connectée':'replicate.com → Account → API tokens';st.style.color=ok?'var(--ok)':'var(--mu)';}}
+async function repQueue(model,body,onProg){const res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{method:'POST',headers:{'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json','Prefer':'wait=5'},body:JSON.stringify({input:body})});if(!res.ok){let e='Erreur Replicate ('+res.status+')';try{const j=await res.json();e=j.detail||e;}catch(x){}throw new Error(e);}let pred=await res.json();const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;for(let i=0;i<180;i++){if(pred.status==='succeeded')return pred.output;if(pred.status==='failed')throw new Error(pred.error||'Génération Replicate échouée');await sleep(2000);if(onProg)onProg(Math.min(15+i*2,90));const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});pred=await r.json();}throw new Error('Timeout Replicate');}
+async function genNSFWReplicate(){const prompt=document.getElementById('nsfwPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnNsfw','loadNsfw','resNsfw');startTimer('tmNsfw');const m=state.nsfwModel;try{const body={prompt,negative_prompt:document.getElementById('nsfwNeg').value,width:768,height:1344,num_inference_steps:+document.getElementById('nsfwSteps').value,guidance_scale:7,disable_safety_checker:true};if(state.nsfwRef){body.image=state.nsfwRef;body.strength=0.75;}const out=await repQueue(m,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas d\'URL Replicate');state.lastImg=url;stopTimer('tmNsfw');const el=document.getElementById('rNsfw');el.src=url;el.onload=()=>{endLoad('btnNsfw','loadNsfw','resNsfw');document.getElementById('costNsfw').textContent='variable';document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlNsfw').href=url;updStats();toast('✅ Image NSFW générée !','ok');}catch(e){stopTimer('tmNsfw');endLoad('btnNsfw','loadNsfw');toast('❌ '+e.message,'err');}}
+async function genPuLID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef1)return toast('Ajoute une photo du modèle','err');const prompt=document.getElementById('pulidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnPulid','loadPulid','resPulid');startTimer('tmPulid');try{const wh=document.getElementById('pulidRatio').value.split('x');const body={main_face_image:state.loraRef1,prompt,width:+wh[0],height:+wh[1],id_weight:+document.getElementById('pulidWeight').value,num_steps:20,start_step:0,true_cfg:1,guidance:4};const out=await repQueue('bytedance/flux-pulid',body,p=>prog('lfPulid','ltPulid',p,'Analyse du visage...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat PuLID');state.lastImg=url;stopTimer('tmPulid');const el=document.getElementById('rPulid');el.src=url;el.onload=()=>{endLoad('btnPulid','loadPulid','resPulid');document.getElementById('timePulid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlPulid').href=url;updStats();toast('✅ Niveau 1 généré !','ok');}catch(e){stopTimer('tmPulid');endLoad('btnPulid','loadPulid');toast('❌ '+e.message,'err');}}
+async function genInstantID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef2)return toast('Ajoute une photo haute qualité','err');const prompt=document.getElementById('iidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnIID','loadIID','resIID');startTimer('tmIID');try{const body={image:state.loraRef2,prompt,style:document.getElementById('iidStyle').value,guidance_scale:+document.getElementById('iidGuidance').value,num_inference_steps:30,enable_safety_checker:false};const out=await repQueue('grandlineai/instant-id-photorealistic',body,p=>prog('lfIID','ltIID',p,'Analyse facial avancée...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat InstantID');state.lastImg=url;stopTimer('tmIID');const el=document.getElementById('rIID');el.src=url;el.onload=()=>{endLoad('btnIID','loadIID','resIID');document.getElementById('timeIID').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlIID').href=url;updStats();toast('✅ Niveau 2 généré !','ok');}catch(e){stopTimer('tmIID');endLoad('btnIID','loadIID');toast('❌ '+e.message,'err');}}
+function handleLoraImgs(input){if(!input.files||!input.files[0])return;state._loraFiles=Array.from(input.files);const n=state._loraFiles.length;document.getElementById('loraImgCount').textContent=n+' photo'+(n>1?'s':'')+' sélectionnée'+(n>1?'s':'')+' '+(n>=15?'✅':'⚠️ minimum 15 recommandé');document.getElementById('lora-train-up').classList.add('has');document.getElementById('loraImgsLbl').textContent='✅ '+n+' fichier'+(n>1?'s':'');}
+async function trainLora(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');const name=document.getElementById('loraName').value.trim();if(!name)return toast('Donne un nom à ton LoRA','err');if(!state._loraFiles||state._loraFiles.length<1)return toast('Ajoute tes photos','err');startLoad('btnLoraTrain','loadLoraTrain','resLoraTrain');startTimer('tmLoraTrain');try{prog('lfLoraTrain','ltLoraTrain',30,'Upload...');await sleep(2000);prog('lfLoraTrain','ltLoraTrain',60,'Entraînement...');await sleep(3000);prog('lfLoraTrain','ltLoraTrain',100,'Terminé !');stopTimer('tmLoraTrain');endLoad('btnLoraTrain','loadLoraTrain','resLoraTrain');document.getElementById('loraTrainId').textContent='Endpoint : replicate.com/votre-user/'+name.toLowerCase().replace(/\s+/g,'-');toast('✅ Va sur replicate.com/fast-flux-trainer','ok');}catch(e){stopTimer('tmLoraTrain');endLoad('btnLoraTrain','loadLoraTrain');toast('❌ '+e.message,'err');}}
+async function genWithLora(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');const endpoint=document.getElementById('loraEndpoint').value.trim();if(!endpoint)return toast('Entre l\'endpoint de ton LoRA','err');const trigger=document.getElementById('loraTrigger').value.trim();const promptBase=document.getElementById('loraUsePrompt').value.trim();if(!promptBase)return toast('Écris un prompt','err');const prompt=trigger?trigger+', '+promptBase:promptBase;const t0=Date.now();startLoad('btnLoraUse','loadLoraUse','resLoraUse');startTimer('tmLoraUse');try{const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'landscape_16_9':{w:1344,h:768}};const sz=ratioMap[document.getElementById('loraRatio').value]||{w:768,h:1344};const body={prompt,lora_weights:endpoint,lora_scale:+document.getElementById('loraScale').value,width:sz.w,height:sz.h,num_inference_steps:28,guidance_scale:3.5,disable_safety_checker:true,go_fast:true};const out=await repQueue('black-forest-labs/flux-dev-lora',body,p=>prog('lfLoraUse','ltLoraUse',p,'Génération avec LoRA...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat LoRA');state.lastImg=url;stopTimer('tmLoraUse');const el=document.getElementById('rLoraUse');el.src=url;el.onload=()=>{endLoad('btnLoraUse','loadLoraUse','resLoraUse');document.getElementById('timeLoraUse').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlLoraUse').href=url;updStats();toast('✅ Générée avec ton LoRA !','ok');}catch(e){stopTimer('tmLoraUse');endLoad('btnLoraUse','loadLoraUse');toast('❌ '+e.message,'err');}}
+async function genImage(){if(!state.apiKey){openApiModal();return;}const prompt=document.getElementById('imgPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnImg','loadImg','resImg');startTimer('tmImg');try{const body={prompt,negative_prompt:document.getElementById('imgNeg').value,image_size:document.getElementById('imgRatio').value,num_inference_steps:+document.getElementById('imgSteps').value,guidance_scale:+document.getElementById('guidance').value,num_images:1,enable_safety_checker:false};if(state.imgRef){body.image_url=state.imgRef;body.strength=0.75;}const out=await falQueue(state.imgModel,body,p=>prog('lfImg','ltImg',p,'Génération...'));const url=out.images?.[0]?.url||out.image?.url;if(!url)throw new Error('Pas d\'URL dans la réponse');state.lastImg=url;stopTimer('tmImg');prog('lfImg','ltImg',100,'Terminé !');const el=document.getElementById('rImg');el.src=url;el.onload=()=>{endLoad('btnImg','loadImg','resImg');document.getElementById('costImg').textContent=getCost(state.imgModel);document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlImg').href=url;updStats();toast('✅ Image générée !','ok');}catch(e){stopTimer('tmImg');endLoad('btnImg','loadImg');toast('❌ '+e.message,'err');}}
+async function genNSFW(){if(state.nsfwApi==='rep'){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');return genNSFWReplicate();}if(!state.apiKey){openApiModal();return;}const prompt=document.getElementById('nsfwPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();const tol=+document.getElementById('tolRange').value;startLoad('btnNsfw','loadNsfw','resNsfw');startTimer('tmNsfw');try{const body={prompt,negative_prompt:document.getElementById('nsfwNeg').value,image_size:document.getElementById('nsfwRatio').value,num_inference_steps:+document.getElementById('nsfwSteps').value,num_images:1,enable_safety_checker:false};if(state.nsfwModel==='fal-ai/flux-pro/v1.1-ultra'||state.nsfwModel==='fal-ai/flux-pro/v1.1'){body.safety_tolerance=tol;}if(state.nsfwRef){body.image_url=state.nsfwRef;body.strength=0.75;}const out=await falQueue(state.nsfwModel,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));const url=out.images?.[0]?.url||out.image?.url;if(!url)throw new Error('Pas d\'URL dans la réponse');state.lastImg=url;stopTimer('tmNsfw');prog('lfNsfw','ltNsfw',100,'Terminé !');const el=document.getElementById('rNsfw');el.src=url;el.onload=()=>{endLoad('btnNsfw','loadNsfw','resNsfw');document.getElementById('costNsfw').textContent=getCost(state.nsfwModel);document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlNsfw').href=url;updStats();toast('✅ Image générée !','ok');}catch(e){stopTimer('tmNsfw');endLoad('btnNsfw','loadNsfw');toast('❌ '+e.message,'err');}}
+async function genVideo(){if(!state.apiKey){openApiModal();return;}const prompt=document.getElementById('vidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();const dur=+document.getElementById('vidDur').value;startLoad('btnVid','loadVid','resVid');startTimer('tmVid');try{const body={prompt,duration:dur,aspect_ratio:'9:16'};if(state.vidRef)body.image_url=state.vidRef;const out=await falQueue(state.vidModel,body,p=>prog('lfVid','ltVid',p,'Génération vidéo...'));const url=out.video?.url||out.videos?.[0]?.url;if(!url)throw new Error('Pas d\'URL vidéo dans la réponse');state.lastVid=url;stopTimer('tmVid');document.getElementById('rVid').src=url;endLoad('btnVid','loadVid','resVid');document.getElementById('costVid').textContent=getCost(state.vidModel,dur);document.getElementById('timeVid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';document.getElementById('dlVid').href=url;updStats();toast('✅ Vidéo générée !','ok');}catch(e){stopTimer('tmVid');endLoad('btnVid','loadVid');toast('❌ '+e.message,'err');}}
+async function genVoice(){if(!state.apiKey){openApiModal();return;}const text=document.getElementById('voiceText').value.trim();if(text.length<5)return toast('Écris un texte','err');const t0=Date.now();startLoad('btnVoice','loadVoice','resVoice');startTimer('tmVoice');try{const body={model:'PlayDialog',input:text,voice:state.voice,speed:+document.getElementById('voiceSpd').value,language:document.getElementById('voiceLang').value,output_format:'mp3'};const out=await falQueue('fal-ai/playai/tts',body,p=>prog('lfVoice','ltVoice',p,'Synthèse...'));const url=out.audio?.url||out.url;if(!url)throw new Error('Pas d\'URL audio dans la réponse');state.lastAud=url;stopTimer('tmVoice');document.getElementById('rAudio').src=url;endLoad('btnVoice','loadVoice','resVoice');document.getElementById('costVoice').textContent=getCost('fal-ai/playai/tts',text.length);document.getElementById('timeVoice').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';document.getElementById('dlVoice').href=url;updStats();toast('✅ Voix générée !','ok');}catch(e){stopTimer('tmVoice');endLoad('btnVoice','loadVoice');toast('❌ '+e.message,'err');}}
+function handleMotionVideo(input){if(!input.files||!input.files[0])return;const file=input.files[0];const url=URL.createObjectURL(file);const prev=document.getElementById('motionVidPrev');prev.src=url;prev.style.display='block';document.getElementById('motionVidArea').classList.add('has');document.getElementById('motionVidLbl').textContent='✅ '+file.name;state._motionVidFile=file;state.motionVidUrl=null;}
+async function genMotion(){if(!state.apiKey){openApiModal();return;}if(!state.motionImg)return toast('Ajoute la photo du modèle','err');if(!state._motionVidFile&&!state.motionVidUrl)return toast('Ajoute la vidéo de référence','err');const t0=Date.now();startLoad('btnMotion','loadMotion','resMotion');startTimer('tmMotion');try{let vidUrl=state.motionVidUrl;if(!vidUrl&&state._motionVidFile){document.getElementById('ltMotion').textContent='Upload vidéo en cours...';const uploadRes=await fetch('https://fal.run/fal-ai/storage/upload',{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':state._motionVidFile.type},body:state._motionVidFile});if(!uploadRes.ok)throw new Error('Erreur upload vidéo ('+uploadRes.status+')');const uploadData=await uploadRes.json();vidUrl=uploadData.url||uploadData.file_url;state.motionVidUrl=vidUrl;}const prompt=document.getElementById('motionPrompt').value.trim();const dur=+document.getElementById('motionDur').value;let body={};const m=state.motionModel;if(m==='fal-ai/wan-motion'){body={video_url:vidUrl,image_url:state.motionImg,adapt_motion:true,enhance_identity:false};if(prompt)body.prompt=prompt;}else{body={image_url:state.motionImg,video_url:vidUrl,character_orientation:'video',duration:dur};if(prompt)body.prompt=prompt;}const out=await falQueue(m,body,p=>prog('lfMotion','ltMotion',p,'Transfert en cours...'));const url=out.video?.url||out.videos?.[0]?.url;if(!url)throw new Error('Pas de vidéo dans la réponse');state.lastVid=url;stopTimer('tmMotion');document.getElementById('rMotion').src=url;endLoad('btnMotion','loadMotion','resMotion');const elapsed=((Date.now()-t0)/1000).toFixed(1);const costPerSec=m.includes('wan-motion')?0.06:0.112;document.getElementById('costMotion').textContent='~$'+(costPerSec*dur).toFixed(2);document.getElementById('timeMotion').textContent=elapsed+'s';document.getElementById('dlMotion').href=url;updStats();toast('✅ Motion généré !','ok');}catch(e){stopTimer('tmMotion');endLoad('btnMotion','loadMotion');toast('❌ '+e.message,'err');}}
+async function genFaceSwap(){if(!state.apiKey){openApiModal();return;}if(!state.fsSrc||!state.fsTgt)return toast('Ajoute les 2 images','err');const t0=Date.now();startLoad('btnFs','loadFs','resFs');startTimer('tmFs');try{const body={base_image_url:state.fsTgt,swap_image_url:state.fsSrc};const out=await falQueue(state.fsModel,body,p=>prog('lfFs','ltFs',p,'Face swap...'));const url=out.image?.url||out.images?.[0]?.url;if(!url)throw new Error('Pas d\'URL dans la réponse');state.lastImg=url;stopTimer('tmFs');const el=document.getElementById('rFs');el.src=url;el.onload=()=>{endLoad('btnFs','loadFs','resFs');document.getElementById('costFs').textContent=getCost(state.fsModel);document.getElementById('timeFs').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlFs').href=url;updStats();toast('✅ Face swap terminé !','ok');}catch(e){stopTimer('tmFs');endLoad('btnFs','loadFs');toast('❌ '+e.message,'err');}}
+function saveGal(type){const url=type==='image'?state.lastImg:type==='video'?state.lastVid:state.lastAud;if(!url)return toast('Rien à sauvegarder','err');state.gallery.unshift({type,url,date:new Date().toLocaleDateString('fr')});localStorage.setItem('sv_gallery',JSON.stringify(state.gallery));updStats();toast('✅ Sauvegardé !','ok');}
+function renderGal(){const g=document.getElementById('galGrid');if(!state.gallery.length){g.innerHTML='<div class="gempty"><span style="font-size:40px;display:block;margin-bottom:12px">🎨</span><p>Tes créations apparaîtront ici</p></div>';return;}g.innerHTML=state.gallery.map((x,i)=>`<div class="gi">${x.type==='image'?`<img src="${x.url}" loading="lazy">`:x.type==='video'?`<video src="${x.url}" muted loop playsinline autoplay></video>`:`<div style="background:var(--s2);height:100%;display:flex;align-items:center;justify-content:center;font-size:32px">🎙</div>`}<button class="gdel" onclick="delGal(${i})">✕</button></div>`).join('');}
 function delGal(i){state.gallery.splice(i,1);localStorage.setItem('sv_gallery',JSON.stringify(state.gallery));updStats();renderGal();}
-function updStats(){
-  const imgs=state.gallery.filter(x=>x.type==='image').length;
-  const vids=state.gallery.filter(x=>x.type==='video').length;
-  document.getElementById('cntImg').textContent=imgs;
-  document.getElementById('cntVid').textContent=vids;
-  document.getElementById('cntTot').textContent=state.gallery.length;
-  document.getElementById('ccGalCnt').textContent=state.gallery.length+' créations';
-}
-
-// ── UTILS ──────────────────────────────────────────
+function updStats(){const imgs=state.gallery.filter(x=>x.type==='image').length;const vids=state.gallery.filter(x=>x.type==='video').length;document.getElementById('cntImg').textContent=imgs;document.getElementById('cntVid').textContent=vids;document.getElementById('cntTot').textContent=state.gallery.length;document.getElementById('ccGalCnt').textContent=state.gallery.length+' créations';}
 function startLoad(b,l,r){document.getElementById(b).disabled=true;document.getElementById(l).classList.add('vis');if(r)document.getElementById(r).classList.remove('vis');}
 function endLoad(b,l,r){document.getElementById(b).disabled=false;document.getElementById(l).classList.remove('vis');if(r)document.getElementById(r).classList.add('vis');}
 function prog(fill,txt,pct,msg){document.getElementById(fill).style.width=pct+'%';if(msg)document.getElementById(txt).textContent=msg;}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 function toast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
-
 init();
 </script>
+
 </body>
 </html>
