@@ -9,29 +9,28 @@ with open("index.html", "r", encoding="utf-8") as f:
 instruction = os.environ.get("ISSUE_BODY", "")
 title = os.environ.get("ISSUE_TITLE", "")
 
-prompt = f"""Tu es un expert développeur web. Modifie ce fichier HTML selon les instructions.
+prompt = f"""Tu es expert HTML/CSS/JS. Modifie ce fichier selon ces instructions UNIQUEMENT :
 
-INSTRUCTIONS : {title} — {instruction}
+TITRE: {title}
+DETAILS: {instruction}
 
-RÈGLES :
-- Retourne UNIQUEMENT le HTML complet modifié
-- Ne change rien d'autre que ce qui est demandé
-- Garde le même style et la même structure
+REGLES ABSOLUES:
+- Retourne UNIQUEMENT le code HTML complet
+- Ne modifie que ce qui est demande
+- Conserve tout le reste identique
 
-HTML ACTUEL :
+HTML:
 {current_html}"""
 
 response = client.models.generate_content(
-    model="gemini-2.0-flash",
+    model="gemini-2.0-flash-lite",
     contents=prompt
 )
 
 new_html = response.text
-
-if new_html.startswith("```html"):
-    new_html = new_html[7:]
-if new_html.startswith("```"):
-    new_html = new_html[3:]
+for tag in ["```html", "```"]:
+    if new_html.startswith(tag):
+        new_html = new_html[len(tag):]
 if new_html.endswith("```"):
     new_html = new_html[:-3]
 new_html = new_html.strip()
