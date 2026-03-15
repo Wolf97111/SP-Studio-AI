@@ -1,8 +1,7 @@
-import google.generativeai as genai
+from google import genai
 import os
 
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-pro")
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 with open("index.html", "r", encoding="utf-8") as f:
     current_html = f.read()
@@ -22,7 +21,11 @@ RÈGLES :
 HTML ACTUEL :
 {current_html}"""
 
-response = model.generate_content(prompt)
+response = client.models.generate_content(
+    model="gemini-2.0-flash",
+    contents=prompt
+)
+
 new_html = response.text
 
 if new_html.startswith("```html"):
@@ -36,4 +39,4 @@ new_html = new_html.strip()
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(new_html)
 
-print("index.html mis a jour !")
+print("OK!")
