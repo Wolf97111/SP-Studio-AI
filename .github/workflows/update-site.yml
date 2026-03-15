@@ -1,0 +1,52 @@
+name: Mise a jour du site via Gemini
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  update-site:
+    if: contains(github.event.issue.title, '[UPDATE]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install google-generativeai
+
+      - name: Modifier avec Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: python3 update.py
+
+      - name: Commit
+        run: |
+          git config user.name "Gemini Bot"
+          git config user.email "bot@sv.ai"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Update via Gemini"
+          git push
+
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "Site mis a jour ! Vercel redeploit dans quelques secondes."
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: "closed"
+            });
