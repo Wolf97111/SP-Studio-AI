@@ -11,8 +11,8 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{
   font-family:'Syne',sans-serif;
-  background-color:var(--bg);
-  color:var(--tx);
+  background-color:#111113;
+  color:#e8edf5;
   min-height:100dvh;
   overflow-x:hidden;
 }
@@ -42,219 +42,219 @@ body.has-bg #bgOverlay{display:block;}
 
 /* AGE GATE */
 .ag{position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
-.ag-box{background:#18181b;border:1px solid #ff4d8f;border-radius:var(–r);padding:32px 24px;max-width:360px;width:100%;text-align:center;}
+.ag-box{background:#18181b;border:1px solid #ff4d8f;border-radius:16px;padding:32px 24px;max-width:360px;width:100%;text-align:center;}
 .ag-box h2{font-size:22px;font-weight:800;margin:12px 0 8px;}
-.ag-box p{font-size:13px;color:var(–mu);line-height:1.6;margin-bottom:24px;}
+.ag-box p{font-size:13px;color:#5a6a7e;line-height:1.6;margin-bottom:24px;}
 .ag-btns{display:flex;gap:12px;}
-.ag-yes{flex:1;padding:14px;border-radius:var(–rs);border:none;background:linear-gradient(135deg,#ff4d8f,#7c3aed);color:#fff;font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
-.ag-no{flex:1;padding:14px;border-radius:var(–rs);border:1px solid #2a2a2e;background:#1c1c1f;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:15px;cursor:pointer;}
+.ag-yes{flex:1;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,#ff4d8f,#7c3aed);color:#fff;font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.ag-no{flex:1;padding:14px;border-radius:10px;border:1px solid #2a2a2e;background:#1c1c1f;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:15px;cursor:pointer;}
 
 /* HEADER */
 header{position:sticky;top:0;z-index:200;background:rgba(10,10,12,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(–pk),var(–ac2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#ff4d8f,#7c3aed);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .logo-text{font-size:15px;font-weight:800;}
-.logo-sub{font-size:10px;color:var(–mu);font-family:‘Space Mono’,monospace;letter-spacing:1px;}
+.logo-sub{font-size:10px;color:#5a6a7e;font-family:‘Space Mono’,monospace;letter-spacing:1px;}
 
 /* CONTROL CENTER */
 .cc-wrap{position:relative;z-index:300;}
 .cc-btn{width:40px;height:40px;border-radius:10px;border:1px solid #2a2a2e;background:#1c1c1f;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
 .cc-btn.ok{border-color:#2a2a2e;}
-.cc-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(–er);}
-.cc-dot.ok{background:var(–ok);}
+.cc-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:#ef4444;}
+.cc-dot.ok{background:#10b981;}
 .cc-menu{position:fixed;background:#18181b;border:1px solid #2a2a2e;border-radius:16px;width:240px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.95);z-index:9999;display:none;}
 .cc-menu.open{display:block;}
-.cc-head{padding:14px 16px;background:linear-gradient(135deg,rgba(255,77,143,0.15),rgba(124,58,237,0.15));border-bottom:1px solid var(–bd);}
+.cc-head{padding:14px 16px;background:linear-gradient(135deg,rgba(255,77,143,0.15),rgba(124,58,237,0.15));border-bottom:1px solid #2a2a2e;}
 .cc-htitle{font-size:14px;font-weight:800;}
-.cc-hsub{font-size:10px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-top:2px;}
-.cc-item{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-bottom:1px solid var(–bd);background:var(–s1);}
+.cc-hsub{font-size:10px;color:#5a6a7e;font-family:‘Space Mono’,monospace;margin-top:2px;}
+.cc-item{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-bottom:1px solid #2a2a2e;background:#18181b;}
 .cc-item:last-child{border-bottom:none;}
-.cc-item:active{background:var(–s2);}
+.cc-item:active{background:#1c1c1f;}
 .cc-ico{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
 .cc-lbl{font-size:13px;font-weight:600;flex:1;}
 .cc-val{font-size:10px;font-family:‘Space Mono’,monospace;padding:2px 8px;border-radius:10px;}
-.cc-val.ok{background:rgba(16,185,129,0.15);color:var(–ok);}
-.cc-val.no{background:rgba(239,68,68,0.15);color:var(–er);}
+.cc-val.ok{background:rgba(16,185,129,0.15);color:#10b981;}
+.cc-val.no{background:rgba(239,68,68,0.15);color:#ef4444;}
 .cc-overlay{position:fixed;inset:0;z-index:9998;display:none;}
 .cc-overlay.open{display:block;}
 
 /* MAIN TABS */
-.main-tabs{display:flex;gap:4px;padding:12px 12px 0;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
+.main-tabs{display:flex;gap:4px;padding:12px 12px 0;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;background:#111113;}
 .main-tabs::-webkit-scrollbar{display:none;}
-.mtab{flex:0 0 auto;padding:9px 16px;border-radius:var(–rs);border:1px solid #2a2a2e;background:#1a1a1d;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.mtab{flex:0 0 auto;padding:9px 16px;border-radius:10px;border:1px solid #2a2a2e;background:#1a1a1d;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
 .mtab.active{background:#0d2a2e;border-color:#00e5ff;color:#00e5ff;}
 
 /* MAIN */
-main{padding:16px;max-width:600px;margin:0 auto;padding-bottom:40px;position:relative;z-index:10;}
+main{padding:16px;max-width:600px;margin:0 auto;padding-bottom:40px;position:relative;z-index:10;background:#111113;}
 .section{display:none;}.section.active{display:block;}
 
 /* SUB TABS */
-.sub-tabs{display:flex;gap:4px;margin-bottom:16px;background:#111113;padding:4px;border-radius:var(–r);border:1px solid #2a2a2e;}
-.stab{flex:1;padding:10px 6px;border-radius:var(–rs);border:none;background:transparent;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;white-space:nowrap;}
+.sub-tabs{display:flex;gap:4px;margin-bottom:16px;background:#111113;padding:4px;border-radius:16px;border:1px solid #2a2a2e;}
+.stab{flex:1;padding:10px 6px;border-radius:10px;border:none;background:transparent;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;white-space:nowrap;}
 .stab.active{background:#1c1c1f;color:#e8edf5;box-shadow:0 2px 8px rgba(0,0,0,0.4);}
 .stab.nt.active{background:#2a1020;color:#ff4d8f;}
 .sub-sec{display:none;}.sub-sec.active{display:block;}
 
 /* CARDS */
-.card{background:#111113;border:1px solid #2a2a2e;border-radius:var(–r);padding:16px;margin-bottom:14px;}
+.card{background:#111113;border:1px solid #2a2a2e;border-radius:16px;padding:16px;margin-bottom:14px;}
 .card.pk{border-color:#2a2a2e;}
-.ct{font-size:11px;font-weight:700;color:var(–mu);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;font-family:‘Space Mono’,monospace;}
-.ct.p{color:var(–pk);}
+.ct{font-size:11px;font-weight:700;color:#5a6a7e;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;font-family:‘Space Mono’,monospace;}
+.ct.p{color:#ff4d8f;}
 
 /* MODELS */
 .mpills{display:flex;flex-direction:column;gap:7px;}
-.mp{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(–rs);border:1.5px solid rgba(255,255,255,0.07);cursor:pointer;background:rgba(10,10,12,0.4);}
-.mp.sel{border-color:var(–ac);background:rgba(0,229,255,0.08);}
-.mp.psel{border-color:var(–pk);background:rgba(255,77,143,0.08);}
-.mp-radio{width:14px;height:14px;border-radius:50%;border:2px solid var(–bd);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.mp.sel .mp-radio{border-color:var(–ac);background:var(–ac);}
-.mp.psel .mp-radio{border-color:var(–pk);background:var(–pk);}
+.mp{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.07);cursor:pointer;background:rgba(10,10,12,0.4);}
+.mp.sel{border-color:#00e5ff;background:rgba(0,229,255,0.08);}
+.mp.psel{border-color:#ff4d8f;background:rgba(255,77,143,0.08);}
+.mp-radio{width:14px;height:14px;border-radius:50%;border:2px solid #2a2a2e;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mp.sel .mp-radio{border-color:#00e5ff;background:#00e5ff;}
+.mp.psel .mp-radio{border-color:#ff4d8f;background:#ff4d8f;}
 .mp-radio::after{content:’’;width:5px;height:5px;border-radius:50%;background:#fff;display:none;}
 .mp.sel .mp-radio::after,.mp.psel .mp-radio::after{display:block;}
 .mp-info{flex:1;}
 .mp-name{font-size:13px;font-weight:700;}
-.mp-desc{font-size:10px;color:var(–mu);margin-top:1px;font-family:‘Space Mono’,monospace;}
+.mp-desc{font-size:10px;color:#5a6a7e;margin-top:1px;font-family:‘Space Mono’,monospace;}
 .mp-right{text-align:right;flex-shrink:0;}
-.mp-cost{font-size:11px;color:var(–ac3);font-family:‘Space Mono’,monospace;}
+.mp-cost{font-size:11px;color:#f59e0b;font-family:‘Space Mono’,monospace;}
 .mp-tag{font-size:9px;padding:2px 7px;border-radius:10px;margin-top:3px;font-weight:700;display:inline-block;}
-.tg-best{background:rgba(16,185,129,0.15);color:var(–ok);}
-.tg-pro{background:rgba(0,229,255,0.15);color:var(–ac);}
-.tg-fast{background:rgba(245,158,11,0.15);color:var(–ac3);}
-.tg-nsfw{background:rgba(255,77,143,0.15);color:var(–pk);}
-.tg-ultra{background:rgba(255,77,143,0.2);color:var(–pk);}
+.tg-best{background:rgba(16,185,129,0.15);color:#10b981;}
+.tg-pro{background:rgba(0,229,255,0.15);color:#00e5ff;}
+.tg-fast{background:rgba(245,158,11,0.15);color:#f59e0b;}
+.tg-nsfw{background:rgba(255,77,143,0.15);color:#ff4d8f;}
+.tg-ultra{background:rgba(255,77,143,0.2);color:#ff4d8f;}
 
 /* PROMPT */
-.ta{width:100%;background:rgba(10,10,12,0.5);border:1.5px solid rgba(255,255,255,0.08);border-radius:var(–rs);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:14px;padding:14px;resize:none;min-height:110px;outline:none;line-height:1.5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
-.ta:focus{border-color:var(–ac);}
-.ta.pf:focus{border-color:var(–pk);}
-.ta::placeholder{color:var(–mu);}
-.neg{width:100%;background:rgba(10,10,12,0.5);border:1.5px solid rgba(255,255,255,0.06);border-radius:var(–rs);color:var(–mu);font-family:‘Space Mono’,monospace;font-size:11px;padding:10px 12px;resize:none;min-height:52px;outline:none;}
+.ta{width:100%;background:rgba(10,10,12,0.5);border:1.5px solid rgba(255,255,255,0.08);border-radius:10px;color:#e8edf5;font-family:‘Syne’,sans-serif;font-size:14px;padding:14px;resize:none;min-height:110px;outline:none;line-height:1.5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.ta:focus{border-color:#00e5ff;}
+.ta.pf:focus{border-color:#ff4d8f;}
+.ta::placeholder{color:#5a6a7e;}
+.neg{width:100%;background:rgba(10,10,12,0.5);border:1.5px solid rgba(255,255,255,0.06);border-radius:10px;color:#5a6a7e;font-family:‘Space Mono’,monospace;font-size:11px;padding:10px 12px;resize:none;min-height:52px;outline:none;}
 
 /* OPTIONS */
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.og label{display:block;font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-bottom:5px;}
-.og select{width:100%;background:rgba(10,10,12,0.5);border:1.5px solid rgba(255,255,255,0.08);border-radius:var(–rs);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:13px;padding:8px 10px;outline:none;-webkit-appearance:none;}
+.og label{display:block;font-size:11px;color:#5a6a7e;font-family:‘Space Mono’,monospace;margin-bottom:5px;}
+.og select{width:100%;background:rgba(10,10,12,0.5);border:1.5px solid rgba(255,255,255,0.08);border-radius:10px;color:#e8edf5;font-family:‘Syne’,sans-serif;font-size:13px;padding:8px 10px;outline:none;-webkit-appearance:none;}
 
 /* TOLERANCE */
 .tol-wrap{margin-top:10px;}
-.tol-wrap label{font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.tol-wrap label{font-size:11px;color:#5a6a7e;font-family:‘Space Mono’,monospace;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .tv{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;}
-.t1,.t2{color:var(–ok);background:rgba(16,185,129,0.1);}
-.t3,.t4{color:var(–ac3);background:rgba(245,158,11,0.1);}
-.t5,.t6{color:var(–pk);background:rgba(255,77,143,0.1);}
-.tol-desc{font-size:10px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-top:5px;}
-input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(–bd);width:100%;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(–ac);cursor:pointer;}
-input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
+.t1,.t2{color:#10b981;background:rgba(16,185,129,0.1);}
+.t3,.t4{color:#f59e0b;background:rgba(245,158,11,0.1);}
+.t5,.t6{color:#ff4d8f;background:rgba(255,77,143,0.1);}
+.tol-desc{font-size:10px;color:#5a6a7e;font-family:‘Space Mono’,monospace;margin-top:5px;}
+input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:#2a2a2e;width:100%;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#00e5ff;cursor:pointer;}
+input[type=range].pr::-webkit-slider-thumb{background:#ff4d8f;}
 
 /* UPLOAD */
-.uarea{border:2px dashed var(–bd);border-radius:var(–rs);padding:18px;text-align:center;cursor:pointer;}
-.uarea p{font-size:12px;color:var(–mu);margin-top:6px;}
+.uarea{border:2px dashed #2a2a2e;border-radius:10px;padding:18px;text-align:center;cursor:pointer;}
+.uarea p{font-size:12px;color:#5a6a7e;margin-top:6px;}
 .uarea .ui{font-size:26px;}
-.uarea.has{border-color:var(–ac);}
-.uprev{width:100%;border-radius:var(–rs);margin-top:10px;display:none;}
+.uarea.has{border-color:#00e5ff;}
+.uprev{width:100%;border-radius:10px;margin-top:10px;display:none;}
 .upair{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.ubox{border:2px dashed var(–bd);border-radius:var(–rs);padding:14px;text-align:center;cursor:pointer;}
-.ubox.has{border-color:var(–ac);}
+.ubox{border:2px dashed #2a2a2e;border-radius:10px;padding:14px;text-align:center;cursor:pointer;}
+.ubox.has{border-color:#00e5ff;}
 .ubox .ui{font-size:22px;margin-bottom:4px;}
-.ubox p{font-size:11px;color:var(–mu);line-height:1.4;}
+.ubox p{font-size:11px;color:#5a6a7e;line-height:1.4;}
 .ubox img{width:100%;border-radius:6px;margin-top:8px;display:none;}
 
 /* BANNER */
-.banner{padding:12px 14px;border-radius:var(–rs);margin-bottom:14px;font-size:12px;line-height:1.6;display:flex;gap:10px;}
-.banner.pk{background:var(–s1);border:1px solid var(–bd);color:var(–tx);}
-.banner.ac{background:var(–s1);border:1px solid var(–bd);color:var(–mu);}
+.banner{padding:12px 14px;border-radius:10px;margin-bottom:14px;font-size:12px;line-height:1.6;display:flex;gap:10px;}
+.banner.pk{background:#18181b;border:1px solid #2a2a2e;color:#e8edf5;}
+.banner.ac{background:#18181b;border:1px solid #2a2a2e;color:#5a6a7e;}
 .b-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
 
 /* GEN BUTTON */
-.gen-btn{width:100%;padding:16px;border-radius:var(–r);border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff !important;font-family:‘Syne’,sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.gen-btn{width:100%;padding:16px;border-radius:16px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff !important;font-family:‘Syne’,sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
 .gen-btn.pb{background:linear-gradient(135deg,#ff4d8f,#7c3aed);}
 .gen-btn:disabled{opacity:0.45;cursor:not-allowed;}
 
 /* LOADING */
 .loading{display:none;margin-top:14px;}.loading.vis{display:block;}
-.l-track{height:3px;background:var(–bd);border-radius:2px;overflow:hidden;}
-.l-fill{height:100%;width:0%;background:linear-gradient(90deg,var(–ac),var(–ac2));border-radius:2px;transition:width 0.4s;}
-.l-fill.pk{background:linear-gradient(90deg,var(–pk),var(–ac2));}
-.l-txt{font-size:12px;color:var(–mu);font-family:‘Space Mono’,monospace;margin-top:7px;text-align:center;}
-.l-timer{font-size:13px;color:var(–ac);font-family:‘Space Mono’,monospace;margin-top:3px;text-align:center;font-weight:700;}
-.l-timer.pk{color:var(–pk);}
+.l-track{height:3px;background:#2a2a2e;border-radius:2px;overflow:hidden;}
+.l-fill{height:100%;width:0%;background:linear-gradient(90deg,#00e5ff,#7c3aed);border-radius:2px;transition:width 0.4s;}
+.l-fill.pk{background:linear-gradient(90deg,#ff4d8f,#7c3aed);}
+.l-txt{font-size:12px;color:#5a6a7e;font-family:‘Space Mono’,monospace;margin-top:7px;text-align:center;}
+.l-timer{font-size:13px;color:#00e5ff;font-family:‘Space Mono’,monospace;margin-top:3px;text-align:center;font-weight:700;}
+.l-timer.pk{color:#ff4d8f;}
 
 /* RESULT */
 .result{display:none;margin-top:14px;}.result.vis{display:block;}
-.r-img{width:100%;border-radius:var(–r);border:1px solid var(–bd);display:block;}
-.r-vid{width:100%;border-radius:var(–r);border:1px solid var(–bd);display:block;}
-.r-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px 14px;background:var(–s2);border-radius:var(–rs);border:1px solid rgba(245,158,11,0.2);}
+.r-img{width:100%;border-radius:16px;border:1px solid #2a2a2e;display:block;}
+.r-vid{width:100%;border-radius:16px;border:1px solid #2a2a2e;display:block;}
+.r-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px 14px;background:#1c1c1f;border-radius:10px;border:1px solid rgba(245,158,11,0.2);}
 .r-bar.pk{border-color:rgba(255,77,143,0.2);}
-.r-lbl{font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;}
-.r-val{font-size:13px;font-weight:700;color:var(–ac3);font-family:‘Space Mono’,monospace;}
-.r-time{font-size:11px;color:var(–mu);font-family:‘Space Mono’,monospace;}
+.r-lbl{font-size:11px;color:#5a6a7e;font-family:‘Space Mono’,monospace;}
+.r-val{font-size:13px;font-weight:700;color:#f59e0b;font-family:‘Space Mono’,monospace;}
+.r-time{font-size:11px;color:#5a6a7e;font-family:‘Space Mono’,monospace;}
 .r-actions{display:flex;gap:8px;margin-top:10px;}
-.r-btn{flex:1;padding:12px;border-radius:var(–rs);border:1.5px solid var(–bd);background:var(–s2);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;}
-.r-btn.ac{border-color:var(–ac);color:var(–ac);background:rgba(0,229,255,0.04);}
-.r-btn.pk{border-color:var(–pk);color:var(–pk);background:rgba(255,77,143,0.04);}
-.r-btn.go{border-color:var(–ac3);color:var(–ac3);background:rgba(245,158,11,0.04);}
+.r-btn{flex:1;padding:12px;border-radius:10px;border:1.5px solid #2a2a2e;background:#1c1c1f;color:#e8edf5;font-family:‘Syne’,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;}
+.r-btn.ac{border-color:#00e5ff;color:#00e5ff;background:rgba(0,229,255,0.04);}
+.r-btn.pk{border-color:#ff4d8f;color:#ff4d8f;background:rgba(255,77,143,0.04);}
+.r-btn.go{border-color:#f59e0b;color:#f59e0b;background:rgba(245,158,11,0.04);}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.sc{background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:10px;text-align:center;}
-.sn{font-size:18px;font-weight:800;color:var(–ac);font-family:‘Space Mono’,monospace;}
-.sl{font-size:9px;color:var(–mu);margin-top:2px;font-family:‘Space Mono’,monospace;}
+.sc{background:#1c1c1f;border:1px solid #2a2a2e;border-radius:10px;padding:10px;text-align:center;}
+.sn{font-size:18px;font-weight:800;color:#00e5ff;font-family:‘Space Mono’,monospace;}
+.sl{font-size:9px;color:#5a6a7e;margin-top:2px;font-family:‘Space Mono’,monospace;}
 
 /* VOICE */
 .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.vc{padding:10px 12px;border-radius:var(–rs);border:1.5px solid var(–bd);cursor:pointer;background:var(–s2);}
-.vc.sel{border-color:var(–ac);background:rgba(0,229,255,0.05);}
+.vc{padding:10px 12px;border-radius:10px;border:1.5px solid #2a2a2e;cursor:pointer;background:#1c1c1f;}
+.vc.sel{border-color:#00e5ff;background:rgba(0,229,255,0.05);}
 .vn{font-size:12px;font-weight:700;}
-.vd{font-size:10px;color:var(–mu);margin-top:2px;font-family:‘Space Mono’,monospace;}
-.aplayer{width:100%;margin-top:12px;background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:14px;}
-.awave{height:32px;background:linear-gradient(90deg,var(–ac),var(–ac2));border-radius:6px;margin-bottom:10px;opacity:0.2;}
+.vd{font-size:10px;color:#5a6a7e;margin-top:2px;font-family:‘Space Mono’,monospace;}
+.aplayer{width:100%;margin-top:12px;background:#1c1c1f;border:1px solid #2a2a2e;border-radius:10px;padding:14px;}
+.awave{height:32px;background:linear-gradient(90deg,#00e5ff,#7c3aed);border-radius:6px;margin-bottom:10px;opacity:0.2;}
 
 /* GALLERY */
 .ggrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.gi{position:relative;border-radius:var(–rs);overflow:hidden;border:1px solid var(–bd);aspect-ratio:1;}
+.gi{position:relative;border-radius:10px;overflow:hidden;border:1px solid #2a2a2e;aspect-ratio:1;}
 .gi img,.gi video{width:100%;height:100%;object-fit:cover;display:block;}
 .gdel{position:absolute;top:6px;right:6px;width:26px;height:26px;background:rgba(239,68,68,0.85);border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;}
-.gempty{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(–mu);}
+.gempty{grid-column:1/-1;text-align:center;padding:40px 20px;color:#5a6a7e;}
 
 /* ADMIN MODAL */
 .admin-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:400;display:none;align-items:flex-end;padding:0;}
 .admin-modal.open{display:flex;}
-.admin-panel{background:var(–s1);width:100%;max-height:90dvh;border-radius:var(–r) var(–r) 0 0;overflow-y:auto;padding:20px;}
-.ap-handle{width:40px;height:4px;background:var(–bd);border-radius:2px;margin:0 auto 16px;}
+.admin-panel{background:#18181b;width:100%;max-height:90dvh;border-radius:16px 16px 0 0;overflow-y:auto;padding:20px;}
+.ap-handle{width:40px;height:4px;background:#2a2a2e;border-radius:2px;margin:0 auto 16px;}
 .ap-title{font-size:18px;font-weight:800;margin-bottom:4px;}
-.ap-sub{font-size:12px;color:var(–mu);margin-bottom:20px;}
-.ap-close{position:absolute;top:20px;right:20px;width:32px;height:32px;background:var(–s2);border:1px solid var(–bd);border-radius:50%;color:var(–mu);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.acard{background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:14px;margin-bottom:12px;}
+.ap-sub{font-size:12px;color:#5a6a7e;margin-bottom:20px;}
+.ap-close{position:absolute;top:20px;right:20px;width:32px;height:32px;background:#1c1c1f;border:1px solid #2a2a2e;border-radius:50%;color:#5a6a7e;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.acard{background:#1c1c1f;border:1px solid #2a2a2e;border-radius:10px;padding:14px;margin-bottom:12px;}
 .albl{font-size:13px;font-weight:700;margin-bottom:8px;}
-.af{width:100%;background:var(–bg);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–tx);font-family:‘Syne’,sans-serif;font-size:13px;padding:9px 12px;outline:none;margin-bottom:8px;}
-.af:focus{border-color:var(–ac3);}
+.af{width:100%;background:#111113;border:1.5px solid #2a2a2e;border-radius:10px;color:#e8edf5;font-family:‘Syne’,sans-serif;font-size:13px;padding:9px 12px;outline:none;margin-bottom:8px;}
+.af:focus{border-color:#f59e0b;}
 .af:last-child{margin-bottom:0;}
-.arow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(–bd);}
+.arow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2a2a2e;}
 .arow:last-child{border-bottom:none;}
-.tog{width:46px;height:25px;background:var(–bd);border-radius:13px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;}
-.tog.on{background:var(–ok);}
+.tog{width:46px;height:25px;background:#2a2a2e;border-radius:13px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;}
+.tog.on{background:#10b981;}
 .tog::after{content:’’;position:absolute;width:19px;height:19px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.2s;}
 .tog.on::after{transform:translateX(21px);}
-.asave{width:100%;padding:14px;margin-top:12px;border-radius:var(–rs);border:none;background:linear-gradient(135deg,var(–ac3),var(–ac));color:var(–bg);font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.asave{width:100%;padding:14px;margin-top:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#f59e0b,#00e5ff);color:#111113;font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
 
 /* API MODAL */
 .api-modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:500;display:none;align-items:flex-end;padding:20px;}
 .api-modal.open{display:flex;}
-.api-box{background:var(–s1);border:1px solid var(–bd);border-radius:var(–r);padding:24px;width:100%;}
+.api-box{background:#18181b;border:1px solid #2a2a2e;border-radius:16px;padding:24px;width:100%;}
 .api-box h3{font-size:18px;font-weight:800;margin-bottom:6px;}
-.api-box p{font-size:13px;color:var(–mu);margin-bottom:16px;line-height:1.5;}
-.api-in{width:100%;background:var(–s2);border:1.5px solid var(–bd);border-radius:var(–rs);color:var(–tx);font-family:‘Space Mono’,monospace;font-size:13px;padding:12px 14px;outline:none;margin-bottom:12px;}
+.api-box p{font-size:13px;color:#5a6a7e;margin-bottom:16px;line-height:1.5;}
+.api-in{width:100%;background:#1c1c1f;border:1.5px solid #2a2a2e;border-radius:10px;color:#e8edf5;font-family:‘Space Mono’,monospace;font-size:13px;padding:12px 14px;outline:none;margin-bottom:12px;}
 .api-actions{display:flex;gap:10px;}
-.api-save{flex:1;padding:13px;border-radius:var(–rs);border:none;background:linear-gradient(135deg,var(–ac),var(–ac2));color:#fff;font-family:‘Syne’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
-.api-cancel{padding:13px 18px;border-radius:var(–rs);border:1px solid var(–bd);background:transparent;color:var(–mu);font-family:‘Syne’,sans-serif;font-size:14px;cursor:pointer;}
+.api-save{flex:1;padding:13px;border-radius:10px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-family:‘Syne’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.api-cancel{padding:13px 18px;border-radius:10px;border:1px solid #2a2a2e;background:transparent;color:#5a6a7e;font-family:‘Syne’,sans-serif;font-size:14px;cursor:pointer;}
 
 /* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(–s2);border:1px solid var(–bd);border-radius:var(–rs);padding:11px 18px;font-size:13px;font-weight:600;z-index:999;transition:transform 0.3s;white-space:nowrap;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1c1c1f;border:1px solid #2a2a2e;border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;z-index:999;transition:transform 0.3s;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
-.toast.ok{border-color:var(–ok);color:var(–ok);}
-.toast.err{border-color:var(–er);color:var(–er);}
-.toast.info{border-color:var(–ac);color:var(–ac);}
+.toast.ok{border-color:#10b981;color:#10b981;}
+.toast.err{border-color:#ef4444;color:#ef4444;}
+.toast.info{border-color:#00e5ff;color:#00e5ff;}
 </style>
 
 </head>
@@ -370,7 +370,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
         <div class="og"><label>QUALITÉ</label><select id="imgSteps"><option value="4">Rapide</option><option value="20" selected>Standard</option><option value="50">Haute</option></select></div>
       </div>
       <div style="margin-top:12px">
-        <label style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace">GUIDANCE: <span id="gv" style="color:var(--ac)">3.5</span></label>
+        <label style="font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace">GUIDANCE: <span id="gv" style="color:#00e5ff">3.5</span></label>
         <input type="range" id="guidance" min="1" max="10" step="0.5" value="3.5" oninput="document.getElementById('gv').textContent=this.value" style="margin-top:6px">
       </div>
     </div>
@@ -513,8 +513,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
       </div>
       <div class="card pk">
         <div class="ct p">🔑 Clé API Replicate</div>
-        <input class="af" type="password" id="repKeyIn" placeholder="r8_xxxxxxxxxxxxxxxxxx" style="background:var(--bg);border:1.5px solid rgba(255,77,143,0.3);color:var(--tx)">
-        <button onclick="saveRepKey()" style="width:100%;padding:10px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--pk),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Sauvegarder la clé Replicate</button>
+        <input class="af" type="password" id="repKeyIn" placeholder="r8_xxxxxxxxxxxxxxxxxx" style="background:#111113;border:1.5px solid rgba(255,77,143,0.3);color:#e8edf5">
+        <button onclick="saveRepKey()" style="width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,#ff4d8f,#7c3aed);color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Sauvegarder la clé Replicate</button>
       </div>
     </div>
     <div class="card pk">
@@ -554,7 +554,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
   <div class="card">
     <div class="ct">✍️ Texte</div>
     <textarea class="ta" id="voiceText" style="min-height:130px" placeholder="Texte à convertir en voix off..."></textarea>
-    <div style="margin-top:8px"><span style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace">CARACTÈRES: <span id="charCnt" style="color:var(--ac)">0</span></span></div>
+    <div style="margin-top:8px"><span style="font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace">CARACTÈRES: <span id="charCnt" style="color:#00e5ff">0</span></span></div>
   </div>
   <div class="card">
     <div class="opts">
@@ -576,25 +576,25 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
 <div class="section" id="s-lora">
   <div class="banner" style="background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(0,229,255,0.07));border:1px solid rgba(124,58,237,0.25)">
     <span class="b-ico">🎭</span>
-    <div style="color:var(--tx)">Reproduis un modèle <strong style="color:var(--ac2)">à l'identique</strong> — du zero-shot instantané au LoRA entraîné sur mesure.</div>
+    <div style="color:#e8edf5">Reproduis un modèle <strong style="color:#7c3aed">à l'identique</strong> — du zero-shot instantané au LoRA entraîné sur mesure.</div>
   </div>
   <div class="card">
     <div class="ct">🔑 Clé API Replicate</div>
     <div style="display:flex;gap:8px;align-items:center">
       <input class="af" type="password" id="loraRepKey" placeholder="r8_xxxxxxxxxxxxxxxxxx" style="flex:1;margin-bottom:0">
-      <button onclick="saveRepKey()" style="padding:9px 16px;border-radius:var(--rs);border:none;background:var(--ac2);color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0">💾</button>
+      <button onclick="saveRepKey()" style="padding:9px 16px;border-radius:10px;border:none;background:#7c3aed;color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0">💾</button>
     </div>
-    <div id="loraRepSt" style="margin-top:6px;font-size:10px;font-family:'Space Mono',monospace;color:var(--mu)">replicate.com → Account → API tokens</div>
+    <div id="loraRepSt" style="margin-top:6px;font-size:10px;font-family:'Space Mono',monospace;color:#5a6a7e">replicate.com → Account → API tokens</div>
   </div>
   <div class="card" style="border-color:rgba(0,229,255,0.25)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--ac),rgba(0,229,255,0.4));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">1</div>
-      <div><div style="font-size:14px;font-weight:800">Zero-Shot <span style="font-size:10px;color:var(--ac);font-family:'Space Mono',monospace">PuLID · $0.02/img</span></div><div style="font-size:11px;color:var(--mu);margin-top:1px">Upload 1 seule photo → résultat immédiat.</div></div>
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#00e5ff,rgba(0,229,255,0.4));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">1</div>
+      <div><div style="font-size:14px;font-weight:800">Zero-Shot <span style="font-size:10px;color:#00e5ff;font-family:'Space Mono',monospace">PuLID · $0.02/img</span></div><div style="font-size:11px;color:#5a6a7e;margin-top:1px">Upload 1 seule photo → résultat immédiat.</div></div>
     </div>
     <div class="uarea" id="pulid-up" onclick="document.getElementById('pulidIn').click()"><div class="ui">📸</div><p id="pulidLbl">Ajoute 1 photo du modèle</p></div>
     <input type="file" id="pulidIn" accept="image/*" style="display:none" onchange="handleUp(this,'pulidPrev','pulid-up','pulidLbl',s=>state.loraRef1=s)">
     <img id="pulidPrev" class="uprev">
-    <div class="card" style="margin-top:12px;margin-bottom:0;background:var(--bg)">
+    <div class="card" style="margin-top:12px;margin-bottom:0;background:#111113">
       <div class="ct" style="margin-bottom:8px">✍️ Prompt</div>
       <textarea class="ta" id="pulidPrompt" style="min-height:80px" placeholder="Ex: woman in a beach, sunset..."></textarea>
     </div>
@@ -612,13 +612,13 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
   </div>
   <div class="card" style="border-color:rgba(245,158,11,0.3)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--ac3),rgba(245,158,11,0.5));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">2</div>
-      <div><div style="font-size:14px;font-weight:800">Semi-Entraîné <span style="font-size:10px;color:var(--ac3);font-family:'Space Mono',monospace">InstantID · ~$0.04/img</span></div><div style="font-size:11px;color:var(--mu);margin-top:1px">1 photo haute qualité · embeddings facials avancés.</div></div>
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,rgba(245,158,11,0.5));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">2</div>
+      <div><div style="font-size:14px;font-weight:800">Semi-Entraîné <span style="font-size:10px;color:#f59e0b;font-family:'Space Mono',monospace">InstantID · ~$0.04/img</span></div><div style="font-size:11px;color:#5a6a7e;margin-top:1px">1 photo haute qualité · embeddings facials avancés.</div></div>
     </div>
     <div class="uarea" id="iid-up" onclick="document.getElementById('iidIn').click()"><div class="ui">📸</div><p id="iidLbl">1 photo haute qualité</p></div>
     <input type="file" id="iidIn" accept="image/*" style="display:none" onchange="handleUp(this,'iidPrev','iid-up','iidLbl',s=>state.loraRef2=s)">
     <img id="iidPrev" class="uprev">
-    <div class="card" style="margin-top:12px;margin-bottom:0;background:var(--bg)">
+    <div class="card" style="margin-top:12px;margin-bottom:0;background:#111113">
       <div class="ct" style="margin-bottom:8px">✍️ Prompt</div>
       <textarea class="ta" id="iidPrompt" style="min-height:80px" placeholder="Ex: instagram model, luxury setting..."></textarea>
     </div>
@@ -626,8 +626,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
       <div class="og"><label>STYLE</label><select id="iidStyle"><option value="(No style)">Aucun</option><option value="Photographic (Default)" selected>Photo</option><option value="Cinematic">Cinématique</option><option value="Fashion editorial">Fashion</option></select></div>
       <div class="og"><label>GUIDANCE</label><select id="iidGuidance"><option value="4">Libre (4)</option><option value="5" selected>Équilibré (5)</option><option value="7">Précis (7)</option></select></div>
     </div>
-    <button class="gen-btn" style="margin-top:12px;background:linear-gradient(135deg,var(--ac3),var(--ac2))" id="btnIID" onclick="genInstantID()">🎯 GÉNÉRER — INSTANTID</button>
-    <div class="loading" id="loadIID"><div class="l-track"><div class="l-fill" id="lfIID" style="background:linear-gradient(90deg,var(--ac3),var(--ac2))"></div></div><div class="l-txt" id="ltIID">Analyse facial avancée...</div><div class="l-timer" style="color:var(--ac3)" id="tmIID">⏱ 0s</div></div>
+    <button class="gen-btn" style="margin-top:12px;background:linear-gradient(135deg,#f59e0b,#7c3aed)" id="btnIID" onclick="genInstantID()">🎯 GÉNÉRER — INSTANTID</button>
+    <div class="loading" id="loadIID"><div class="l-track"><div class="l-fill" id="lfIID" style="background:linear-gradient(90deg,#f59e0b,#7c3aed)"></div></div><div class="l-txt" id="ltIID">Analyse facial avancée...</div><div class="l-timer" style="color:#f59e0b" id="tmIID">⏱ 0s</div></div>
     <div class="result" id="resIID">
       <img id="rIID" class="r-img">
       <div class="r-bar" style="border-color:rgba(245,158,11,0.2)"><span class="r-lbl">💰 Coût</span><span class="r-val">~$0.04</span><span class="r-time" id="timeIID">—</span></div>
@@ -636,10 +636,10 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
   </div>
   <div class="card" style="border-color:rgba(255,77,143,0.3)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--pk),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">3</div>
-      <div><div style="font-size:14px;font-weight:800">LoRA Personnalisé ⭐ <span style="font-size:10px;color:var(--pk);font-family:'Space Mono',monospace">$1.50 + $0.025/img</span></div><div style="font-size:11px;color:var(--mu);margin-top:1px">15-20 photos · Entraînement ~2 min · Cohérence parfaite.</div></div>
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#ff4d8f,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0">3</div>
+      <div><div style="font-size:14px;font-weight:800">LoRA Personnalisé ⭐ <span style="font-size:10px;color:#ff4d8f;font-family:'Space Mono',monospace">$1.50 + $0.025/img</span></div><div style="font-size:11px;color:#5a6a7e;margin-top:1px">15-20 photos · Entraînement ~2 min · Cohérence parfaite.</div></div>
     </div>
-    <div class="sub-tabs" style="margin-bottom:14px;background:var(--bg)">
+    <div class="sub-tabs" style="margin-bottom:14px;background:#111113">
       <button class="stab active" onclick="switchLoraTab('train',0)">🏋️ Entraîner</button>
       <button class="stab" onclick="switchLoraTab('use',1)">✨ Utiliser</button>
     </div>
@@ -647,14 +647,14 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
       <input class="af" type="text" id="loraName" placeholder="Nom du modèle (trigger word)">
       <div class="uarea" id="lora-train-up" onclick="document.getElementById('loraImgsIn').click()"><div class="ui">📁</div><p id="loraImgsLbl">Upload 15-20 photos</p></div>
       <input type="file" id="loraImgsIn" accept=".zip,image/*" multiple style="display:none" onchange="handleLoraImgs(this)">
-      <div id="loraImgCount" style="margin-top:6px;font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;text-align:center"></div>
+      <div id="loraImgCount" style="margin-top:6px;font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace;text-align:center"></div>
       <button class="gen-btn pb" style="margin-top:12px" id="btnLoraTrain" onclick="trainLora()">🏋️ LANCER L'ENTRAÎNEMENT</button>
       <div class="loading" id="loadLoraTrain"><div class="l-track"><div class="l-fill pk" id="lfLoraTrain"></div></div><div class="l-txt" id="ltLoraTrain">Entraînement...</div><div class="l-timer pk" id="tmLoraTrain">⏱ 0s</div></div>
       <div class="result" id="resLoraTrain">
-        <div style="padding:16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:var(--rs);text-align:center">
+        <div style="padding:16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:10px;text-align:center">
           <div style="font-size:24px;margin-bottom:8px">✅</div>
-          <div style="font-size:14px;font-weight:800;color:var(--ok)">LoRA entraîné avec succès !</div>
-          <div style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:6px" id="loraTrainId">—</div>
+          <div style="font-size:14px;font-weight:800;color:#10b981">LoRA entraîné avec succès !</div>
+          <div style="font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-top:6px" id="loraTrainId">—</div>
         </div>
       </div>
     </div>
@@ -710,11 +710,11 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
     <div class="ct">🎬 Vidéo de référence</div>
     <div class="uarea" id="motionVidArea" onclick="document.getElementById('motionVidIn').click()"><div class="ui">🎬</div><p id="motionVidLbl">Upload la vidéo dont tu veux copier les mouvements</p></div>
     <input type="file" id="motionVidIn" accept="video/*" style="display:none" onchange="handleMotionVideo(this)">
-    <video id="motionVidPrev" style="width:100%;border-radius:var(--rs);margin-top:10px;display:none" controls muted playsinline></video>
+    <video id="motionVidPrev" style="width:100%;border-radius:10px;margin-top:10px;display:none" controls muted playsinline></video>
     <div style="margin-top:12px"><div class="og"><label>DURÉE OUTPUT</label><select id="motionDur"><option value="5">5 secondes</option><option value="10">10 secondes</option></select></div></div>
   </div>
-  <button class="gen-btn" id="btnMotion" onclick="genMotion()" style="background:linear-gradient(135deg,#a855f7,var(--ac2))">💃 TRANSFÉRER LES MOUVEMENTS</button>
-  <div class="loading" id="loadMotion"><div class="l-track"><div class="l-fill" id="lfMotion" style="background:linear-gradient(90deg,#a855f7,var(--ac2))"></div></div><div class="l-txt" id="ltMotion">Transfert de mouvement...</div><div class="l-timer" id="tmMotion" style="color:#a855f7">⏱ 0s</div></div>
+  <button class="gen-btn" id="btnMotion" onclick="genMotion()" style="background:linear-gradient(135deg,#a855f7,#7c3aed)">💃 TRANSFÉRER LES MOUVEMENTS</button>
+  <div class="loading" id="loadMotion"><div class="l-track"><div class="l-fill" id="lfMotion" style="background:linear-gradient(90deg,#a855f7,#7c3aed)"></div></div><div class="l-txt" id="ltMotion">Transfert de mouvement...</div><div class="l-timer" id="tmMotion" style="color:#a855f7">⏱ 0s</div></div>
   <div class="result" id="resMotion">
     <video id="rMotion" class="r-vid" controls playsinline></video>
     <div class="r-bar"><span class="r-lbl">💰 Coût</span><span class="r-val" id="costMotion">—</span><span class="r-time" id="timeMotion">—</span></div>
@@ -777,8 +777,8 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
       <div class="acard">
         <div class="albl">🔐 Mot de passe</div>
         <input class="af" type="password" id="adminPwd" placeholder="••••" onkeydown="if(event.key==='Enter')chkAdmin()">
-        <button onclick="chkAdmin()" style="width:100%;padding:12px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--ac3),var(--ac));color:var(--bg);font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer">🔓 Accéder</button>
-        <p style="font-size:11px;color:var(--mu);margin-top:10px;text-align:center">Défaut : <strong style="color:var(--ac3)">1234</strong></p>
+        <button onclick="chkAdmin()" style="width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#f59e0b,#00e5ff);color:#111113;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer">🔓 Accéder</button>
+        <p style="font-size:11px;color:#5a6a7e;margin-top:10px;text-align:center">Défaut : <strong style="color:#f59e0b">1234</strong></p>
       </div>
     </div>
     <div id="adminContent" style="display:none">
@@ -792,19 +792,19 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
         <div class="albl">🖼 Image de fond</div>
         <input class="af" type="text" id="bgUrl" placeholder="Colle une URL d'image...">
         <div style="display:flex;gap:8px;margin-bottom:8px">
-          <button onclick="applyBg()" style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">👁 Aperçu</button>
-          <button onclick="removeBg()" style="flex:1;padding:10px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">✕ Supprimer</button>
+          <button onclick="applyBg()" style="flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">👁 Aperçu</button>
+          <button onclick="removeBg()" style="flex:1;padding:10px;border-radius:10px;border:1px solid #2a2a2e;background:transparent;color:#5a6a7e;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">✕ Supprimer</button>
         </div>
         <!-- CROP EDITOR -->
-        <button onclick="openCropEditor()" style="width:100%;padding:10px;border-radius:var(--rs);border:1.5px dashed var(--ac);background:rgba(0,229,255,0.04);color:var(--ac);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">✂️ Recadrer & Centrer l'image</button>
+        <button onclick="openCropEditor()" style="width:100%;padding:10px;border-radius:10px;border:1.5px dashed #00e5ff;background:rgba(0,229,255,0.04);color:#00e5ff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer">✂️ Recadrer & Centrer l'image</button>
       </div>
 
 ```
   <!-- CROP MODAL -->
   <div id="cropModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.98);z-index:600;flex-direction:column;">
-    <div style="background:var(--s1);border-bottom:1px solid var(--bd);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+    <div style="background:#18181b;border-bottom:1px solid #2a2a2e;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
       <div style="font-size:16px;font-weight:800">✂️ Recadrer l'image</div>
-      <button onclick="closeCropEditor()" style="width:32px;height:32px;background:var(--s2);border:1px solid var(--bd);border-radius:50%;color:var(--mu);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+      <button onclick="closeCropEditor()" style="width:32px;height:32px;background:#1c1c1f;border:1px solid #2a2a2e;border-radius:50%;color:#5a6a7e;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
     </div>
 
     <!-- Canvas interactif -->
@@ -814,27 +814,27 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
     </div>
 
     <!-- Aperçu + contrôles -->
-    <div style="background:var(--s1);border-top:1px solid var(--bd);padding:14px 16px;flex-shrink:0">
-      <div style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px">APERÇU FINAL SUR LE SITE</div>
+    <div style="background:#18181b;border-top:1px solid #2a2a2e;padding:14px 16px;flex-shrink:0">
+      <div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px">APERÇU FINAL SUR LE SITE</div>
       <div style="display:flex;gap:10px;margin-bottom:14px">
         <div style="flex:1">
-          <div style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-bottom:4px">📱 SITE COMPLET</div>
-          <div id="previewPhone" style="width:100%;height:110px;border-radius:8px;overflow:hidden;border:1px solid var(--bd);"></div>
+          <div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-bottom:4px">📱 SITE COMPLET</div>
+          <div id="previewPhone" style="width:100%;height:110px;border-radius:8px;overflow:hidden;border:1px solid #2a2a2e;"></div>
         </div>
         <div style="flex:1">
-          <div style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-bottom:4px">🔍 ZOOM CENTRE</div>
-          <div id="previewZoom" style="width:100%;height:110px;border-radius:8px;overflow:hidden;border:1px solid var(--bd);"></div>
+          <div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-bottom:4px">🔍 ZOOM CENTRE</div>
+          <div id="previewZoom" style="width:100%;height:110px;border-radius:8px;overflow:hidden;border:1px solid #2a2a2e;"></div>
         </div>
       </div>
       <div style="margin-bottom:12px">
-        <label style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;letter-spacing:1px;display:flex;justify-content:space-between;margin-bottom:6px">
-          ZOOM <span id="zoomVal" style="color:var(--ac)">100%</span>
+        <label style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;letter-spacing:1px;display:flex;justify-content:space-between;margin-bottom:6px">
+          ZOOM <span id="zoomVal" style="color:#00e5ff">100%</span>
         </label>
         <input type="range" id="zoomSlider" min="50" max="300" value="100" oninput="onZoomChange(this.value)" style="width:100%">
       </div>
       <div style="display:flex;gap:8px">
-        <button onclick="resetCrop()" style="flex:1;padding:11px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">🔄 Reset</button>
-        <button onclick="confirmCrop()" style="flex:2;padding:11px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer">✅ Appliquer</button>
+        <button onclick="resetCrop()" style="flex:1;padding:11px;border-radius:10px;border:1px solid #2a2a2e;background:transparent;color:#5a6a7e;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">🔄 Reset</button>
+        <button onclick="confirmCrop()" style="flex:2;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer">✅ Appliquer</button>
       </div>
     </div>
   </div>
@@ -843,36 +843,36 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
 
     <!-- Icône du site -->
     <div style="margin-bottom:12px">
-      <div style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px">ICÔNE DU SITE</div>
+      <div style="font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px">ICÔNE DU SITE</div>
       <div style="display:flex;align-items:center;gap:10px">
-        <div id="iconPreview" style="width:48px;height:48px;background:linear-gradient(135deg,var(--pk),var(--ac2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0" onclick="document.getElementById('iconUpIn').click()">📸</div>
+        <div id="iconPreview" style="width:48px;height:48px;background:linear-gradient(135deg,#ff4d8f,#7c3aed);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0" onclick="document.getElementById('iconUpIn').click()">📸</div>
         <div style="flex:1">
-          <button onclick="document.getElementById('iconUpIn').click()" style="width:100%;padding:9px;border-radius:var(--rs);border:1.5px dashed var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left">📂 Choisir depuis iCloud / Galerie</button>
-          <div style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:4px">PNG, JPG ou SVG recommandé</div>
+          <button onclick="document.getElementById('iconUpIn').click()" style="width:100%;padding:9px;border-radius:10px;border:1.5px dashed #2a2a2e;background:transparent;color:#5a6a7e;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left">📂 Choisir depuis iCloud / Galerie</button>
+          <div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-top:4px">PNG, JPG ou SVG recommandé</div>
         </div>
       </div>
       <input type="file" id="iconUpIn" accept="image/*" style="display:none" onchange="applyIcon(this)">
     </div>
 
-    <div style="height:1px;background:var(--bd);margin-bottom:12px"></div>
+    <div style="height:1px;background:#2a2a2e;margin-bottom:12px"></div>
 
     <!-- Fond d'écran depuis fichier -->
     <div style="margin-bottom:12px">
-      <div style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px">FOND D'ÉCRAN (FICHIER)</div>
-      <button onclick="document.getElementById('bgFileIn').click()" style="width:100%;padding:9px;border-radius:var(--rs);border:1.5px dashed var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left">📂 Choisir depuis iCloud / Galerie</button>
+      <div style="font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px">FOND D'ÉCRAN (FICHIER)</div>
+      <button onclick="document.getElementById('bgFileIn').click()" style="width:100%;padding:9px;border-radius:10px;border:1.5px dashed #2a2a2e;background:transparent;color:#5a6a7e;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left">📂 Choisir depuis iCloud / Galerie</button>
       <input type="file" id="bgFileIn" accept="image/*,video/*" style="display:none" onchange="applyBgFile(this)">
-      <div style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:4px">Image ou vidéo · Appliqué immédiatement</div>
+      <div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-top:4px">Image ou vidéo · Appliqué immédiatement</div>
     </div>
 
-    <div style="height:1px;background:var(--bd);margin-bottom:12px"></div>
+    <div style="height:1px;background:#2a2a2e;margin-bottom:12px"></div>
 
     <!-- Template HTML -->
     <div>
-      <div style="font-size:11px;color:var(--mu);font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px">IMPORTER UN TEMPLATE</div>
-      <button onclick="document.getElementById('tplUpIn').click()" style="width:100%;padding:9px;border-radius:var(--rs);border:1.5px dashed var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left">📄 Choisir un fichier HTML depuis iCloud</button>
+      <div style="font-size:11px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-bottom:8px;letter-spacing:1px">IMPORTER UN TEMPLATE</div>
+      <button onclick="document.getElementById('tplUpIn').click()" style="width:100%;padding:9px;border-radius:10px;border:1.5px dashed #2a2a2e;background:transparent;color:#5a6a7e;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left">📄 Choisir un fichier HTML depuis iCloud</button>
       <input type="file" id="tplUpIn" accept=".html,.htm" style="display:none" onchange="importTemplate(this)">
-      <div style="font-size:10px;color:var(--mu);font-family:'Space Mono',monospace;margin-top:4px">⚠️ Remplace le contenu actuel de la page</div>
-      <div id="tplInfo" style="display:none;margin-top:8px;padding:8px 10px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:var(--rs);font-size:11px;color:var(--ok);font-family:'Space Mono',monospace"></div>
+      <div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace;margin-top:4px">⚠️ Remplace le contenu actuel de la page</div>
+      <div id="tplInfo" style="display:none;margin-top:8px;padding:8px 10px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:10px;font-size:11px;color:#10b981;font-family:'Space Mono',monospace"></div>
     </div>
   </div>
 
@@ -881,7 +881,7 @@ input[type=range].pr::-webkit-slider-thumb{background:var(–pk);}
     <div id="aModels"></div>
   </div>
   <button class="asave" onclick="saveAdmin()">💾 SAUVEGARDER</button>
-  <button onclick="lockAdmin()" style="width:100%;padding:12px;margin-top:8px;border-radius:var(--rs);border:1px solid var(--bd);background:transparent;color:var(--mu);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">🔒 Verrouiller</button>
+  <button onclick="lockAdmin()" style="width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid #2a2a2e;background:transparent;color:#5a6a7e;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer">🔒 Verrouiller</button>
 </div>
 ```
 
@@ -963,7 +963,7 @@ function openAdmin(){document.getElementById('adminModal').classList.add('open')
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');}
 function chkAdmin(){const p=document.getElementById('adminPwd').value;if(p===cfg.adminPwd){state.adminOk=true;document.getElementById('adminLock').style.display='none';document.getElementById('adminContent').style.display='block';document.getElementById('aN').value=cfg.studioName||'Sensual Vision';const bg=localStorage.getItem('sv_bg');if(bg)document.getElementById('bgUrl').value=bg;renderAdminModels();toast('🔓 Admin déverrouillé','ok');}else{toast('❌ Mot de passe incorrect','err');document.getElementById('adminPwd').value='';}}
 function lockAdmin(){state.adminOk=false;document.getElementById('adminLock').style.display='block';document.getElementById('adminContent').style.display='none';document.getElementById('adminPwd').value='';}
-function renderAdminModels(){const models=[{name:'FLUX 2 Pro (Image)'},{name:'FLUX Dev (Image/NSFW)'},{name:'Realistic Vision (Image)'},{name:'Kling 2.6 Pro (Vidéo)'},{name:'Wan 2.2 (Vidéo)'}];document.getElementById('aModels').innerHTML=models.map(m=>`<div class="arow"><div style="font-size:13px;font-weight:600">${m.name}</div><div style="font-size:10px;color:var(--ok);font-family:'Space Mono',monospace">✓ actif</div></div>`).join('');}
+function renderAdminModels(){const models=[{name:'FLUX 2 Pro (Image)'},{name:'FLUX Dev (Image/NSFW)'},{name:'Realistic Vision (Image)'},{name:'Kling 2.6 Pro (Vidéo)'},{name:'Wan 2.2 (Vidéo)'}];document.getElementById('aModels').innerHTML=models.map(m=>`<div class="arow"><div style="font-size:13px;font-weight:600">${m.name}</div><div style="font-size:10px;color:#10b981;font-family:'Space Mono',monospace">✓ actif</div></div>`).join('');}
 function saveAdmin(){const p1=document.getElementById('aPw1').value;const p2=document.getElementById('aPw2').value;if(p1){if(p1!==p2)return toast('Mots de passe différents','err');cfg.adminPwd=p1;document.getElementById('aPw1').value='';document.getElementById('aPw2').value='';}cfg.studioName=document.getElementById('aN').value||'Sensual Vision';localStorage.setItem('sv_cfg',JSON.stringify(cfg));toast('✅ Sauvegardé !','ok');}
 function applyIcon(input){
   if(!input.files||!input.files[0])return;
@@ -1213,7 +1213,7 @@ function removeBg(){
 }
 async function falQueue(model,body,onProg){const sub=await fetch(`https://queue.fal.run/${model}`,{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!sub.ok){let err='Erreur API ('+sub.status+')';try{const j=await sub.json();err=j.detail||j.error||err;}catch(e){}throw new Error(err);}const{request_id}=await sub.json();if(!request_id)throw new Error('Pas de request_id reçu');for(let i=0;i<300;i++){await sleep(1000);if(onProg)onProg(Math.min(10+i*1.5,90));try{const sRes=await fetch(`https://queue.fal.run/${model}/requests/${request_id}/status`,{headers:{'Authorization':'Key '+state.apiKey}});if(!sRes.ok)continue;const s=await sRes.json();if(s.status==='COMPLETED'){const rRes=await fetch(`https://queue.fal.run/${model}/requests/${request_id}`,{headers:{'Authorization':'Key '+state.apiKey}});if(!rRes.ok)throw new Error('Erreur résultat ('+rRes.status+')');return await rRes.json();}if(s.status==='FAILED')throw new Error(s.error||'Génération échouée');}catch(e){if(e.message.includes('Génération'))throw e;}}throw new Error('Timeout — réessaie');}
 function saveRepKey(){const k=(document.getElementById('repKeyIn')||document.getElementById('loraRepKey'))?.value?.trim();if(!k)return toast('Entre ta clé Replicate','err');state.repKey=k;localStorage.setItem('sv_rep_key',k);setRepSt(true);toast('✅ Clé Replicate sauvegardée !','ok');}
-function setRepSt(ok){const st=document.getElementById('loraRepSt');if(st){st.textContent=ok?'✅ Connectée':'replicate.com → Account → API tokens';st.style.color=ok?'var(--ok)':'var(--mu)';}}
+function setRepSt(ok){const st=document.getElementById('loraRepSt');if(st){st.textContent=ok?'✅ Connectée':'replicate.com → Account → API tokens';st.style.color=ok?'#10b981':'#5a6a7e';}}
 async function repQueue(model,body,onProg){const res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{method:'POST',headers:{'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json','Prefer':'wait=5'},body:JSON.stringify({input:body})});if(!res.ok){let e='Erreur Replicate ('+res.status+')';try{const j=await res.json();e=j.detail||e;}catch(x){}throw new Error(e);}let pred=await res.json();const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;for(let i=0;i<180;i++){if(pred.status==='succeeded')return pred.output;if(pred.status==='failed')throw new Error(pred.error||'Génération échouée');await sleep(2000);if(onProg)onProg(Math.min(15+i*2,90));const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});pred=await r.json();}throw new Error('Timeout Replicate');}
 async function genNSFWReplicate(){const prompt=document.getElementById('nsfwPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnNsfw','loadNsfw','resNsfw');startTimer('tmNsfw');const m=state.nsfwModel;try{const body={prompt,negative_prompt:document.getElementById('nsfwNeg').value,width:768,height:1344,num_inference_steps:+document.getElementById('nsfwSteps').value,guidance_scale:7,disable_safety_checker:true};if(state.nsfwRef){body.image=state.nsfwRef;body.strength=0.75;}const out=await repQueue(m,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas d\'URL Replicate');state.lastImg=url;stopTimer('tmNsfw');const el=document.getElementById('rNsfw');el.src=url;el.onload=()=>{endLoad('btnNsfw','loadNsfw','resNsfw');document.getElementById('costNsfw').textContent='variable';document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlNsfw').href=url;updStats();toast('✅ Image NSFW générée !','ok');}catch(e){stopTimer('tmNsfw');endLoad('btnNsfw','loadNsfw');toast('❌ '+e.message,'err');}}
 async function genPuLID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef1)return toast('Ajoute une photo du modèle','err');const prompt=document.getElementById('pulidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnPulid','loadPulid','resPulid');startTimer('tmPulid');try{const wh=document.getElementById('pulidRatio').value.split('x');const body={main_face_image:state.loraRef1,prompt,width:+wh[0],height:+wh[1],id_weight:+document.getElementById('pulidWeight').value,num_steps:20,start_step:0,true_cfg:1,guidance:4};const out=await repQueue('bytedance/flux-pulid',body,p=>prog('lfPulid','ltPulid',p,'Analyse du visage...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat PuLID');state.lastImg=url;stopTimer('tmPulid');const el=document.getElementById('rPulid');el.src=url;el.onload=()=>{endLoad('btnPulid','loadPulid','resPulid');document.getElementById('timePulid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlPulid').href=url;updStats();toast('✅ Niveau 1 généré !','ok');}catch(e){stopTimer('tmPulid');endLoad('btnPulid','loadPulid');toast('❌ '+e.message,'err');}}
@@ -1229,7 +1229,7 @@ function handleMotionVideo(input){if(!input.files||!input.files[0])return;const 
 async function genMotion(){if(!state.apiKey){openApiModal();return;}if(!state.motionImg)return toast('Ajoute la photo du modèle','err');if(!state._motionVidFile&&!state.motionVidUrl)return toast('Ajoute la vidéo de référence','err');const t0=Date.now();startLoad('btnMotion','loadMotion','resMotion');startTimer('tmMotion');try{let vidUrl=state.motionVidUrl;if(!vidUrl&&state._motionVidFile){document.getElementById('ltMotion').textContent='Upload vidéo...';const uploadRes=await fetch('https://fal.run/fal-ai/storage/upload',{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':state._motionVidFile.type},body:state._motionVidFile});if(!uploadRes.ok)throw new Error('Erreur upload ('+uploadRes.status+')');const uploadData=await uploadRes.json();vidUrl=uploadData.url||uploadData.file_url;state.motionVidUrl=vidUrl;}const prompt=document.getElementById('motionPrompt').value.trim();const dur=+document.getElementById('motionDur').value;let body={};const m=state.motionModel;if(m==='fal-ai/wan-motion'){body={video_url:vidUrl,image_url:state.motionImg,adapt_motion:true,enhance_identity:false};if(prompt)body.prompt=prompt;}else{body={image_url:state.motionImg,video_url:vidUrl,character_orientation:'video',duration:dur};if(prompt)body.prompt=prompt;}const out=await falQueue(m,body,p=>prog('lfMotion','ltMotion',p,'Transfert en cours...'));const url=out.video?.url||out.videos?.[0]?.url;if(!url)throw new Error('Pas de vidéo dans la réponse');state.lastVid=url;stopTimer('tmMotion');document.getElementById('rMotion').src=url;endLoad('btnMotion','loadMotion','resMotion');const elapsed=((Date.now()-t0)/1000).toFixed(1);const costPerSec=m.includes('wan-motion')?0.06:0.112;document.getElementById('costMotion').textContent='~$'+(costPerSec*dur).toFixed(2);document.getElementById('timeMotion').textContent=elapsed+'s';document.getElementById('dlMotion').href=url;updStats();toast('✅ Motion généré !','ok');}catch(e){stopTimer('tmMotion');endLoad('btnMotion','loadMotion');toast('❌ '+e.message,'err');}}
 async function genFaceSwap(){if(!state.apiKey){openApiModal();return;}if(!state.fsSrc||!state.fsTgt)return toast('Ajoute les 2 images','err');const t0=Date.now();startLoad('btnFs','loadFs','resFs');startTimer('tmFs');try{const body={base_image_url:state.fsTgt,swap_image_url:state.fsSrc};const out=await falQueue(state.fsModel,body,p=>prog('lfFs','ltFs',p,'Face swap...'));const url=out.image?.url||out.images?.[0]?.url;if(!url)throw new Error('Pas d\'URL dans la réponse');state.lastImg=url;stopTimer('tmFs');const el=document.getElementById('rFs');el.src=url;el.onload=()=>{endLoad('btnFs','loadFs','resFs');document.getElementById('costFs').textContent=getCost(state.fsModel);document.getElementById('timeFs').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlFs').href=url;updStats();toast('✅ Face swap terminé !','ok');}catch(e){stopTimer('tmFs');endLoad('btnFs','loadFs');toast('❌ '+e.message,'err');}}
 function saveGal(type){const url=type==='image'?state.lastImg:type==='video'?state.lastVid:state.lastAud;if(!url)return toast('Rien à sauvegarder','err');state.gallery.unshift({type,url,date:new Date().toLocaleDateString('fr')});localStorage.setItem('sv_gallery',JSON.stringify(state.gallery));updStats();toast('✅ Sauvegardé !','ok');}
-function renderGal(){const g=document.getElementById('galGrid');if(!state.gallery.length){g.innerHTML='<div class="gempty"><span style="font-size:40px;display:block;margin-bottom:12px">🎨</span><p>Tes créations apparaîtront ici</p></div>';return;}g.innerHTML=state.gallery.map((x,i)=>`<div class="gi">${x.type==='image'?`<img src="${x.url}" loading="lazy">`:x.type==='video'?`<video src="${x.url}" muted loop playsinline autoplay></video>`:`<div style="background:var(--s2);height:100%;display:flex;align-items:center;justify-content:center;font-size:32px">🎙</div>`}<button class="gdel" onclick="delGal(${i})">✕</button></div>`).join('');}
+function renderGal(){const g=document.getElementById('galGrid');if(!state.gallery.length){g.innerHTML='<div class="gempty"><span style="font-size:40px;display:block;margin-bottom:12px">🎨</span><p>Tes créations apparaîtront ici</p></div>';return;}g.innerHTML=state.gallery.map((x,i)=>`<div class="gi">${x.type==='image'?`<img src="${x.url}" loading="lazy">`:x.type==='video'?`<video src="${x.url}" muted loop playsinline autoplay></video>`:`<div style="background:#1c1c1f;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px">🎙</div>`}<button class="gdel" onclick="delGal(${i})">✕</button></div>`).join('');}
 function delGal(i){state.gallery.splice(i,1);localStorage.setItem('sv_gallery',JSON.stringify(state.gallery));updStats();renderGal();}
 function updStats(){const imgs=state.gallery.filter(x=>x.type==='image').length;const vids=state.gallery.filter(x=>x.type==='video').length;document.getElementById('cntImg').textContent=imgs;document.getElementById('cntVid').textContent=vids;document.getElementById('cntTot').textContent=state.gallery.length;document.getElementById('ccGalCnt').textContent=state.gallery.length+' créations';}
 function startLoad(b,l,r){document.getElementById(b).disabled=true;document.getElementById(l).classList.add('vis');if(r)document.getElementById(r).classList.remove('vis');}
