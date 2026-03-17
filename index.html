@@ -1368,7 +1368,38 @@ function setRepSt(ok){
   const cc=document.getElementById('ccRepSt');
   if(cc){cc.textContent=ok?'connectée':'non configurée';cc.className='cc-val'+(ok?' ok':' no');}
 }
-async function repQueue(model,body,onProg){const res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{method:'POST',headers:{'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json','Prefer':'wait=5'},body:JSON.stringify({input:body})});if(!res.ok){let e='Erreur Replicate ('+res.status+')';try{const j=await res.json();e=j.detail||e;}catch(x){}throw new Error(e);}let pred=await res.json();const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;for(let i=0;i<120;i++){if(pred.status==='succeeded')return pred.output;if(pred.status==='failed')throw new Error(pred.error||'Génération échouée');await sleep(2000);if(onProg)onProg(Math.min(15+i*2,90));const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});pred=await r.json();}throw new Error('Timeout Replicate');}
+async function repQueue(model,body,onProg){
+  // Try /v1/models/{model}/predictions first, fallback to /v1/predictions
+  const headers={'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json'};
+  let res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{
+    method:'POST',headers,
+    body:JSON.stringify({input:body})
+  });
+  // If 404, try without /models/ path (for versioned models)
+  if(res.status===404){
+    res=await fetch(`https://api.replicate.com/v1/predictions`,{
+      method:'POST',headers,
+      body:JSON.stringify({model,input:body})
+    });
+  }
+  if(!res.ok){
+    let e='Erreur Replicate ('+res.status+')';
+    try{const j=await res.json();e=j.detail||j.error||JSON.stringify(j)||e;}catch(x){}
+    throw new Error(e);
+  }
+  let pred=await res.json();
+  if(onProg)onProg(10);
+  const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;
+  for(let i=0;i<180;i++){
+    if(pred.status==='succeeded')return pred.output;
+    if(pred.status==='failed')throw new Error(pred.error||'Génération échouée');
+    await sleep(2500);
+    if(onProg)onProg(Math.min(15+i*1.5,90));
+    const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});
+    pred=await r.json();
+  }
+  throw new Error('Timeout — réessaie');
+}
 
 async function genImage(){
   if(!state.repKey)return toast('Configure ta clé Replicate dans ⚙️','err');
@@ -1379,13 +1410,14 @@ async function genImage(){
   const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'portrait_4_3':{w:896,h:1152},'landscape_16_9':{w:1344,h:768}};
   const sz=ratioMap[document.getElementById('imgRatio').value]||{w:768,h:1344};
   try{
-    const body={prompt,negative_prompt:document.getElementById('imgNeg').value,width:sz.w,height:sz.h,num_inference_steps:+document.getElementById('imgSteps').value,guidance_scale:+document.getElementById('guidance').value,disable_safety_checker:true};
+    const body={prompt,negative_prompt:document.getElementById('imgNeg').value,width:sz.w,height:sz.h,num_inference_steps:+document.getElementById('imgSteps').value,guidance_scale:+document.getElementById('guidance').value,disable_safety_checker:true,output_format:'webp'};
+    if(state.imgRef){body.image=state.imgRef;body.prompt_strength=0.75;}
     const out=await repQueue(state.imgModel,body,p=>prog('lfImg','ltImg',p,'Génération...'));
-    const url=Array.isArray(out)?out[0]:out;
+    const url=Array.isArray(out)?out[0]:(typeof out==='string'?out:out?.url||null);
     if(!url)throw new Error('Pas d\'URL dans la réponse');
     state.lastImg=url;stopTimer('tmImg');
     const el=document.getElementById('rImg');el.src=url;
-    el.onload=()=>{endLoad('btnImg','loadImg','resImg');document.getElementById('costImg').textContent='variable';document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};
+    el.onload=()=>{endLoad('btnImg','loadImg','resImg');document.getElementById('costImg').textContent=getCost(state.imgModel);document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};
     document.getElementById('dlImg').href=url;updStats();toast('✅ Image générée !','ok');
   }catch(e){stopTimer('tmImg');endLoad('btnImg','loadImg');toast('❌ '+e.message,'err');}
 }
