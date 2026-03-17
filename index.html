@@ -514,6 +514,12 @@ body.has-bg .banner{background:rgba(24,24,27,0.85)!important;}
     <div class="og"><label>FORMAT</label><select id="nsfwRatio"><option value="portrait_16_9" selected>Portrait 9:16</option><option value="square_hd">Carré HD</option><option value="portrait_4_3">Portrait 4:3</option><option value="landscape_16_9">Paysage</option></select></div>
     <div class="og"><label>QUALITÉ</label><select id="nsfwSteps"><option value="20" selected>Standard</option><option value="35">Haute</option><option value="50">Max</option></select></div>
   </div>
+  <div style="margin-top:12px">
+    <div class="ct p" style="margin-bottom:6px">🖼 Image de référence (optionnel)</div>
+    <div class="uarea" id="nsfwUpArea" onclick="document.getElementById('nsfwUpIn').click()"><div class="ui">📁</div><p id="nsfwUpLbl">Ajoute une image pour guider la génération</p></div>
+    <input type="file" id="nsfwUpIn" accept="image/*" style="display:none" onchange="handleUp(this,'nsfwPrev','nsfwUpArea','nsfwUpLbl',s=>state.nsfwRef=s)">
+    <img id="nsfwPrev" class="uprev">
+  </div>
 </div>
 <button class="gen-btn pb" id="btnNsfw" onclick="genNSFW()">🔞 GÉNÉRER — MODE PRO</button>
 <div class="loading" id="loadNsfw"><div class="l-track"><div class="l-fill pk" id="lfNsfw"></div></div><div class="l-txt" id="ltNsfw">Génération NSFW...</div><div class="l-timer pk" id="tmNsfw">⏱ 0s</div></div>
@@ -675,98 +681,34 @@ body.has-bg .banner{background:rgba(24,24,27,0.85)!important;}
     </div>
 
 ```
-<!-- API switcher -->
-<div class="sub-tabs" style="margin-bottom:14px">
-  <button class="stab active" onclick="switchMangaApi('fal',0)">⚡ fal.ai</button>
-  <button class="stab" onclick="switchMangaApi('rep',1)">🔁 Replicate</button>
-</div>
-
-<!-- FAL.AI MANGA -->
-<div id="manga-fal">
-  <div class="card" style="border-color:rgba(232,121,249,0.3)">
-    <div class="ct mg">🤖 Modèle Manga — fal.ai</div>
-    <div class="mpills">
-      <div class="mp sel" data-m="fal-ai/flux/dev" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">FLUX Dev + LoRA Anime</div><div class="mp-desc">Gold standard · LoRA ecchi injecté · Safety off</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.025/img</div><div class="mp-tag tg-best">⭐ TOP</div></div>
-      </div>
-      <div class="mp" data-m="fal-ai/flux-pro/v1.1" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">FLUX Pro 1.1 + LoRA</div><div class="mp-desc">Qualité max · Détails fins · Tolérance 6</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.05/img</div><div class="mp-tag tg-pro">✦ PRO</div></div>
-      </div>
-      <div class="mp" data-m="fal-ai/flux-pro/v1.1-ultra" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">FLUX Ultra 2K</div><div class="mp-desc">Résolution 2K · LoRA strength max · Ultra-détails</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.06/img</div><div class="mp-tag tg-manga">✦ 2K</div></div>
-      </div>
+<!-- MODÈLES REPLICATE UNIQUEMENT -->
+<div class="card" style="border-color:rgba(232,121,249,0.3)">
+  <div class="ct mg">🤖 Modèles Manga — Replicate</div>
+  <div class="mpills">
+    <div class="mp sel" data-m="stablediffusionapi/anything-v5" onclick="selM(this,'manga')">
+      <div class="mp-radio"></div>
+      <div class="mp-info"><div class="mp-name">Anything V5 ⭐</div><div class="mp-desc">Référence absolue ecchi · Semi-réaliste · Très populaire</div></div>
+      <div class="mp-right"><div class="mp-cost">~$0.004/img</div><div class="mp-tag tg-best">⭐ #1</div></div>
     </div>
-  </div>
-  <!-- LoRA presets fal.ai -->
-  <div class="card" style="border-color:rgba(232,121,249,0.2);margin-top:-6px">
-    <div class="ct mg">🔗 LoRA Ecchi Presets — fal.ai</div>
-    <div style="display:flex;flex-direction:column;gap:6px" id="loraPresetsFal">
-      <div class="lora-preset" data-ep="https://huggingface.co/Linaqruf/animagine-xl-3.0/resolve/main/animagine-xl-3.0.safetensors" data-tr="animagine" onclick="applyLoraPreset(this)" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;border:1.5px solid #2a2a2e;cursor:pointer;background:rgba(10,10,12,0.4)">
-        <div><div style="font-size:12px;font-weight:700">Animagine XL 3.0</div><div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace">Anime HD · Style propre · Ecchi compatible</div></div>
-        <div style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(232,121,249,0.1);color:#e879f9;font-family:'Space Mono',monospace;flex-shrink:0">APPLIQUER</div>
-      </div>
-      <div class="lora-preset" data-ep="https://huggingface.co/stablediffusionapi/anything-v5/resolve/main/anything-v5.safetensors" data-tr="masterpiece, best quality" onclick="applyLoraPreset(this)" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;border:1.5px solid #2a2a2e;cursor:pointer;background:rgba(10,10,12,0.4)">
-        <div><div style="font-size:12px;font-weight:700">Anything V5</div><div style="font-size:10px;color:#5a6a7e;font-family:'Space Mono',monospace">Référence ecchi · Très populaire · Semi-réaliste</div></div>
-        <div style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(232,121,249,0.1);color:#e879f9;font-family:'Space Mono',monospace;flex-shrink:0">APPLIQUER</div>
-      </div>
+    <div class="mp" data-m="asiryan/aom3" onclick="selM(this,'manga')">
+      <div class="mp-radio"></div>
+      <div class="mp-info"><div class="mp-name">AbyssOrangeMix3</div><div class="mp-desc">Gold standard ecchi · Corps proportionnés · Détails fins</div></div>
+      <div class="mp-right"><div class="mp-cost">~$0.004/img</div><div class="mp-tag tg-manga">🎌 AOM3</div></div>
     </div>
-  </div>
-</div>
-
-<!-- REPLICATE MANGA -->
-<div id="manga-rep" style="display:none">
-  <div class="card" style="border-color:rgba(232,121,249,0.3)">
-    <div class="ct mg">🤖 Modèles Ecchi — Replicate</div>
-    <div class="mpills">
-      <div class="mp sel" data-m="stablediffusionapi/anything-v5" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">Anything V5 ⭐</div><div class="mp-desc">Référence absolue ecchi · Semi-réaliste · Très populaire</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.004/img</div><div class="mp-tag tg-best">⭐ #1</div></div>
-      </div>
-      <div class="mp" data-m="asiryan/aom3" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">AbyssOrangeMix3</div><div class="mp-desc">Gold standard ecchi · Corps proportionnés · Détails fins</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.004/img</div><div class="mp-tag tg-manga">🎌 AOM3</div></div>
-      </div>
-      <div class="mp" data-m="chenxwh/meina-mix" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">MeinaMix ✦</div><div class="mp-desc">Visages premium · Style manga haut de gamme</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.005/img</div><div class="mp-tag tg-pro">✦ PREMIUM</div></div>
-      </div>
-      <div class="mp" data-m="black-forest-labs/flux-dev-lora" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">FLUX Dev + LoRA</div><div class="mp-desc">Safety off · LoRA anime custom · Ultra-réaliste</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.025/img</div><div class="mp-tag tg-manga">🔞 FLUX</div></div>
-      </div>
-      <div class="mp" data-m="lucataco/dreamshaper-xl-lightning" onclick="selM(this,'manga')">
-        <div class="mp-radio"></div>
-        <div class="mp-info"><div class="mp-name">DreamShaper XL ⚡</div><div class="mp-desc">Ultra-rapide ~3s · Anime & ecchi · Budget</div></div>
-        <div class="mp-right"><div class="mp-cost">~$0.002/img</div><div class="mp-tag tg-fast">⚡ RAPIDE</div></div>
-      </div>
+    <div class="mp" data-m="chenxwh/meina-mix" onclick="selM(this,'manga')">
+      <div class="mp-radio"></div>
+      <div class="mp-info"><div class="mp-name">MeinaMix ✦</div><div class="mp-desc">Visages premium · Style manga haut de gamme</div></div>
+      <div class="mp-right"><div class="mp-cost">~$0.005/img</div><div class="mp-tag tg-pro">✦ PREMIUM</div></div>
     </div>
-  </div>
-  <!-- Paramètres optimaux ecchi -->
-  <div class="card" style="border-color:rgba(232,121,249,0.2);margin-top:-6px">
-    <div class="ct mg">⚙️ Paramètres optimaux Ecchi</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;font-family:'Space Mono',monospace;color:#5a6a7e">
-      <div style="padding:8px;background:rgba(232,121,249,0.05);border-radius:8px;border:1px solid rgba(232,121,249,0.15)">
-        <div style="color:#e879f9;font-weight:700;margin-bottom:4px">Steps recommandés</div>
-        <div>AOM3 / Anything : <span style="color:#e8edf5">25-35</span></div>
-        <div>MeinaMix : <span style="color:#e8edf5">28-40</span></div>
-        <div>DreamShaper : <span style="color:#e8edf5">6-8 ⚡</span></div>
-      </div>
-      <div style="padding:8px;background:rgba(232,121,249,0.05);border-radius:8px;border:1px solid rgba(232,121,249,0.15)">
-        <div style="color:#e879f9;font-weight:700;margin-bottom:4px">Guidance CFG</div>
-        <div>Libre : <span style="color:#e8edf5">5-6</span></div>
-        <div>Équilibré : <span style="color:#e8edf5">7-8</span></div>
-        <div>Précis : <span style="color:#e8edf5">9-11</span></div>
-      </div>
+    <div class="mp" data-m="black-forest-labs/flux-dev-lora" onclick="selM(this,'manga')">
+      <div class="mp-radio"></div>
+      <div class="mp-info"><div class="mp-name">FLUX Dev + LoRA</div><div class="mp-desc">Safety off · LoRA anime custom · Ultra-réaliste</div></div>
+      <div class="mp-right"><div class="mp-cost">~$0.025/img</div><div class="mp-tag tg-manga">🔞 FLUX</div></div>
+    </div>
+    <div class="mp" data-m="lucataco/dreamshaper-xl-lightning" onclick="selM(this,'manga')">
+      <div class="mp-radio"></div>
+      <div class="mp-info"><div class="mp-name">DreamShaper XL ⚡</div><div class="mp-desc">Ultra-rapide ~3s · Anime & ecchi · Budget</div></div>
+      <div class="mp-right"><div class="mp-cost">~$0.002/img</div><div class="mp-tag tg-fast">⚡ RAPIDE</div></div>
     </div>
   </div>
 </div>
@@ -1542,6 +1484,7 @@ async function genNSFWReplicate(){
       guidance_scale:7,
       disable_safety_checker:true
     };
+    if(state.nsfwRef){body.image=state.nsfwRef;body.strength=0.75;}
     const out=await repQueue(state.nsfwModel,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));
     const url=Array.isArray(out)?out[0]:(typeof out==='string'?out:null);
     if(!url)throw new Error('Pas d\'URL Replicate');
@@ -1590,21 +1533,12 @@ function applyLoraPreset(el){
 }
 
 // ── MANGA LORA ────────────────────────────────────
-let mangaState={api:'fal',style:'anime cinematic realism, Makoto Shinkai style, hyper-detailed, breathtaking lighting',model:'fal-ai/flux/dev'};
+let mangaState={model:'stablediffusionapi/anything-v5',style:'anime cinematic realism, Makoto Shinkai style, hyper-detailed, breathtaking lighting'};
 
 function switchLoraMain(sec,idx){
   document.querySelectorAll('.ltab').forEach((b,i)=>b.classList.toggle('active',i===idx));
   document.getElementById('lora-sec-real').style.display=sec==='real'?'block':'none';
   document.getElementById('lora-sec-manga').style.display=sec==='manga'?'block':'none';
-}
-
-function switchMangaApi(api,idx){
-  document.querySelectorAll('#lora-sec-manga .sub-tabs .stab').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.getElementById('manga-fal').style.display=api==='fal'?'block':'none';
-  document.getElementById('manga-rep').style.display=api==='rep'?'block':'none';
-  mangaState.api=api;
-  if(api==='fal') mangaState.model='fal-ai/flux/dev';
-  else mangaState.model='black-forest-labs/flux-dev';
 }
 
 function selMangaStyle(el){
@@ -1621,97 +1555,54 @@ function addMangaTip(tip){
 }
 
 async function genManga(){
+  if(!state.repKey)return toast('Configure ta clé Replicate dans ⚙️','err');
   const basePrompt=document.getElementById('mangaPrompt').value.trim();
   if(!basePrompt)return toast('Écris un prompt','err');
 
   const loraEndpoint=document.getElementById('mangaLoraEndpoint').value.trim();
   const trigger=document.getElementById('mangaLoraTrigger').value.trim();
-  const style=mangaState.style;
   const loraStr=+document.getElementById('mangaStr').value;
   const guidance=+document.getElementById('mangaGuid').value;
   const steps=+document.getElementById('mangaSteps').value;
   const ratio=document.getElementById('mangaRatio').value;
   const neg=document.getElementById('mangaNeg').value;
-
-  // Compose final prompt: trigger + style + user prompt
-  const finalPrompt=[trigger,style,basePrompt,'masterpiece, best quality, ultra-detailed'].filter(Boolean).join(', ');
+  const finalPrompt=[trigger,mangaState.style,basePrompt,'masterpiece, best quality, ultra-detailed'].filter(Boolean).join(', ');
 
   const t0=Date.now();
   startLoad('btnManga','loadManga','resManga');
   startTimer('tmManga');
 
-  try{
-    if(mangaState.api==='fal'){
-      // FAL.AI path
-      if(!state.apiKey){stopTimer('tmManga');endLoad('btnManga','loadManga');openApiModal();return;}
-      const body={
-        prompt:finalPrompt,
-        negative_prompt:neg,
-        image_size:ratio,
-        num_inference_steps:Math.min(steps,28),
-        guidance_scale:guidance,
-        num_images:1,
-        enable_safety_checker:false
-      };
-      if(loraEndpoint){
-        body.loras=[{path:loraEndpoint,scale:loraStr}];
-      }
-      if(state.mangaRef){body.image_url=state.mangaRef;body.strength=0.65;}
-      prog('lfManga','ltManga',15,'Initialisation...');
-      const out=await falQueue(mangaState.model,body,p=>prog('lfManga','ltManga',p,'Transformation manga...'));
-      const url=out.images?.[0]?.url||out.image?.url;
-      if(!url)throw new Error('Pas d\'URL dans la réponse');
-      state.lastImg=url;
-      stopTimer('tmManga');
-      prog('lfManga','ltManga',100,'Terminé !');
-      const el=document.getElementById('rManga');
-      el.src=url;
-      el.onload=()=>{
-        endLoad('btnManga','loadManga','resManga');
-        document.getElementById('costManga').textContent=getCost(mangaState.model);
-        document.getElementById('timeManga').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-      };
-      document.getElementById('dlManga').href=url;
-      updStats();
-      toast('✅ Personnage manga généré !','ok');
+  const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'portrait_4_3':{w:896,h:1152},'landscape_16_9':{w:1344,h:768}};
+  const sz=ratioMap[ratio]||{w:768,h:1344};
 
-    } else {
-      // REPLICATE path
-      if(!state.repKey){stopTimer('tmManga');endLoad('btnManga','loadManga');toast('Configure ta clé Replicate','err');return;}
-      const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'portrait_4_3':{w:896,h:1152},'landscape_16_9':{w:1344,h:768}};
-      const sz=ratioMap[ratio]||{w:768,h:1344};
-      const body={
-        prompt:finalPrompt,
-        negative_prompt:neg,
-        width:sz.w,
-        height:sz.h,
-        num_inference_steps:Math.min(steps,20),
-        guidance_scale:guidance,
-        disable_safety_checker:true
-      };
-      if(loraEndpoint){body.lora_weights=loraEndpoint;body.lora_scale=loraStr;}
-      if(state.mangaRef){
-        if(state.apiKey){prog('lfManga','ltManga',8,'Upload image...');const imgUrl=await uploadToFalStorage(state.mangaRef);body.image=imgUrl;}
-        else{body.image=await compressBase64(state.mangaRef);}
-        body.strength=0.65;
-      }
-      const repModel=loraEndpoint?'black-forest-labs/flux-dev-lora':mangaState.model;
-      const out=await repQueue(repModel,body,p=>prog('lfManga','ltManga',p,'Transformation manga...'));
-      const url=Array.isArray(out)?out[0]:out;
-      if(!url)throw new Error('Pas d\'URL Replicate');
-      state.lastImg=url;
-      stopTimer('tmManga');
-      const el=document.getElementById('rManga');
-      el.src=url;
-      el.onload=()=>{
-        endLoad('btnManga','loadManga','resManga');
-        document.getElementById('costManga').textContent='variable';
-        document.getElementById('timeManga').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-      };
-      document.getElementById('dlManga').href=url;
-      updStats();
-      toast('✅ Personnage manga généré !','ok');
-    }
+  try{
+    const body={
+      prompt:finalPrompt,
+      negative_prompt:neg,
+      width:sz.w,
+      height:sz.h,
+      num_inference_steps:Math.min(steps,30),
+      guidance_scale:guidance,
+      disable_safety_checker:true
+    };
+    if(loraEndpoint){body.lora_weights=loraEndpoint;body.lora_scale=loraStr;}
+    if(state.mangaRef){body.image=state.mangaRef;body.strength=0.65;}
+    const model=loraEndpoint?'black-forest-labs/flux-dev-lora':mangaState.model;
+    const out=await repQueue(model,body,p=>prog('lfManga','ltManga',p,'Transformation manga...'));
+    const url=Array.isArray(out)?out[0]:(typeof out==='string'?out:null);
+    if(!url)throw new Error('Pas d\'URL dans la réponse');
+    state.lastImg=url;
+    stopTimer('tmManga');
+    const el=document.getElementById('rManga');
+    el.src=url;
+    el.onload=()=>{
+      endLoad('btnManga','loadManga','resManga');
+      document.getElementById('costManga').textContent=getCost(model);
+      document.getElementById('timeManga').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
+    };
+    document.getElementById('dlManga').href=url;
+    updStats();
+    toast('✅ Personnage manga généré !','ok');
   }catch(e){
     stopTimer('tmManga');
     endLoad('btnManga','loadManga');
