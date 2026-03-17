@@ -1473,7 +1473,12 @@ function removeBg(){
 }
 async function falQueue(model,body,onProg){if(onProg)onProg(15);const res=await fetch(`https://fal.run/${model}`,{method:'POST',headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!res.ok){let err='Erreur API ('+res.status+')';try{const j=await res.json();err=j.detail||j.error||err;}catch(e){}throw new Error(err);}if(onProg)onProg(95);return await res.json();}
 function openRepModal(){document.getElementById("repModal").classList.add("open");}function closeRepModal(){document.getElementById("repModal").classList.remove("open");}function saveRepKeyFromModal(){var k=document.getElementById("repKeyModal").value.trim();if(!k)return toast("Entre ta clé","err");state.repKey=k;localStorage.setItem("sv_rep_key",k);setRepSt(true);closeRepModal();toast("✅ Clé Replicate sauvegardée !","ok");}function saveRepKey(){const k=document.getElementById('loraRepKey')?.value?.trim();if(!k)return toast('Entre ta clé Replicate','err');state.repKey=k;localStorage.setItem('sv_rep_key',k);setRepSt(true);toast('✅ Clé Replicate sauvegardée !','ok');}
-function setRepSt(ok){const st=document.getElementById('loraRepSt');if(st){st.textContent=ok?'✅ Connectée':'replicate.com → Account → API tokens';st.style.color=ok?'#10b981':'#5a6a7e';}}
+function setRepSt(ok){
+  const st=document.getElementById('loraRepSt');
+  if(st){st.textContent=ok?'✅ Connectée':'replicate.com → Account → API tokens';st.style.color=ok?'#10b981':'#5a6a7e';}
+  const cc=document.getElementById('ccRepSt');
+  if(cc){cc.textContent=ok?'connectée':'non configurée';cc.className='cc-val'+(ok?' ok':' no');}
+}
 // Compress base64 image to max ~1MB before sending to Replicate
 async function compressBase64(dataUrl,maxW=1024){return new Promise(res=>{const img=new Image();img.onload=()=>{const scale=Math.min(1,maxW/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=img.width*scale;c.height=img.height*scale;c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',0.82));};img.src=dataUrl;});}
 
