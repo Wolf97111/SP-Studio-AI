@@ -1484,18 +1484,30 @@ async function compressBase64(dataUrl,maxW=1024){return new Promise(res=>{const 
 
 // Upload base64 image to fal.ai storage → returns public URL
 async function uploadToFalStorage(dataUrl){
-  // Convert base64 to blob
   const res=await fetch(dataUrl);
   const blob=await res.blob();
   const mimeType=blob.type||'image/jpeg';
-  const uploadRes=await fetch('https://fal.run/fal-ai/storage/upload',{
+  const uploadRes=await fetch('https://fal.run/fal-ai/storage/upload/initiate',{
     method:'POST',
-    headers:{'Authorization':'Key '+state.apiKey,'Content-Type':mimeType},
-    body:blob
+    headers:{'Authorization':'Key '+state.apiKey,'Content-Type':'application/json'},
+    body:JSON.stringify({content_type:mimeType})
   });
-  if(!uploadRes.ok)throw new Error('Erreur upload image ('+uploadRes.status+')');
-  const data=await uploadRes.json();
-  return data.url||data.file_url;
+  if(!uploadRes.ok){
+    // Fallback: try direct upload to v2 endpoint
+    const uploadRes2=await fetch('https://upload.fal.ai/',{
+      method:'POST',
+      headers:{'Authorization':'Key '+state.apiKey,'Content-Type':mimeType},
+      body:blob
+    });
+    if(!uploadRes2.ok)throw new Error('Erreur upload image ('+uploadRes2.status+')');
+    const data2=await uploadRes2.json();
+    return data2.url||data2.file_url;
+  }
+  const initData=await uploadRes.json();
+  // Upload to the presigned URL
+  const putRes=await fetch(initData.upload_url,{method:'PUT',headers:{'Content-Type':mimeType},body:blob});
+  if(!putRes.ok)throw new Error('Erreur upload PUT ('+putRes.status+')');
+  return initData.file_url||initData.url;
 }
 async function repQueue(model,body,onProg){const res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{method:'POST',headers:{'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json','Prefer':'wait=5'},body:JSON.stringify({input:body})});if(!res.ok){let e='Erreur Replicate ('+res.status+')';try{const j=await res.json();e=j.detail||e;}catch(x){}throw new Error(e);}let pred=await res.json();const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;for(let i=0;i<120;i++){if(pred.status==='succeeded')return pred.output;if(pred.status==='failed')throw new Error(pred.error||'Génération échouée');await sleep(2000);if(onProg)onProg(Math.min(15+i*2,90));const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});pred=await r.json();}throw new Error('Timeout Replicate');}
 async function genNSFWReplicate(){const prompt=document.getElementById('nsfwPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnNsfw','loadNsfw','resNsfw');startTimer('tmNsfw');const m=state.nsfwModel;try{const body={prompt,negative_prompt:document.getElementById('nsfwNeg').value,width:768,height:1344,num_inference_steps:Math.min(+document.getElementById('nsfwSteps').value,20),guidance_scale:7,disable_safety_checker:true};if(state.nsfwRef){prog('lfNsfw','ltNsfw',10,'Upload image...');if(!state.apiKey)throw new Error('Clé fal.ai requise pour uploader l\'image de référence');const imgUrl=await uploadToFalStorage(state.nsfwRef);body.image=imgUrl;body.strength=0.75;}const out=await repQueue(m,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas d\'URL Replicate');state.lastImg=url;stopTimer('tmNsfw');const el=document.getElementById('rNsfw');el.src=url;el.onload=()=>{endLoad('btnNsfw','loadNsfw','resNsfw');document.getElementById('costNsfw').textContent='variable';document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlNsfw').href=url;updStats();toast('✅ Image NSFW générée !','ok');}catch(e){stopTimer('tmNsfw');endLoad('btnNsfw','loadNsfw');toast('❌ '+e.message,'err');}}
