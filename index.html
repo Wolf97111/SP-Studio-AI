@@ -1401,6 +1401,27 @@ async function repQueue(model,body,onProg){
   throw new Error('Timeout — réessaie');
 }
 
+// Extract URL from any Replicate output format
+function extractUrl(out){
+  if(!out)return null;
+  if(typeof out==='string')return out;
+  if(Array.isArray(out)){for(const item of out){const u=extractUrl(item);if(u)return u;}}
+  if(typeof out==='object'){return out.url||out.uri||out.output||out.image||out.video||out.audio||null;}
+  return null;
+}
+
+// Show result image fetched as blob to bypass Safari CORS/load issues
+async function showImgResult(elId,resId,loadId,btnId,url){
+  try{
+    const r=await fetch(url);
+    const blob=await r.blob();
+    document.getElementById(elId).src=URL.createObjectURL(blob);
+  }catch(e){
+    document.getElementById(elId).src=url;
+  }
+  endLoad(btnId,loadId,resId);
+}
+
 async function genImage(){
   if(!state.repKey)return toast('Configure ta clé Replicate dans ⚙️','err');
   const prompt=document.getElementById('imgPrompt').value.trim();
@@ -1410,14 +1431,15 @@ async function genImage(){
   const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'portrait_4_3':{w:896,h:1152},'landscape_16_9':{w:1344,h:768}};
   const sz=ratioMap[document.getElementById('imgRatio').value]||{w:768,h:1344};
   try{
-    const body={prompt,negative_prompt:document.getElementById('imgNeg').value,width:sz.w,height:sz.h,num_inference_steps:+document.getElementById('imgSteps').value,guidance_scale:+document.getElementById('guidance').value,disable_safety_checker:true,output_format:'webp'};
+    const body={prompt,negative_prompt:document.getElementById('imgNeg').value,width:sz.w,height:sz.h,num_inference_steps:+document.getElementById('imgSteps').value,guidance_scale:+document.getElementById('guidance').value,disable_safety_checker:true,output_format:'jpeg'};
     if(state.imgRef){body.image=state.imgRef;body.prompt_strength=0.75;}
     const out=await repQueue(state.imgModel,body,p=>prog('lfImg','ltImg',p,'Génération...'));
-    const url=Array.isArray(out)?out[0]:(typeof out==='string'?out:out?.url||null);
+    const url=extractUrl(out);
     if(!url)throw new Error('Pas d\'URL dans la réponse');
     state.lastImg=url;stopTimer('tmImg');
-    const el=document.getElementById('rImg');el.src=url;
-    el.onload=()=>{endLoad('btnImg','loadImg','resImg');document.getElementById('costImg').textContent=getCost(state.imgModel);document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};
+    await showImgResult('rImg','resImg','loadImg','btnImg',url);
+    document.getElementById('costImg').textContent=getCost(state.imgModel);
+    document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
     document.getElementById('dlImg').href=url;updStats();toast('✅ Image générée !','ok');
   }catch(e){stopTimer('tmImg');endLoad('btnImg','loadImg');toast('❌ '+e.message,'err');}
 }
@@ -1518,17 +1540,13 @@ async function genNSFWReplicate(){
     };
     if(state.nsfwRef){body.image=state.nsfwRef;body.strength=0.75;}
     const out=await repQueue(state.nsfwModel,body,p=>prog('lfNsfw','ltNsfw',p,'Génération NSFW...'));
-    const url=Array.isArray(out)?out[0]:(typeof out==='string'?out:null);
+    const url=extractUrl(out);
     if(!url)throw new Error('Pas d\'URL Replicate');
     state.lastImg=url;
     stopTimer('tmNsfw');
-    const el=document.getElementById('rNsfw');
-    el.src=url;
-    el.onload=()=>{
-      endLoad('btnNsfw','loadNsfw','resNsfw');
-      document.getElementById('costNsfw').textContent='variable';
-      document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    };
+    await showImgResult('rNsfw','resNsfw','loadNsfw','btnNsfw',url);
+    document.getElementById('costNsfw').textContent='variable';
+    document.getElementById('timeNsfw').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
     document.getElementById('dlNsfw').href=url;
     updStats();
     toast('✅ Image NSFW générée !','ok');
@@ -1538,12 +1556,11 @@ async function genNSFWReplicate(){
     toast('❌ '+e.message,'err');
   }
 }
-async function genPuLID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef1)return toast('Ajoute une photo du modèle','err');const prompt=document.getElementById('pulidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnPulid','loadPulid','resPulid');startTimer('tmPulid');try{const wh=document.getElementById('pulidRatio').value.split('x');const body={main_face_image:state.loraRef1,prompt,width:+wh[0],height:+wh[1],id_weight:+document.getElementById('pulidWeight').value,num_steps:20,start_step:0,true_cfg:1,guidance:4};const out=await repQueue('bytedance/flux-pulid',body,p=>prog('lfPulid','ltPulid',p,'Analyse du visage...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat PuLID');state.lastImg=url;stopTimer('tmPulid');const el=document.getElementById('rPulid');el.src=url;el.onload=()=>{endLoad('btnPulid','loadPulid','resPulid');document.getElementById('timePulid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlPulid').href=url;updStats();toast('✅ Niveau 1 généré !','ok');}catch(e){stopTimer('tmPulid');endLoad('btnPulid','loadPulid');toast('❌ '+e.message,'err');}}
-async function genInstantID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef2)return toast('Ajoute une photo haute qualité','err');const prompt=document.getElementById('iidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnIID','loadIID','resIID');startTimer('tmIID');try{const body={image:state.loraRef2,prompt,style:document.getElementById('iidStyle').value,guidance_scale:+document.getElementById('iidGuidance').value,num_inference_steps:30,enable_safety_checker:false};const out=await repQueue('grandlineai/instant-id-photorealistic',body,p=>prog('lfIID','ltIID',p,'Analyse facial avancée...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat InstantID');state.lastImg=url;stopTimer('tmIID');const el=document.getElementById('rIID');el.src=url;el.onload=()=>{endLoad('btnIID','loadIID','resIID');document.getElementById('timeIID').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlIID').href=url;updStats();toast('✅ Niveau 2 généré !','ok');}catch(e){stopTimer('tmIID');endLoad('btnIID','loadIID');toast('❌ '+e.message,'err');}}
+async function genPuLID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef1)return toast('Ajoute une photo du modèle','err');const prompt=document.getElementById('pulidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnPulid','loadPulid','resPulid');startTimer('tmPulid');try{const wh=document.getElementById('pulidRatio').value.split('x');const body={main_face_image:state.loraRef1,prompt,width:+wh[0],height:+wh[1],id_weight:+document.getElementById('pulidWeight').value,num_steps:20,start_step:0,true_cfg:1,guidance:4};const out=await repQueue('bytedance/flux-pulid',body,p=>prog('lfPulid','ltPulid',p,'Analyse du visage...'));const url=extractUrl(out);if(!url)throw new Error('Pas de résultat PuLID');state.lastImg=url;stopTimer('tmPulid');await showImgResult('rPulid','resPulid','loadPulid','btnPulid',url);document.getElementById('timePulid').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';document.getElementById('dlPulid').href=url;updStats();toast('✅ Niveau 1 généré !','ok');}catch(e){stopTimer('tmPulid');endLoad('btnPulid','loadPulid');toast('❌ '+e.message,'err');}}
+async function genInstantID(){if(!state.repKey)return toast('Configure ta clé Replicate d\'abord','err');if(!state.loraRef2)return toast('Ajoute une photo haute qualité','err');const prompt=document.getElementById('iidPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnIID','loadIID','resIID');startTimer('tmIID');try{const body={image:state.loraRef2,prompt,style:document.getElementById('iidStyle').value,guidance_scale:+document.getElementById('iidGuidance').value,num_inference_steps:30,enable_safety_checker:false};const out=await repQueue('grandlineai/instant-id-photorealistic',body,p=>prog('lfIID','ltIID',p,'Analyse facial avancée...'));const url=extractUrl(out);if(!url)throw new Error('Pas de résultat InstantID');state.lastImg=url;stopTimer('tmIID');await showImgResult('rIID','resIID','loadIID','btnIID',url);document.getElementById('timeIID').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';document.getElementById('dlIID').href=url;updStats();toast('✅ Niveau 2 généré !','ok');}catch(e){stopTimer('tmIID');endLoad('btnIID','loadIID');toast('❌ '+e.message,'err');}}
 function handleLoraImgs(input){if(!input.files||!input.files[0])return;state._loraFiles=Array.from(input.files);const n=state._loraFiles.length;document.getElementById('loraImgCount').textContent=n+' photo'+(n>1?'s':'')+' '+(n>=15?'✅':'⚠️ min 15');document.getElementById('lora-train-up').classList.add('has');document.getElementById('loraImgsLbl').textContent='✅ '+n+' fichier'+(n>1?'s':'');}
 async function trainLora(){if(!state.repKey)return toast('Configure ta clé Replicate','err');const name=document.getElementById('loraName').value.trim();if(!name)return toast('Donne un nom à ton LoRA','err');if(!state._loraFiles||!state._loraFiles.length)return toast('Ajoute tes photos','err');startLoad('btnLoraTrain','loadLoraTrain','resLoraTrain');startTimer('tmLoraTrain');try{prog('lfLoraTrain','ltLoraTrain',30,'Upload...');await sleep(2000);prog('lfLoraTrain','ltLoraTrain',60,'Entraînement...');await sleep(3000);prog('lfLoraTrain','ltLoraTrain',100,'Terminé !');stopTimer('tmLoraTrain');endLoad('btnLoraTrain','loadLoraTrain','resLoraTrain');document.getElementById('loraTrainId').textContent='replicate.com/votre-user/'+name.toLowerCase().replace(/\s+/g,'-');toast('✅ Va sur replicate.com/fast-flux-trainer','ok');}catch(e){stopTimer('tmLoraTrain');endLoad('btnLoraTrain','loadLoraTrain');toast('❌ '+e.message,'err');}}
-async function genWithLora(){if(!state.repKey)return toast('Configure ta clé Replicate','err');const endpoint=document.getElementById('loraEndpoint').value.trim();if(!endpoint)return toast('Entre l\'endpoint','err');const trigger=document.getElementById('loraTrigger').value.trim();const promptBase=document.getElementById('loraUsePrompt').value.trim();if(!promptBase)return toast('Écris un prompt','err');const prompt=trigger?trigger+', '+promptBase:promptBase;const t0=Date.now();startLoad('btnLoraUse','loadLoraUse','resLoraUse');startTimer('tmLoraUse');try{const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'landscape_16_9':{w:1344,h:768}};const sz=ratioMap[document.getElementById('loraRatio').value]||{w:768,h:1344};const body={prompt,lora_weights:endpoint,lora_scale:+document.getElementById('loraScale').value,width:sz.w,height:sz.h,num_inference_steps:28,guidance_scale:3.5,disable_safety_checker:true,go_fast:true};const out=await repQueue('black-forest-labs/flux-dev-lora',body,p=>prog('lfLoraUse','ltLoraUse',p,'Génération avec LoRA...'));const url=Array.isArray(out)?out[0]:out;if(!url)throw new Error('Pas de résultat');state.lastImg=url;stopTimer('tmLoraUse');const el=document.getElementById('rLoraUse');el.src=url;el.onload=()=>{endLoad('btnLoraUse','loadLoraUse','resLoraUse');document.getElementById('timeLoraUse').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlLoraUse').href=url;updStats();toast('✅ Générée avec ton LoRA !','ok');}catch(e){stopTimer('tmLoraUse');endLoad('btnLoraUse','loadLoraUse');toast('❌ '+e.message,'err');}}
-async function genImage(){if(!state.apiKey){openApiModal();return;}const prompt=document.getElementById('imgPrompt').value.trim();if(!prompt)return toast('Écris un prompt','err');const t0=Date.now();startLoad('btnImg','loadImg','resImg');startTimer('tmImg');try{const body={prompt,negative_prompt:document.getElementById('imgNeg').value,image_size:document.getElementById('imgRatio').value,num_inference_steps:+document.getElementById('imgSteps').value,guidance_scale:+document.getElementById('guidance').value,num_images:1,enable_safety_checker:false};if(state.imgRef){body.image_url=state.imgRef;body.strength=0.75;}const out=await falQueue(state.imgModel,body,p=>prog('lfImg','ltImg',p,'Génération...'));const url=out.images?.[0]?.url||out.image?.url;if(!url)throw new Error('Pas d\'URL dans la réponse');state.lastImg=url;stopTimer('tmImg');prog('lfImg','ltImg',100,'Terminé !');const el=document.getElementById('rImg');el.src=url;el.onload=()=>{endLoad('btnImg','loadImg','resImg');document.getElementById('costImg').textContent=getCost(state.imgModel);document.getElementById('timeImg').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';};document.getElementById('dlImg').href=url;updStats();toast('✅ Image générée !','ok');}catch(e){stopTimer('tmImg');endLoad('btnImg','loadImg');toast('❌ '+e.message,'err');}}
+async function genWithLora(){if(!state.repKey)return toast('Configure ta clé Replicate','err');const endpoint=document.getElementById('loraEndpoint').value.trim();if(!endpoint)return toast('Entre l\'endpoint','err');const trigger=document.getElementById('loraTrigger').value.trim();const promptBase=document.getElementById('loraUsePrompt').value.trim();if(!promptBase)return toast('Écris un prompt','err');const prompt=trigger?trigger+', '+promptBase:promptBase;const t0=Date.now();startLoad('btnLoraUse','loadLoraUse','resLoraUse');startTimer('tmLoraUse');try{const ratioMap={'portrait_16_9':{w:768,h:1344},'square_hd':{w:1024,h:1024},'landscape_16_9':{w:1344,h:768}};const sz=ratioMap[document.getElementById('loraRatio').value]||{w:768,h:1344};const body={prompt,lora_weights:endpoint,lora_scale:+document.getElementById('loraScale').value,width:sz.w,height:sz.h,num_inference_steps:28,guidance_scale:3.5,disable_safety_checker:true,go_fast:true,output_format:'jpeg'};const out=await repQueue('black-forest-labs/flux-dev-lora',body,p=>prog('lfLoraUse','ltLoraUse',p,'Génération avec LoRA...'));const url=extractUrl(out);if(!url)throw new Error('Pas de résultat');state.lastImg=url;stopTimer('tmLoraUse');await showImgResult('rLoraUse','resLoraUse','loadLoraUse','btnLoraUse',url);document.getElementById('timeLoraUse').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';document.getElementById('dlLoraUse').href=url;updStats();toast('✅ Générée avec ton LoRA !','ok');}catch(e){stopTimer('tmLoraUse');endLoad('btnLoraUse','loadLoraUse');toast('❌ '+e.message,'err');}}
 async function genNSFW(){if(!state.repKey)return toast('Configure ta clé Replicate dans ⚙️','err');return genNSFWReplicate();}
 function handleMotionVideo(input){if(!input.files||!input.files[0])return;const file=input.files[0];const url=URL.createObjectURL(file);const prev=document.getElementById('motionVidPrev');prev.src=url;prev.style.display='block';document.getElementById('motionVidArea').classList.add('has');document.getElementById('motionVidLbl').textContent='✅ '+file.name;state._motionVidFile=file;state.motionVidUrl=null;}
 function saveGal(type){const url=type==='image'?state.lastImg:type==='video'?state.lastVid:state.lastAud;if(!url)return toast('Rien à sauvegarder','err');state.gallery.unshift({type,url,date:new Date().toLocaleDateString('fr')});localStorage.setItem('sv_gallery',JSON.stringify(state.gallery));updStats();toast('✅ Sauvegardé !','ok');}
@@ -1621,17 +1638,13 @@ async function genManga(){
     if(state.mangaRef){body.image=state.mangaRef;body.strength=0.65;}
     const model=loraEndpoint?'black-forest-labs/flux-dev-lora':mangaState.model;
     const out=await repQueue(model,body,p=>prog('lfManga','ltManga',p,'Transformation manga...'));
-    const url=Array.isArray(out)?out[0]:(typeof out==='string'?out:null);
+    const url=extractUrl(out);
     if(!url)throw new Error('Pas d\'URL dans la réponse');
     state.lastImg=url;
     stopTimer('tmManga');
-    const el=document.getElementById('rManga');
-    el.src=url;
-    el.onload=()=>{
-      endLoad('btnManga','loadManga','resManga');
-      document.getElementById('costManga').textContent=getCost(model);
-      document.getElementById('timeManga').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
-    };
+    await showImgResult('rManga','resManga','loadManga','btnManga',url);
+    document.getElementById('costManga').textContent=getCost(model);
+    document.getElementById('timeManga').textContent=((Date.now()-t0)/1000).toFixed(1)+'s';
     document.getElementById('dlManga').href=url;
     updStats();
     toast('✅ Personnage manga généré !','ok');
