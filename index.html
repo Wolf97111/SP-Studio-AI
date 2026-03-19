@@ -1369,30 +1369,31 @@ function setRepSt(ok){
   if(cc){cc.textContent=ok?'connectée':'non configurée';cc.className='cc-val'+(ok?' ok':' no');}
 }
 async function repQueue(model,body,onProg){
-  // Try /v1/models/{model}/predictions first, fallback to /v1/predictions
   const headers={'Authorization':'Bearer '+state.repKey,'Content-Type':'application/json'};
   let res=await fetch(`https://api.replicate.com/v1/models/${model}/predictions`,{
-    method:'POST',headers,
-    body:JSON.stringify({input:body})
+    method:'POST',headers,body:JSON.stringify({input:body})
   });
-  // If 404, try without /models/ path (for versioned models)
   if(res.status===404){
     res=await fetch(`https://api.replicate.com/v1/predictions`,{
-      method:'POST',headers,
-      body:JSON.stringify({model,input:body})
+      method:'POST',headers,body:JSON.stringify({model,input:body})
     });
   }
   if(!res.ok){
-    let e='Erreur Replicate ('+res.status+')';
-    try{const j=await res.json();e=j.detail||j.error||JSON.stringify(j)||e;}catch(x){}
+    let e='Erreur '+res.status;
+    try{const j=await res.json();e=j.detail||j.error||JSON.stringify(j);}catch(x){}
     throw new Error(e);
   }
   let pred=await res.json();
   if(onProg)onProg(10);
   const pollUrl=pred.urls?.get||`https://api.replicate.com/v1/predictions/${pred.id}`;
   for(let i=0;i<180;i++){
-    if(pred.status==='succeeded')return pred.output;
-    if(pred.status==='failed')throw new Error(pred.error||'Génération échouée');
+    if(pred.status==='succeeded'){
+      if(!pred.output)throw new Error('Output vide — modèle indisponible');
+      return pred.output;
+    }
+    if(pred.status==='failed'){
+      throw new Error(pred.error||'Modèle indisponible sur Replicate');
+    }
     await sleep(2500);
     if(onProg)onProg(Math.min(15+i*1.5,90));
     const r=await fetch(pollUrl,{headers:{'Authorization':'Bearer '+state.repKey}});
@@ -1410,16 +1411,16 @@ function extractUrl(out){
   return null;
 }
 
-// Show result image fetched as blob to bypass Safari CORS/load issues
+// Show result image - direct src, no blob fetch needed
 async function showImgResult(elId,resId,loadId,btnId,url){
-  try{
-    const r=await fetch(url);
-    const blob=await r.blob();
-    document.getElementById(elId).src=URL.createObjectURL(blob);
-  }catch(e){
-    document.getElementById(elId).src=url;
-  }
   endLoad(btnId,loadId,resId);
+  const el=document.getElementById(elId);
+  el.crossOrigin='anonymous';
+  el.src=url;
+  el.onerror=()=>{
+    // If direct load fails, try with cache buster
+    el.src=url+'?t='+Date.now();
+  };
 }
 
 async function genImage(){
